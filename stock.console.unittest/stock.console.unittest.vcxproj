@@ -163,12 +163,15 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="stock.console.unittest.cpp" />
-    <ClCompile Include="stock.strategy.unittest.cpp" />
+    <ClCompile Include="stock.indicator.unittest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\stocks.console.indicator\stocks.console.indicator.vcxproj">
+      <Project>{be4b9af2-68a2-409a-8758-038937ad95a4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\stocks.console.strategy\stocks.console.strategy.vcxproj">
       <Project>{7614c97d-de88-4898-a4ec-43b46e8849fe}</Project>
     </ProjectReference>

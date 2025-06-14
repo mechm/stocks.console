@@ -21,7 +21,7 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stock.strategy.unittest.cpp">
+    <ClCompile Include="stock.indicator.unittest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

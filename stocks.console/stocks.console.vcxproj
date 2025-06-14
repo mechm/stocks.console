@@ -134,6 +134,9 @@
     <ClCompile Include="stocks.console.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\stocks.console.indicator\stocks.console.indicator.vcxproj">
+      <Project>{be4b9af2-68a2-409a-8758-038937ad95a4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\stocks.console.strategy\stocks.console.strategy.vcxproj">
       <Project>{7614c97d-de88-4898-a4ec-43b46e8849fe}</Project>
     </ProjectReference>
