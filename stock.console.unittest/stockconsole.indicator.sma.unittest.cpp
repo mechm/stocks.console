@@ -1,16 +1,14 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
-#include "../stocks.console.indicator/sma.cpp"
+#include "../stocks.console.indicator/sma.h"
 
 #include <vector>
 
-//#include "../stocks.console.strategy/sma.h"
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-namespace stockstrategyunittest
+namespace stockindicatorunittest
 {
-	TEST_CLASS(stockstrategyunittest)
+	TEST_CLASS(stock_indicator_sma_unit_test)
 	{
 
 	public:

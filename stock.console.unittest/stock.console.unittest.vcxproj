@@ -163,7 +163,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="stock.console.unittest.cpp" />
-    <ClCompile Include="stock.indicator.unittest.cpp" />
+    <ClCompile Include="stockconsole.indicator.rsi.unittest.cpp" />
+    <ClCompile Include="stockconsole.indicator.sma.unittest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
-
 #include "../stocks.console/alpacha.cpp"
 
 #include <vector>
@@ -14,8 +13,8 @@ namespace stockconsoleunittest
 {
 	TEST_CLASS(stockconsoleunittest)
 	{
-	public:	
 
+	public:
 		TEST_METHOD(TestGetAccount)
 		{
 			// Arrange
