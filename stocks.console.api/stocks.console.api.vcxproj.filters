@@ -21,27 +21,15 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sma.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rsi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="macd.h">
+    <ClInclude Include="alpacha.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="alpacha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sma.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rsi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="macd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -12,22 +12,19 @@ int main()
 {
     Json::Value root;   // 'root' will contain the root value after parsing.
     std::ifstream config_doc("config_doc.json", std::ifstream::binary);
-    config_doc >> root;
-
-    // Get API credentials from config file
-    std::string api_key = root.get("ALPACA_API_KEY", "").asString();
-    std::string api_secret = root.get("ALPACA_SECRET_KEY", "").asString();
-
-    if (api_key.empty() || api_secret.empty()) {
-        cout << "Error: API credentials not found in .config file." << endl;
-        return 1;
-    }
+    config_doc >> root;    
 
     bool running = true;
 
     while (running) {
 
-        cout << "Enter command (1: Get Account Details, 2: Calculate SMA, 3: Buy Stock, 4: Sell Stock, 0: Exit): ";
+        cout << "Enter command "
+                "1: Get Account Details, " 
+                "2: Check stock against indicator, "
+                "3: Buy Stock, "
+                "4: Sell Stock, " 
+                "0: Exit): ";
+
         string command;
         cin >> command;
         
@@ -39,7 +36,9 @@ int main()
 
         if (command == "1") {
 
-            Alpacha alpacha(api_key, api_secret);
+            // Get API credentials from config file
+            Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(), 
+                            root.get("ALPACA_SECRET_KEY", "").asString());
 
             OrderResult account = alpacha.GetAccount();
             if (account.success)
@@ -48,6 +47,22 @@ int main()
             }
         }
         if (command == "2") {
+
+            string symbol;
+            string indicator;
+            string date;
+
+            cout << "Enter stock symbol: ";
+            cin >> symbol;
+
+            cout << "Choose indicator, 1) SMA, 2) RSI, 3) MACD: ";
+            cin >> indicator;
+
+            cout << "Choose date ";
+            cin >> date;
+
+
+           
             // Sample closing prices
             vector<double> closingPrices = { 10.5, 12.3, 11.8, 13.2, 14.5, 12.9 };
 
@@ -55,8 +70,9 @@ int main()
             double sma = calculateSMA(closingPrices, 3);
 
             cout << "SMA: " << sma << endl;
+
         }
-        else if (command == "3" || command == "4") {
+        else if (command == "3" || command == "4") {            
             string symbol;
 
             cout << "Enter stock symbol: ";
@@ -73,8 +89,11 @@ int main()
             string side = (command == "3") ? "buy" : "sell";
 
             cout << "Placing " << side << " order for " << symbol << "..." << endl;
-           
-            Alpacha alpacha(api_key, api_secret);
+            
+            // Get API credentials from config file
+            Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
+                            root.get("ALPACA_SECRET_KEY", "").asString());
+
             alpacha.BuyStock(symbol, amount);
         }
         else {

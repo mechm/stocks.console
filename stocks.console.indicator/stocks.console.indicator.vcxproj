@@ -141,11 +141,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="macd.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="rsi.h" />
     <ClInclude Include="sma.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="macd.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

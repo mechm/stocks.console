@@ -7,6 +7,11 @@ using namespace std;
 
 Alpacha::Alpacha(const string &apiKey, const string &secretKey, const bool paper)
 {
+    if (apiKey.empty() || secretKey.empty()) {
+        cout << "Error: API credentials not set." << endl;
+        exit(1);
+    }
+
     this->apiKey = apiKey;
     this->secretKey = secretKey;
     this->paper = paper;
