@@ -27,6 +27,9 @@
     <ClCompile Include="stockconsole.indicator.rsi.unittest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="stock.console.api.alpacha.unittest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">

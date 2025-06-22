@@ -60,17 +60,18 @@ int main()
 
             cout << "Choose date ";
             cin >> date;
-
-
-           
-            // Sample closing prices
-            vector<double> closingPrices = { 10.5, 12.3, 11.8, 13.2, 14.5, 12.9 };
-
-            // Calculate the 3-period SMA
-            double sma = calculateSMA(closingPrices, 3);
-
-            cout << "SMA: " << sma << endl;
-
+          
+            if (indicator == "1") {
+                // Sample closing prices
+                vector<double> closingPrices = { 10.5, 12.3, 11.8, 13.2, 14.5, 12.9 };
+            
+                // Calculate the 3-period SMA
+                double sma = calculateSMA(closingPrices, 3);
+                cout << "SMA: " << sma << endl;
+            }
+            else {
+                // Code
+            }
         }
         else if (command == "3" || command == "4") {            
             string symbol;

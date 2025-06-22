@@ -18,5 +18,7 @@ private:
 
 public:
     AlpachaT(const std::string& apiKey, const std::string& secretKey, bool paper = false);
-    OrderResult StockDetail(const std::string& symbol) const;
+    OrderResult GetStockAuction(const std::string& symbol) const;
+    OrderResult GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start) const;
+    //OrderResult GetHistoricalBars(const string& symbol, const string& timeframe, const time_t start) const;
 };
