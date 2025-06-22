@@ -1,12 +1,17 @@
-#include <iostream>
-using namespace std;
+#include "pch.h"
 
-#include <curl/curl.h>
-#include <sstream>
 #include "alpacha.h"
 
-Alpacha::Alpacha(const string &apiKey, const string &secretKey, const bool paper)
-{
+#include <curl/curl.h>
+#include <iostream>
+#include <ctime>
+#include <format>
+
+
+using namespace std;
+
+Alpacha::Alpacha(const string& apiKey, const string& secretKey, bool paper)
+{    
     if (apiKey.empty() || secretKey.empty()) {
         cout << "Error: API credentials not set." << endl;
         exit(1);
@@ -17,13 +22,59 @@ Alpacha::Alpacha(const string &apiKey, const string &secretKey, const bool paper
     this->paper = paper;
 }
 
-static size_t WriteCallback(void* contents, const size_t size, size_t nmemb, void* userp)
+OrderResult Alpacha::GetAccount() const
 {
-    static_cast<std::string *>(userp)->append(static_cast<char *>(contents), size * nmemb);
-    return size * nmemb;
+    const string url = paper ? "https://paper-api.alpaca.markets/v2/account" : 
+                               "https://api.alpaca.markets/v2/account";
+
+    return GetRequest(url, apiKey, secretKey);
 }
 
-static OrderResult PlaceOrder(const string &symbol, const double quantity, const string &side, const string &apiKey, const string &secretKey, const bool paper)
+OrderResult Alpacha::GetAllOpenPositions() const
+{
+    const string url = paper ? "https://paper-api.alpaca.markets/v2/positions" : "https://api.alpaca.markets/v2/positions";
+    return GetRequest(url, apiKey, secretKey);
+}
+
+OrderResult Alpacha::StockDetail(const string& symbol) const
+{
+    const string url = paper ? "https://paper-api.alpaca.markets/v2/assets/" + symbol : "https://api.alpaca.markets/v2/assets/" + symbol;
+    return GetRequest(url, apiKey, secretKey);
+}
+
+OrderResult Alpacha::BuyStock(const string& symbol, const double quantity) const
+{
+    return PlaceOrder(symbol, quantity, "buy", apiKey, secretKey, paper);
+}
+
+OrderResult Alpacha::SellStock(const string& symbol, const double quantity) const
+{
+    return PlaceOrder(symbol, quantity, "sell", apiKey, secretKey, paper);
+}
+
+
+OrderResult Alpacha::GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start) const
+{
+    //Convert time_t to UTC ISO 8601 format string
+    struct tm utc_tm;
+    gmtime_s(&utc_tm, &start);
+    char time_buffer[32];
+    strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%dT%H:%M:%SZ", &utc_tm);
+    string start_time(time_buffer);
+
+    const string url ="https://data.alpaca.markets/v2/stocks/bars?symbols=" + symbol + "&timeframe=" + timeframe + "&start=" + start_time + "&limit=1000&adjustment=raw&feed=sip&sort=asc";  
+
+    return GetRequest(url, apiKey, secretKey);
+}
+
+OrderResult Alpacha::GetAssets() const
+{
+    const string url = paper ? "https://paper-api.alpaca.markets/v2/assets?exchange=NASDAQ%2CNYSE" : "https://api.alpaca.markets/v2/assets?exchange=NASDAQ%2CNYSE";
+
+    return GetRequest(url, apiKey, secretKey);
+}
+
+static OrderResult PlaceOrder(const string& symbol, const double quantity, const string& side, const string& apiKey, const string& secretKey, const bool paper)
 {
     OrderResult result;
     result.success = false;
@@ -32,7 +83,7 @@ static OrderResult PlaceOrder(const string &symbol, const double quantity, const
 
     string payload = "{\"symbol\":\"" + symbol + "\",\"qty\":" + to_string(quantity) + ", \"side\":\""
         + side + "\",\"type\":\"market\",\"time_in_force\":\"day\"}";
-            
+
     CURL* curl = nullptr;
     CURLcode res{};
     std::string readBuffer;
@@ -75,7 +126,7 @@ static OrderResult PlaceOrder(const string &symbol, const double quantity, const
     return result;
 }
 
-static OrderResult GetRequest(const string &url, const string &apiKey, const string &secretKey)
+static OrderResult GetRequest(const string& url, const string& apiKey, const string& secretKey)
 {
     OrderResult result;
     result.success = false;
@@ -121,31 +172,8 @@ static OrderResult GetRequest(const string &url, const string &apiKey, const str
     return result;
 }
 
-OrderResult Alpacha::BuyStock(const string &symbol, const double quantity) const
+static size_t WriteCallback(void* contents, const size_t size, size_t nmemb, void* userp)
 {
-    return PlaceOrder(symbol, quantity, "buy", apiKey, secretKey, paper);
+    static_cast<std::string*>(userp)->append(static_cast<char*>(contents), size * nmemb);
+    return size * nmemb;
 }
-
-OrderResult Alpacha::SellStock(const string &symbol, const double quantity) const
-{
-    return PlaceOrder(symbol, quantity, "sell", apiKey, secretKey, paper);
-}
-
-OrderResult Alpacha::GetAccount() const
-{
-    const string url = paper ? "https://paper-api.alpaca.markets/v2/account" : "https://api.alpaca.markets/v2/account";
-    return GetRequest(url, apiKey, secretKey);
-}
-
-OrderResult Alpacha::GetAllOpenPositions() const 
-{
-    const string url = paper ? "https://paper-api.alpaca.markets/v2/positions" : "https://api.alpaca.markets/v2/positions";
-    return GetRequest(url, apiKey, secretKey);
-}
-
-OrderResult Alpacha::StockDetail(const string &symbol) const
-{
-    const string url = paper ? "https://paper-api.alpaca.markets/v2/assets/" + symbol : "https://api.alpaca.markets/v2/assets/" + symbol;
-    return GetRequest(url, apiKey, secretKey);
-}
-

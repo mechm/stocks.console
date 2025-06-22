@@ -5,8 +5,9 @@ using namespace std;
 #include <fstream>
 #include <json/json.h>
 
-#include "sma.h"
-#include "alpacha.h"
+
+#include "../stocks.console.api/alpacha.h"
+#include "../stocks.console.indicator/sma.h"
 
 int main()
 {

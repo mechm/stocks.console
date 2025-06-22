@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\solutions\Stocks\stocks.console\external\cpp-dotenv\include;D:\solutions\Stocks\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,10 +130,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="alpacha.cpp" />
     <ClCompile Include="stocks.console.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\stocks.console.api\stocks.console.api.vcxproj">
+      <Project>{0fa22aea-cd4a-48c9-8a62-16ecaad8406d}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\stocks.console.indicator\stocks.console.indicator.vcxproj">
       <Project>{be4b9af2-68a2-409a-8758-038937ad95a4}</Project>
     </ProjectReference>
@@ -149,9 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="private_notes.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="alpacha.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

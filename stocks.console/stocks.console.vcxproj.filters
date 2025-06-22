@@ -18,9 +18,6 @@
     <ClCompile Include="stocks.console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="alpacha.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.md" />
@@ -30,10 +27,5 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="private_notes.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="alpacha.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

@@ -96,6 +96,7 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,7 +164,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="stock.console.api.alpacha.unittest.cpp" />
-    <ClCompile Include="stock.console.unittest.cpp" />
     <ClCompile Include="stockconsole.indicator.rsi.unittest.cpp" />
     <ClCompile Include="stockconsole.indicator.sma.unittest.cpp" />
   </ItemGroup>

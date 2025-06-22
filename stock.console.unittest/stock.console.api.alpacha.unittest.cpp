@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
 
-#include "../stocks.console.api/alpachat.cpp"
+#include "../stocks.console.api/alpacha.cpp"
 
 #include <vector>
 #include <iomanip>
@@ -16,24 +16,77 @@ namespace stockconsole_api_unit_test
 	{
 
 	public:
-		TEST_METHOD(TestGetStockAuction)
+
+	public:
+
+		TEST_METHOD(TestGetAccount)
 		{
 			// Arrange
-			AlpachaT alpacha("PKYD8GXEY7N6HC8VF9JU", "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse", true);
+			Alpacha alpacha("PKYD8GXEY7N6HC8VF9JU", "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse", true);
 			bool expected = true;
 
 			// Act
-			OrderResult result = alpacha.GetStockAuction("AAPL");
+			OrderResult result = alpacha.GetAccount();
 
 			// Assert
 			Assert::AreEqual(expected, result.success);
 		}
 
+		TEST_METHOD(TestBuyStock)
+		{
+			// Arrange
+			Alpacha alpacha("PKYD8GXEY7N6HC8VF9JU", "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse", true);
+			bool expected = true;
 
+			// Act
+			OrderResult result = alpacha.BuyStock("AAPL", 0.01);
+
+			// Assert
+			Assert::AreEqual(expected, result.success);
+		}
+
+		TEST_METHOD(TestSellStock)
+		{
+			// Arrange
+			Alpacha alpacha("PKYD8GXEY7N6HC8VF9JU", "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse", true);
+			bool expected = true;
+
+			// Act
+			OrderResult result = alpacha.SellStock("AAPL", 0.01);
+
+			// Assert
+			Assert::AreEqual(expected, result.success);
+		}
+
+		TEST_METHOD(TestStockDetail)
+		{
+			// Arrange
+			Alpacha alpacha("PKYD8GXEY7N6HC8VF9JU", "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse", true);
+			bool expected = true;
+
+			// Act
+			OrderResult result = alpacha.StockDetail("AAPL");
+
+			// Assert
+			Assert::AreEqual(expected, result.success);
+		}
+
+		TEST_METHOD(TestGetAllOpenPositions)
+		{
+			// Arrange
+			Alpacha alpacha("PKYD8GXEY7N6HC8VF9JU", "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse", true);
+			bool expected = true;
+
+			// Act
+			OrderResult result = alpacha.GetAllOpenPositions();
+
+			// Assert
+			Assert::AreEqual(expected, result.success);
+		}
 		TEST_METHOD(TestGetHistoricalBars)
 		{
 			// Arrange
-			AlpachaT alpacha("PKYD8GXEY7N6HC8VF9JU", "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse", true);
+			Alpacha alpacha("PKYD8GXEY7N6HC8VF9JU", "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse", true);
 			bool expected = true;
 
 			// Parse "2023-06-17 12:36:51" string to time_t

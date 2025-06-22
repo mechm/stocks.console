@@ -38,12 +38,12 @@ double calculateRSI(const std::vector<double>& prices, const int period)
     double avgGain = 0.0;
     double avgLoss = 0.0;
 
-    for (double gain : gains) {
+    for (const double gain : gains) {
         avgGain += gain;
     }
     avgGain /= period;
 
-    for (double loss : losses) {
+    for (const double loss : losses) {
         avgLoss += loss;
     }
     avgLoss /= period;
@@ -54,10 +54,10 @@ double calculateRSI(const std::vector<double>& prices, const int period)
     }
 
     // Calculate RS (Relative Strength)
-    double rs = avgGain / avgLoss;
+    const double rs = avgGain / avgLoss;
 
     // Calculate RSI
-    double rsi = 100.0 - (100.0 / (1.0 + rs));
+    const double rsi = 100.0 - (100.0 / (1.0 + rs));
 
     return rsi;
 }
@@ -77,7 +77,7 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
 
     // Calculate initial average gain and loss for the first period
     for (int i = 1; i <= period; i++) {
-        double change = prices[i] - prices[i - 1];
+        const double change = prices[i] - prices[i - 1];
         if (change > 0) {
             avgGain += change;
         }
@@ -91,12 +91,12 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
 
     // Apply Wilder's smoothing for subsequent periods
     for (int i = period + 1; i < prices.size(); i++) {
-        double change = prices[i] - prices[i - 1];
-        double gain = (change > 0) ? change : 0.0;
-        double loss = (change < 0) ? std::abs(change) : 0.0;
+        const double change = prices[i] - prices[i - 1];
+        const double gain = (change > 0) ? change : 0.0;
+        const double loss = (change < 0) ? std::abs(change) : 0.0;
 
-        avgGain = ((avgGain * (period - 1)) + gain) / period;
-        avgLoss = ((avgLoss * (period - 1)) + loss) / period;
+        avgGain = (avgGain * (period - 1) + gain) / period;
+        avgLoss = (avgLoss * (period - 1) + loss) / period;
     }
 
     // Avoid division by zero
@@ -105,8 +105,8 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
     }
 
     // Calculate RS and RSI
-    double rs = avgGain / avgLoss;
-    double rsi = 100.0 - (100.0 / (1.0 + rs));
+    const double rs = avgGain / avgLoss;
+    const double rsi = 100.0 - (100.0 / (1.0 + rs));
 
     return rsi;
 }
