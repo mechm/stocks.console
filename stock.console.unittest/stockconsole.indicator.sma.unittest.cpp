@@ -26,4 +26,4 @@ namespace stockindicatorunittest
 			Assert::AreEqual(expected, result);
 		}
 	};
-}
+};

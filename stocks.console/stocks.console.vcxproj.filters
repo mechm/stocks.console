@@ -15,17 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stocks.console.cpp">
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="string_utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="readme.md" />
     <None Include="$(MSBuildThisFileDirectory)\libcurl.dll" />
     <None Include="$(MSBuildThisFileDirectory)\LibCurlShim.dll" />
     <None Include="config_doc.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="private_notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="string_utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

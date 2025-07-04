@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>false</VcpkgEnableManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -130,7 +133,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="stocks.console.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="string_utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\stocks.console.api\stocks.console.api.vcxproj">
@@ -144,13 +148,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="readme.md" />
     <None Include="config_doc.json">
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="private_notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="string_utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

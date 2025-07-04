@@ -4,10 +4,11 @@ using namespace std;
 #include <vector>
 #include <fstream>
 #include <json/json.h>
-
+#include <iomanip>
 
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/sma.h"
+#include "string_utilities.h"
 
 int main()
 {
@@ -36,25 +37,43 @@ int main()
         }
 
         if (command == "1") {
-
-            // Get API credentials from config file
-            Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(), 
+            AlpachaAccount alpacha(root.get("ALPACA_API_KEY", "").asString(), 
                             root.get("ALPACA_SECRET_KEY", "").asString());
 
-            OrderResult account = alpacha.GetAccount();
+            RequestResponse account = alpacha.GetAccount();
             if (account.success)
             {
                 cout << "Account details: " << account.response << endl;
             }
         }
-        if (command == "2") {
 
+        if (command == "2") {
             string symbol;
             string indicator;
             string date;
 
             cout << "Enter stock symbol: ";
             cin >> symbol;
+            
+            // check valid stock symbol
+            Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
+                root.get("ALPACA_SECRET_KEY", "").asString());
+           
+            
+
+        /*    AssetsResult account = Alpacha::GetAssetsAsObjects();
+            if (account.success)
+            {
+                cout << "Account details: " << account.response << endl;
+            }*/
+
+            //RequestResponse a = AlpachaAccount::GetAllOpenPositions();
+            //alpacha.GetAllOpenPositions();
+            
+
+            //Alpacha::GetAssets();
+
+
 
             cout << "Choose indicator, 1) SMA, 2) RSI, 3) MACD: ";
             cin >> indicator;
@@ -62,7 +81,12 @@ int main()
             cout << "Choose date ";
             cin >> date;
           
+
             if (indicator == "1") {
+
+                time_t time = StringUtilities::StringToTimeT(date);           
+
+                //HistoricalBarsResult a = alpacha.GetHistoricalBarsAsObjects(symbol, "1D", time);
                 // Sample closing prices
                 vector<double> closingPrices = { 10.5, 12.3, 11.8, 13.2, 14.5, 12.9 };
             
@@ -70,9 +94,15 @@ int main()
                 double sma = calculateSMA(closingPrices, 3);
                 cout << "SMA: " << sma << endl;
             }
-            else {
-                // Code
+            else if (indicator == "2")
+            {
+                // Get API credentials from config file
+                Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
+                    root.get("ALPACA_SECRET_KEY", "").asString());
             }
+
+
+
         }
         else if (command == "3" || command == "4") {            
             string symbol;
@@ -93,10 +123,10 @@ int main()
             cout << "Placing " << side << " order for " << symbol << "..." << endl;
             
             // Get API credentials from config file
-            Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
+            AlpachaAccount alpacha1(root.get("ALPACA_API_KEY", "").asString(),
                             root.get("ALPACA_SECRET_KEY", "").asString());
 
-            alpacha.BuyStock(symbol, amount);
+            alpacha1.BuyStock(symbol, amount);
         }
         else {
             cout << "Unknown command: " << command << endl;
@@ -105,3 +135,4 @@ int main()
     }
     return 0;
 }
+

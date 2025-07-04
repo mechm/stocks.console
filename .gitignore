@@ -53,3 +53,5 @@ config_doc.json
 *x64
 *.vs
 *packages
+
+/vcpkg_installed*/

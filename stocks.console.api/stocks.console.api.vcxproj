@@ -142,9 +142,13 @@
   <ItemGroup>
     <ClInclude Include="alpacha.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="http.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="alpacha_account.cpp" />
+    <ClCompile Include="alpacha_marketdata.cpp" />
+    <ClCompile Include="http.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
