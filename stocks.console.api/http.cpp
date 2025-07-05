@@ -20,25 +20,20 @@ RequestResponse Http::GetRequest(const string& url, const vector<string>& header
     if (curl) {
         // Create a list of headers
         struct curl_slist* curl_headers = nullptr;
-        //curl_headers = curl_slist_append(curl_headers, "accept: application/json");
-        //curl_headers = curl_slist_append(curl_headers, "content-type: application/json");
 
         // Add provided headers
         for (const auto& header : headers) {
             curl_headers = curl_slist_append(curl_headers, header.c_str());
         }
 
-        //  headers = curl_slist_append(headers, ("APCA-API-KEY-ID: " + apiKey).c_str());
-        //  headers = curl_slist_append(headers, ("APCA-API-SECRET-KEY: " + secretKey).c_str());
-
-          // Set URL, POST data and headers
+        // Set URL, POST data and headers
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
         if (!payload.empty()) {
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
         }
 
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, curl_headers);
 
         // Set up response handling
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -49,10 +44,8 @@ RequestResponse Http::GetRequest(const string& url, const vector<string>& header
         result.success = (res == CURLE_OK);
         result.response = readBuffer;
 
-        if (result.success) {
-            std::cout << "Request successful. Response: " << readBuffer << std::endl;
-        }
-        else {
+        if (!result.success) 
+        {
             std::cerr << "Request failed: " << curl_easy_strerror(res) << std::endl;
         }
 
@@ -64,7 +57,7 @@ RequestResponse Http::GetRequest(const string& url, const vector<string>& header
     return result;
 }
 
-static size_t WriteCallback(void* contents, const size_t size, size_t nmemb, void* userp)
+size_t Http::WriteCallback(void* contents, const size_t size, size_t nmemb, void* userp)
 {
     static_cast<std::string*>(userp)->append(static_cast<char*>(contents), size * nmemb);
     return size * nmemb;

@@ -27,17 +27,23 @@ int main()
                 "4: Sell Stock, " 
                 "0: Exit): ";
 
-        string command;
+        int command;
         cin >> command;
-        
-        if (command == "0") {
+
+        if (cin.fail()) {
+            cout << "Enter a valid value..." << endl;
+            continue;
+        }
+
+        if (command == 0) {
             running = false;
             cout << "Exiting program..." << endl;
             continue;
         }
 
-        if (command == "1") {
-            AlpachaAccount alpacha(root.get("ALPACA_API_KEY", "").asString(), 
+        // check account details
+        if (command == 1) {
+            Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(), 
                             root.get("ALPACA_SECRET_KEY", "").asString());
 
             RequestResponse account = alpacha.GetAccount();
@@ -47,21 +53,20 @@ int main()
             }
         }
 
-        if (command == "2") {
+        // run stock symbol against an indicator
+        if (command == 2) {
             string symbol;
-            string indicator;
+            int indicator;
             string date;
 
             cout << "Enter stock symbol: ";
             cin >> symbol;
             
-            // check valid stock symbol
-            Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
-                root.get("ALPACA_SECRET_KEY", "").asString());
-           
-            
+            //// check valid stock symbol
+            //Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
+            //    root.get("ALPACA_SECRET_KEY", "").asString());
 
-        /*    AssetsResult account = Alpacha::GetAssetsAsObjects();
+       /*     AssetsResult account = Alpacha::GetAssetsAsObjects();
             if (account.success)
             {
                 cout << "Account details: " << account.response << endl;
@@ -73,38 +78,83 @@ int main()
 
             //Alpacha::GetAssets();
 
-
-
             cout << "Choose indicator, 1) SMA, 2) RSI, 3) MACD: ";
             cin >> indicator;
 
-            cout << "Choose date ";
-            cin >> date;
-          
-
-            if (indicator == "1") {
-
-                time_t time = StringUtilities::StringToTimeT(date);           
-
-                //HistoricalBarsResult a = alpacha.GetHistoricalBarsAsObjects(symbol, "1D", time);
-                // Sample closing prices
-                vector<double> closingPrices = { 10.5, 12.3, 11.8, 13.2, 14.5, 12.9 };
-            
-                // Calculate the 3-period SMA
-                double sma = calculateSMA(closingPrices, 3);
-                cout << "SMA: " << sma << endl;
+            if (cin.fail()) {
+                cout << "Enter a valid selection..." << endl;
+                continue;
             }
-            else if (indicator == "2")
+
+            if (indicator == 1) {
+
+                cout << "Choose date (YYYY-MM-DD format), or leave blank: ";
+                cin >> date;
+
+                time_t validatedTime;
+                if (!StringUtilities::ValidateDate(date, validatedTime)) {
+                    cout << "Please enter a valid date and try again." << endl;
+                    continue; // Go back to main menu
+                }
+
+                Alpacha alpacha1(root.get("ALPACA_API_KEY", "").asString(),
+                    root.get("ALPACA_SECRET_KEY", "").asString());
+
+                HistoricalBarsResult historicPrices = 
+                    alpacha1.GetHistoricalBarsAsObjects(symbol, "1D", validatedTime);
+
+                if (historicPrices.success && !historicPrices.bars.empty()) {              
+                    vector<double> closingPrices;
+                    for (const auto& bar : historicPrices.bars) {
+                        closingPrices.push_back(bar.close);
+                    }
+
+                    int period = 3; // You might want to make this configurable
+                    if (closingPrices.size() >= period) {
+                        //double sma = calculateSMA(closingPrices, period);
+                        //cout << "SMA (" << period << "-period) for " << symbol << ": " << fixed << setprecision(2) << sma << endl;
+
+                        //
+
+
+                        //int period = 10;
+                        //double threshold = 1.0; // 1% threshold
+                        //// Calculate SMA
+                        //double sma = calculateSMA(closingPrices, period);
+                        //double currentPrice = closingPrices[0];
+
+                        //// Get signal
+                        //int signal = getSMASignal(currentPrice, sma, threshold);
+
+                        //// Print analysis
+                        //printSMAAnalysis(currentPrice, sma, signal);
+
+                        //// Alternative: Get signal with history
+                        ////int signalWithHistory = getSMASignalWithHistory(closingPrices, period, threshold);
+
+
+
+
+
+                    }
+                    else {
+                        cout << "Not enough historical data for SMA calculation. Need at least " << period << " data points." << endl;
+                    }
+                }
+                else {
+                    cout << "Failed to retrieve historical data for " << symbol << endl;
+                }
+            }
+            else if (indicator == 2)
             {
                 // Get API credentials from config file
                 Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
                     root.get("ALPACA_SECRET_KEY", "").asString());
             }
-
-
-
         }
-        else if (command == "3" || command == "4") {            
+
+        // buy or sell stock
+        else if (command == 3 || command == 4) {            
             string symbol;
 
             cout << "Enter stock symbol: ";
@@ -118,12 +168,11 @@ int main()
 
             // check valid amount
 
-            string side = (command == "3") ? "buy" : "sell";
+            string side = (command == 3) ? "buy" : "sell";
 
             cout << "Placing " << side << " order for " << symbol << "..." << endl;
             
-            // Get API credentials from config file
-            AlpachaAccount alpacha1(root.get("ALPACA_API_KEY", "").asString(),
+            Alpacha alpacha1(root.get("ALPACA_API_KEY", "").asString(),
                             root.get("ALPACA_SECRET_KEY", "").asString());
 
             alpacha1.BuyStock(symbol, amount);

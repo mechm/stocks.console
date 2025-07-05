@@ -188,6 +188,11 @@
       <Project>{402c4011-bde7-4667-a1d2-390694ccc965}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="config_doc.json">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+    </None>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

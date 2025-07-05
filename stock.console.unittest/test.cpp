@@ -22,7 +22,7 @@ namespace stockconsoleunittest
 			std::string testSecretKey = "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse";
 			bool paperTrading = true;
 
-			AlpachaMarketData alpaca(testApiKey, testSecretKey, paperTrading);
+			Alpacha alpaca(testApiKey, testSecretKey, paperTrading);
 
 			std::string symbol = "AAPL";
 			std::string timeframe = "1Day";
@@ -69,7 +69,7 @@ namespace stockconsoleunittest
 			std::string testSecretKey = "test_secret_key";
 			bool paperTrading = true;
 
-			AlpachaMarketData alpaca(testApiKey, testSecretKey, paperTrading);
+			Alpacha alpaca(testApiKey, testSecretKey, paperTrading);
 
 			std::string invalidSymbol = "INVALID_SYMBOL_XYZ";
 			std::string timeframe = "1Day";
@@ -93,7 +93,7 @@ namespace stockconsoleunittest
 			std::string testSecretKey = "test_secret_key";
 			bool paperTrading = true;
 
-			AlpachaMarketData alpaca(testApiKey, testSecretKey, paperTrading);
+			Alpacha alpaca(testApiKey, testSecretKey, paperTrading);
 
 			std::string emptySymbol = "";
 			std::string timeframe = "1Day";
@@ -107,23 +107,5 @@ namespace stockconsoleunittest
 			Assert::IsFalse(result.success);
 			Assert::IsFalse(result.error_message.empty());
 		}
-
-		//TEST_METHOD(TestGetAssets)
-		//{
-		//	// Arrange
-		//	std::string testApiKey = "PKYD8GXEY7N6HC8VF9JU";
-		//	std::string testSecretKey = "ZCEve7k69aN7YqGMwNjXkB1Ju5AibTXokb4xBHse";
-		//	AlpachaMarketData alpacha(testApiKey, testSecretKey, true);
-
-		//	// Act
-		//	RequestResponse result = alpacha.GetAssets();
-
-		//	// Assert
-		//	// Note: This test will depend on your actual implementation
-		//	// You might want to mock the API call for unit testing
-		//	Assert::IsNotNull(&result);
-		//	// Add more specific assertions based on expected behavior
-		//}
-
 	};
 };

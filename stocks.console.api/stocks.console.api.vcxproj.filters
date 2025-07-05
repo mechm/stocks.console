@@ -35,13 +35,7 @@
     <ClCompile Include="alpacha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="alpacha_account.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="http.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="alpacha_marketdata.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
