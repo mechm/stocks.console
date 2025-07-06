@@ -27,7 +27,7 @@ double calculateSMA(const std::vector<double>& prices, const int period)
 /// @param smaValue the calculated SMA value
 /// @param threshold percentage threshold for signal generation (default 0.0 for any crossover)
 /// @return 1 for BUY, -1 for SELL, 0 for HOLD
-static int getSMASignal(const double currentPrice, const double smaValue, const double threshold)
+int getSMASignal(double currentPrice, double smaValue, double threshold)
 {
     if (smaValue == 0.0) {
         return 0; // Invalid SMA, hold
@@ -67,7 +67,7 @@ static int getSMASignalWithHistory(const std::vector<double>& prices, const int 
 /// @param currentPrice current stock price
 /// @param smaValue calculated SMA
 /// @param signal the signal value
-static void printSMAAnalysis(const double currentPrice, const double smaValue, const int signal)
+void printSMAAnalysis(const double currentPrice, const double smaValue, const int signal)
 {
     std::cout << "=== SMA Analysis ===" << std::endl;
     std::cout << "Current Price: $" << currentPrice << std::endl;

@@ -76,6 +76,46 @@ RequestResponse Alpacha::GetAssetBySymbol(const string& symbol)
     return GetRequest(url);
 }
 
+AssetResult Alpacha::GetAssetBySymbolAsObject(const string& symbol) {
+    AssetResult result;
+
+    try {
+        RequestResponse response = GetAssetBySymbol(symbol);
+
+        if (response.success) {
+            Json::Value assetJson;
+            Json::Reader reader;
+
+            if (reader.parse(response.response, assetJson)) {
+                // Parse JSON into Asset object
+                result.asset.symbol = assetJson.get("symbol", "").asString();
+                result.asset.name = assetJson.get("name", "").asString();
+               // result.asset.assetClass = assetJson.get("class", "").asString();
+                result.asset.exchange = assetJson.get("exchange", "").asString();
+                result.asset.tradable = assetJson.get("tradable", false).asBool();
+                result.asset.status = assetJson.get("status", "").asString();
+
+                result.success = true;
+            }
+            else {
+                result.success = false;
+                result.errorMessage = "Failed to parse JSON response: " + response.response;
+            }
+        }
+        else {
+            result.success = false;
+            result.errorMessage = "API call failed: " + response.response;
+        }
+    }
+    catch (const exception& e) {
+        result.success = false;
+        result.errorMessage = "Exception occurred: " + string(e.what());
+    }
+
+    return result;
+}
+
+
 RequestResponse Alpacha::GetAssetsByExchange(const string& exchange)
 {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/assets?exchange=" + exchange;

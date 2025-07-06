@@ -9,14 +9,18 @@ using namespace std;
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/sma.h"
 #include "string_utilities.h"
+#include "main.h"
 
 int main()
 {
-    Json::Value root;   // 'root' will contain the root value after parsing.
+    Json::Value root;
     std::ifstream config_doc("config_doc.json", std::ifstream::binary);
     config_doc >> root;    
 
     bool running = true;
+
+    Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
+        root.get("ALPACA_SECRET_KEY", "").asString());
 
     while (running) {
 
@@ -32,6 +36,8 @@ int main()
 
         if (cin.fail()) {
             cout << "Enter a valid value..." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');    // Ignore up to 10000 characters or until newline
             continue;
         }
 
@@ -43,65 +49,47 @@ int main()
 
         // check account details
         if (command == 1) {
-            Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(), 
-                            root.get("ALPACA_SECRET_KEY", "").asString());
-
             RequestResponse account = alpacha.GetAccount();
             if (account.success)
             {
-                cout << "Account details: " << account.response << endl;
+                cout << "\nAccount details: " << account.response <<  "\n" << endl;
             }
+            continue;
         }
 
         // run stock symbol against an indicator
-        if (command == 2) {
-            string symbol;
+        if (command == 2) {    
+            
+            string symbol; // No need to initialize, function will set it      
+            AssetResult assetResult = GetValidAssetWithCancel(symbol, alpacha);
+
+            if (!assetResult.success) {
+                cout << "Returning to main menu...\n" << endl;
+                continue; // Go back to main menu
+            }
+
             int indicator;
-            string date;
-
-            cout << "Enter stock symbol: ";
-            cin >> symbol;
-            
-            //// check valid stock symbol
-            //Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
-            //    root.get("ALPACA_SECRET_KEY", "").asString());
-
-       /*     AssetsResult account = Alpacha::GetAssetsAsObjects();
-            if (account.success)
-            {
-                cout << "Account details: " << account.response << endl;
-            }*/
-
-            //RequestResponse a = AlpachaAccount::GetAllOpenPositions();
-            //alpacha.GetAllOpenPositions();
-            
-
-            //Alpacha::GetAssets();
-
             cout << "Choose indicator, 1) SMA, 2) RSI, 3) MACD: ";
             cin >> indicator;
 
             if (cin.fail()) {
                 cout << "Enter a valid selection..." << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
                 continue;
             }
 
             if (indicator == 1) {
+              
+                string date = GetValidDateOrEmpty();
 
-                cout << "Choose date (YYYY-MM-DD format), or leave blank: ";
-                cin >> date;
-
-                time_t validatedTime;
-                if (!StringUtilities::ValidateDate(date, validatedTime)) {
-                    cout << "Please enter a valid date and try again." << endl;
-                    continue; // Go back to main menu
+                time_t validatedTime = 0; // Default to 0 for empty date
+                if (!date.empty()) {
+                    StringUtilities::ValidateDate(date, validatedTime);
                 }
 
-                Alpacha alpacha1(root.get("ALPACA_API_KEY", "").asString(),
-                    root.get("ALPACA_SECRET_KEY", "").asString());
-
                 HistoricalBarsResult historicPrices = 
-                    alpacha1.GetHistoricalBarsAsObjects(symbol, "1D", validatedTime);
+                    alpacha.GetHistoricalBarsAsObjects(symbol, "1D", validatedTime);
 
                 if (historicPrices.success && !historicPrices.bars.empty()) {              
                     vector<double> closingPrices;
@@ -109,33 +97,22 @@ int main()
                         closingPrices.push_back(bar.close);
                     }
 
-                    int period = 3; // You might want to make this configurable
-                    if (closingPrices.size() >= period) {
-                        //double sma = calculateSMA(closingPrices, period);
-                        //cout << "SMA (" << period << "-period) for " << symbol << ": " << fixed << setprecision(2) << sma << endl;
+                    int period = GetValidPeriod();
 
-                        //
+                    if (closingPrices.size() >= period) 
+                    {
+                        // int period = 10;
+                        double threshold = 1.0; // 1% threshold
+                        // Calculate SMA
+                        double sma = calculateSMA(closingPrices, period);
+                        cout << "\nSMA (" << period << "-period) for " << symbol << ": " << fixed << setprecision(2) << sma << "\n" << endl;
+                        double currentPrice = closingPrices[0];
 
+                        // Get signal                     
+                        int signal = getSMASignal(currentPrice, sma, threshold);
 
-                        //int period = 10;
-                        //double threshold = 1.0; // 1% threshold
-                        //// Calculate SMA
-                        //double sma = calculateSMA(closingPrices, period);
-                        //double currentPrice = closingPrices[0];
-
-                        //// Get signal
-                        //int signal = getSMASignal(currentPrice, sma, threshold);
-
-                        //// Print analysis
-                        //printSMAAnalysis(currentPrice, sma, signal);
-
-                        //// Alternative: Get signal with history
-                        ////int signalWithHistory = getSMASignalWithHistory(closingPrices, period, threshold);
-
-
-
-
-
+                        // Print analysis
+                        printSMAAnalysis(currentPrice, sma, signal);
                     }
                     else {
                         cout << "Not enough historical data for SMA calculation. Need at least " << period << " data points." << endl;
@@ -185,3 +162,89 @@ int main()
     return 0;
 }
 
+static AssetResult GetValidAssetWithCancel(string& symbol, Alpacha alpacha) {
+    AssetResult assetResult;
+
+    while (true) {
+        cout << "Enter stock symbol (or 'cancel' to return to main menu): ";
+        cin >> symbol;
+
+        if (symbol == "cancel" || symbol == "CANCEL") {
+            assetResult.success = false;
+            assetResult.errorMessage = "User cancelled";
+            break;
+        }
+
+        assetResult = alpacha.GetAssetBySymbolAsObject(symbol);
+
+        if (!assetResult.success) {
+            cout << "\nInvalid stock symbol: " << symbol << "\n" << endl;
+            cout << "Error: " << assetResult.errorMessage << "\n" << endl;
+        }
+        else if (!assetResult.asset.tradable) {
+            cout << "\nWarning: Stock " << symbol << " is not tradable!\n" << endl;
+        }
+        else {
+            break; // Valid and tradable asset found
+        }
+    }
+
+    return assetResult;
+}
+
+
+static string GetValidDateOrEmpty() {
+    string date;
+    time_t validatedTime;
+
+    while (true) {
+        cout << "Choose date (YYYY-MM-DD format), or leave blank: ";
+        
+        cin.ignore(); // Clear any leftover newline characters
+        getline(cin, date); // Use getline to capture empty input
+       
+        // If empty, return immediately
+        if (date.empty()) {
+            return date;
+        }      
+
+        // Validate the date
+        if (StringUtilities::ValidateDate(date, validatedTime)) {
+            return date; // Valid date, return it
+        }
+
+        // Invalid date, ask again
+        cout << "Please enter a valid date and try again." << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+}
+
+// Add this function before main() or in a header file
+static int GetValidPeriod() {
+    int period;
+
+    while (true) {
+        cout << "Enter SMA period (number of days, e.g., 3, 10, 20): ";
+        cin >> period;
+
+        if (cin.fail()) {
+            cout << "Please enter a valid number." << endl;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            continue;
+        }
+
+        if (period <= 0) {
+            cout << "Period must be greater than 0." << endl;
+            continue;
+        }
+
+        if (period > 200) {
+            cout << "Period seems too large (max 200). Please enter a reasonable value." << endl;
+            continue;
+        }
+
+        return period; // Valid period found
+    }
+}

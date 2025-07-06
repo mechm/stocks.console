@@ -45,6 +45,12 @@ struct AssetsResult {
     std::string error_message;
 };
 
+struct AssetResult {
+    bool success = false;
+    Asset asset;
+    string errorMessage;
+};
+
 class Alpacha : public Http {
 protected:
     std::string apiKey = "";
@@ -62,7 +68,9 @@ public:
     RequestResponse BuyStock(const std::string& symbol, double quantity);
     RequestResponse SellStock(const std::string& symbol, double quantity);
 
+
     RequestResponse GetAssetBySymbol(const string& symbol);
+    AssetResult GetAssetBySymbolAsObject(const string& symbol);
     RequestResponse GetAssetsByExchange(const string& exchange = "NASDAQ%2CNYSE");
     HistoricalBarsResult GetHistoricalBarsAsObjects(const std::string& symbol, const std::string& timeframe, const time_t start);
     RequestResponse GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start);
