@@ -46,23 +46,6 @@ int getSMASignal(double currentPrice, double smaValue, double threshold)
     }
 }
 
-/// @brief Get SMA signal with price history for trend analysis
-/// @param prices vector of historical prices (most recent first)
-/// @param period SMA period
-/// @param threshold percentage threshold for signal
-/// @return 1 for BUY, -1 for SELL, 0 for HOLD
-static int getSMASignalWithHistory(const std::vector<double>& prices, const int period, const double threshold)
-{
-    if (prices.size() < period) {
-        return 0; // Not enough data
-    }
-
-    double currentSMA = calculateSMA(prices, period);
-    double currentPrice = prices[0]; // Assuming most recent price is first
-
-    return getSMASignal(currentPrice, currentSMA, threshold);
-}
-
 /// @brief Print SMA analysis
 /// @param currentPrice current stock price
 /// @param smaValue calculated SMA

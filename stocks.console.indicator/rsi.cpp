@@ -1,8 +1,9 @@
-#include <iostream>
+﻿#include <iostream>
 #include <vector>
 #include <cmath>
 
 #include "pch.h"
+#include <iomanip>
 
 /// @brief Calculate RSI (Relative Strength Index) for a given period
 /// Basic RSI calculation using simple moving averages
@@ -23,7 +24,7 @@ double calculateRSI(const std::vector<double>& prices, const int period)
 
     // Calculate price changes (gains and losses)
     for (int i = 1; i <= period; i++) {
-        double change = prices[i] - prices[i - 1];
+        double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i) - 1];
         if (change > 0) {
             gains.push_back(change);
             losses.push_back(0.0);
@@ -77,7 +78,7 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
 
     // Calculate initial average gain and loss for the first period
     for (int i = 1; i <= period; i++) {
-        const double change = prices[i] - prices[i - 1];
+        const double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i) - 1];
         if (change > 0) {
             avgGain += change;
         }
@@ -91,7 +92,7 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
 
     // Apply Wilder's smoothing for subsequent periods
     for (int i = period + 1; i < prices.size(); i++) {
-        const double change = prices[i] - prices[i - 1];
+        const double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i) - 1];
         const double gain = (change > 0) ? change : 0.0;
         const double loss = (change < 0) ? std::abs(change) : 0.0;
 
@@ -109,4 +110,47 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
     const double rsi = 100.0 - (100.0 / (1.0 + rs));
 
     return rsi;
+}
+
+int getRSISignal(double rsi, double oversoldThreshold, double overboughtThreshold) {
+    if (rsi <= oversoldThreshold) {
+        return 1;  // Buy signal (oversold)
+    }
+    else if (rsi >= overboughtThreshold) {
+        return -1; // Sell signal (overbought)
+    }
+    else {
+        return 0;  // Hold signal (neutral)
+    }
+}
+
+void printRSIAnalysis(double currentPrice, double rsi, int signal) {
+    std::cout << "\n=== RSI Analysis ===" << std::endl;
+    std::cout << "Current Price: $" << std::fixed << std::setprecision(2) << currentPrice << std::endl;
+    std::cout << "RSI: " << std::fixed << std::setprecision(2) << rsi << std::endl;
+
+    std::cout << "Market Condition: ";
+    if (rsi <= 30) {
+        std::cout << "OVERSOLD (RSI ≤ 30)" << std::endl;
+    }
+    else if (rsi >= 70) {
+        std::cout << "OVERBOUGHT (RSI ≥ 70)" << std::endl;
+    }
+    else {
+        std::cout << "NEUTRAL (30 < RSI < 70)" << std::endl;
+    }
+
+    std::cout << "Signal: ";
+    switch (signal) {
+    case 1:
+        std::cout << "BUY - Stock may be oversold, potential upward movement" << std::endl;
+        break;
+    case -1:
+        std::cout << "SELL - Stock may be overbought, potential downward movement" << std::endl;
+        break;
+    case 0:
+        std::cout << "HOLD - No clear signal, monitor for changes" << std::endl;
+        break;
+    }
+    std::cout << "==================\n" << std::endl;
 }

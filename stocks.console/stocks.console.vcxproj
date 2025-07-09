@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="date_validation.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="string_utilities.cpp" />
   </ItemGroup>
@@ -156,6 +157,7 @@
     <Text Include="private_notes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="date_validation.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="string_utilities.h" />
   </ItemGroup>

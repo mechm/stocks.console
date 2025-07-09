@@ -8,7 +8,9 @@ using namespace std;
 
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/sma.h"
+
 #include "string_utilities.h"
+#include "date_validation.h"
 #include "main.h"
 
 int main()
@@ -37,7 +39,7 @@ int main()
         if (cin.fail()) {
             cout << "Enter a valid value..." << endl;
             cin.clear();
-            cin.ignore(10000, '\n');    // Ignore up to 10000 characters or until newline
+            cin.ignore(10000, '\n'); // Ignore up to 10000 characters or until newline
             continue;
         }
 
@@ -60,12 +62,11 @@ int main()
         // run stock symbol against an indicator
         if (command == 2) {    
             
-            string symbol; // No need to initialize, function will set it      
+            string symbol;  
             AssetResult assetResult = GetValidAssetWithCancel(symbol, alpacha);
-
             if (!assetResult.success) {
                 cout << "Returning to main menu...\n" << endl;
-                continue; // Go back to main menu
+                continue;
             }
 
             int indicator;
@@ -81,12 +82,13 @@ int main()
 
             if (indicator == 1) {
               
-                string date = GetValidDateOrEmpty();
-
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+               
                 time_t validatedTime = 0; // Default to 0 for empty date
-                if (!date.empty()) {
-                    StringUtilities::ValidateDate(date, validatedTime);
-                }
+                GetValidDateOrEmpty(validatedTime);
+
+
+
 
                 HistoricalBarsResult historicPrices = 
                     alpacha.GetHistoricalBarsAsObjects(symbol, "1D", validatedTime);
@@ -124,9 +126,26 @@ int main()
             }
             else if (indicator == 2)
             {
-                // Get API credentials from config file
-                Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
-                    root.get("ALPACA_SECRET_KEY", "").asString());
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
 
@@ -193,39 +212,11 @@ static AssetResult GetValidAssetWithCancel(string& symbol, Alpacha alpacha) {
 }
 
 
-static string GetValidDateOrEmpty() {
-    string date;
-    time_t validatedTime;
-
-    while (true) {
-        cout << "Choose date (YYYY-MM-DD format), or leave blank: ";
-        
-        cin.ignore(); // Clear any leftover newline characters
-        getline(cin, date); // Use getline to capture empty input
-       
-        // If empty, return immediately
-        if (date.empty()) {
-            return date;
-        }      
-
-        // Validate the date
-        if (StringUtilities::ValidateDate(date, validatedTime)) {
-            return date; // Valid date, return it
-        }
-
-        // Invalid date, ask again
-        cout << "Please enter a valid date and try again." << endl;
-        cin.clear();
-        cin.ignore(10000, '\n');
-    }
-}
-
-// Add this function before main() or in a header file
 static int GetValidPeriod() {
     int period;
 
     while (true) {
-        cout << "Enter SMA period (number of days, e.g., 3, 10, 20): ";
+        cout << "Enter SMA period (number of days, e.g. 3, 10, 20): ";
         cin >> period;
 
         if (cin.fail()) {
