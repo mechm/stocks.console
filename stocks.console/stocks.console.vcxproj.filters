@@ -27,6 +27,9 @@
     <ClCompile Include="date_validation.cpp">
       <Filter>Source Files\Validation</Filter>
     </ClCompile>
+    <ClCompile Include="asset_validation.cpp">
+      <Filter>Source Files\Validation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\libcurl.dll" />
@@ -40,10 +43,13 @@
     <ClInclude Include="string_utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
+    <ClInclude Include="date_validation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="date_validation.h">
+    <ClInclude Include="asset_validation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,12 +1,11 @@
 #pragma once
-#include <string>
+
 #include "../stocks.console.api/alpacha.h"
+#include <json/value.h>
 
-#ifndef Main_H
-#define Main_H
+static void HandleAccountDetails(Alpacha& alpacha);
+static void HandleIndicatorAnalysis(Alpacha& alpacha);
+static void HandleOrder(const Alpacha& alpacha, int command, const Json::Value& root);
 
-string GetValidDateOrEmpty();
-AssetResult GetValidAssetWithCancel(string& symbol, Alpacha alpacha);
-int GetValidPeriod();
-
-#endif
+static int GetValidPeriod();
+static int GetValidIndicator();

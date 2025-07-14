@@ -11,27 +11,30 @@ using namespace std;
 
 #include "string_utilities.h"
 #include "date_validation.h"
+#include "asset_validation.h"
 #include "main.h"
 
 int main()
 {
     Json::Value root;
     std::ifstream config_doc("config_doc.json", std::ifstream::binary);
-    config_doc >> root;    
-
-    bool running = true;
+    config_doc >> root; 
 
     Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
         root.get("ALPACA_SECRET_KEY", "").asString());
+   
+    bool running = true;
 
     while (running) {
-
-        cout << "Enter command "
-                "1: Get Account Details, " 
-                "2: Check stock against indicator, "
-                "3: Buy Stock, "
-                "4: Sell Stock, " 
-                "0: Exit): ";
+      
+        cout << "\n====================[ Command Menu ]====================\n"
+            << "  1: Get Account Details\n"
+            << "  2: Check stock against indicator\n"
+            << "  3: Buy Stock\n"
+            << "  4: Sell Stock\n"
+            << "  0: Exit\n"
+            << "--------------------------------------------------------\n"
+            << "Enter command: ";
 
         int command;
         cin >> command;
@@ -39,178 +42,114 @@ int main()
         if (cin.fail()) {
             cout << "Enter a valid value..." << endl;
             cin.clear();
-            cin.ignore(10000, '\n'); // Ignore up to 10000 characters or until newline
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
 
-        if (command == 0) {
+        switch (command) {
+        case 0:
             running = false;
             cout << "Exiting program..." << endl;
-            continue;
-        }
-
-        // check account details
-        if (command == 1) {
-            RequestResponse account = alpacha.GetAccount();
-            if (account.success)
-            {
-                cout << "\nAccount details: " << account.response <<  "\n" << endl;
-            }
-            continue;
-        }
-
-        // run stock symbol against an indicator
-        if (command == 2) {    
-            
-            string symbol;  
-            AssetResult assetResult = GetValidAssetWithCancel(symbol, alpacha);
-            if (!assetResult.success) {
-                cout << "Returning to main menu...\n" << endl;
-                continue;
-            }
-
-            int indicator;
-            cout << "Choose indicator, 1) SMA, 2) RSI, 3) MACD: ";
-            cin >> indicator;
-
-            if (cin.fail()) {
-                cout << "Enter a valid selection..." << endl;
-                cin.clear();
-                cin.ignore(10000, '\n');
-                continue;
-            }
-
-            if (indicator == 1) {
-              
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-               
-                time_t validatedTime = 0; // Default to 0 for empty date
-                GetValidDateOrEmpty(validatedTime);
-
-
-
-
-                HistoricalBarsResult historicPrices = 
-                    alpacha.GetHistoricalBarsAsObjects(symbol, "1D", validatedTime);
-
-                if (historicPrices.success && !historicPrices.bars.empty()) {              
-                    vector<double> closingPrices;
-                    for (const auto& bar : historicPrices.bars) {
-                        closingPrices.push_back(bar.close);
-                    }
-
-                    int period = GetValidPeriod();
-
-                    if (closingPrices.size() >= period) 
-                    {
-                        // int period = 10;
-                        double threshold = 1.0; // 1% threshold
-                        // Calculate SMA
-                        double sma = calculateSMA(closingPrices, period);
-                        cout << "\nSMA (" << period << "-period) for " << symbol << ": " << fixed << setprecision(2) << sma << "\n" << endl;
-                        double currentPrice = closingPrices[0];
-
-                        // Get signal                     
-                        int signal = getSMASignal(currentPrice, sma, threshold);
-
-                        // Print analysis
-                        printSMAAnalysis(currentPrice, sma, signal);
-                    }
-                    else {
-                        cout << "Not enough historical data for SMA calculation. Need at least " << period << " data points." << endl;
-                    }
-                }
-                else {
-                    cout << "Failed to retrieve historical data for " << symbol << endl;
-                }
-            }
-            else if (indicator == 2)
-            {
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            }
-        }
-
-        // buy or sell stock
-        else if (command == 3 || command == 4) {            
-            string symbol;
-
-            cout << "Enter stock symbol: ";
-            cin >> symbol;
-
-            // check valid stock symbol
-
-            float amount;
-            cout << "Enter the amount: ";
-            cin >> amount;
-
-            // check valid amount
-
-            string side = (command == 3) ? "buy" : "sell";
-
-            cout << "Placing " << side << " order for " << symbol << "..." << endl;
-            
-            Alpacha alpacha1(root.get("ALPACA_API_KEY", "").asString(),
-                            root.get("ALPACA_SECRET_KEY", "").asString());
-
-            alpacha1.BuyStock(symbol, amount);
-        }
-        else {
+            break;
+        case 1:
+            HandleAccountDetails(alpacha);
+            break;
+        case 2:
+            HandleIndicatorAnalysis(alpacha);
+            break;
+        case 3:
+        case 4:
+            HandleOrder(alpacha, command, root);
+            break;
+        default:
             cout << "Unknown command: " << command << endl;
+            break;
         }
+
         cout << endl; // Add a blank line between commands for better readability
     }
     return 0;
 }
 
-static AssetResult GetValidAssetWithCancel(string& symbol, Alpacha alpacha) {
-    AssetResult assetResult;
-
-    while (true) {
-        cout << "Enter stock symbol (or 'cancel' to return to main menu): ";
-        cin >> symbol;
-
-        if (symbol == "cancel" || symbol == "CANCEL") {
-            assetResult.success = false;
-            assetResult.errorMessage = "User cancelled";
-            break;
-        }
-
-        assetResult = alpacha.GetAssetBySymbolAsObject(symbol);
-
-        if (!assetResult.success) {
-            cout << "\nInvalid stock symbol: " << symbol << "\n" << endl;
-            cout << "Error: " << assetResult.errorMessage << "\n" << endl;
-        }
-        else if (!assetResult.asset.tradable) {
-            cout << "\nWarning: Stock " << symbol << " is not tradable!\n" << endl;
-        }
-        else {
-            break; // Valid and tradable asset found
-        }
+// Handle account details command
+static void HandleAccountDetails(Alpacha& alpacha) {
+    RequestResponse account = alpacha.GetAccount();
+    if (account.success) {
+        cout << "\nAccount details: " << account.response << "\n" << endl;
     }
-
-    return assetResult;
 }
 
+// Handle indicator analysis command
+static void HandleIndicatorAnalysis(Alpacha& alpacha) {
+    AssetResult assetResult = GetValidAssetWithCancel(const_cast<Alpacha&>(alpacha));
+    if (!assetResult.success) {
+        cout << "Returning to main menu...\n" << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+
+    int indicator = GetValidIndicator();
+    if (indicator == 0) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return;
+    }
+
+    if (indicator == 1) { // SMA
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        time_t validatedTime = 0;
+        GetValidDateOrEmpty(validatedTime);
+        int period = GetValidPeriod();
+       
+        if (validatedTime == 0) {
+            // Set validatedTime to period number of days ago
+            time_t currentTime = time(nullptr);
+            validatedTime = currentTime - (static_cast<long long>(period) * 24 * 60 * 60); // period days ago in seconds
+            cout << "No date entered, using date " << period << " days ago." << endl;
+        }
+        
+        
+        
+        HistoricalBarsResult historicPrices = 
+            alpacha.GetHistoricalBarsAsObjects(assetResult.asset.symbol, "1D", validatedTime);
+       
+        if (historicPrices.success && !historicPrices.bars.empty()) {
+            vector<double> closingPrices;
+            for (const auto& bar : historicPrices.bars) {
+                closingPrices.push_back(bar.close);
+            }
+            
+            if (closingPrices.size() >= period) {
+                double threshold = 1.0;
+                double sma = calculateSMA(closingPrices, period);
+                cout << "\nSMA (" << period << "-period) for " << assetResult.asset.symbol << ": " << fixed << setprecision(2) << sma << "\n" << endl;
+                double currentPrice = closingPrices[0];
+                int signal = getSMASignal(currentPrice, sma, threshold);
+                printSMAAnalysis(currentPrice, sma, signal);
+            }
+            else {
+                cout << "Not enough historical data for SMA calculation. Need at least " << period << " data points." << endl;
+            }
+        }
+
+        else {
+            cout << "Failed to retrieve historical data for " << assetResult.asset.symbol << endl;
+        }
+
+
+
+
+
+    }
+    else if (indicator == 2) {
+        // RSI logic placeholder
+    }
+    else if (indicator == 3) {
+        // MACD logic placeholder
+    }
+}
 
 static int GetValidPeriod() {
     int period;
@@ -239,3 +178,40 @@ static int GetValidPeriod() {
         return period; // Valid period found
     }
 }
+
+
+// Prompt for valid indicator selection
+static int GetValidIndicator() {
+    int indicator;
+    while (true) {
+        cout << "Choose indicator, 1) SMA, 2) RSI, 3) MACD, 0) Main menu: ";
+        cin >> indicator;
+        if (cin.fail()) {
+            cout << "Enter a valid selection..." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        if (indicator >= 0 && indicator <= 3) {
+            return indicator;
+        }
+        cout << "Please enter a number between 0-3." << endl;
+    }
+}
+
+// Handle buy/sell stock command
+static void HandleOrder(const Alpacha& alpacha, int command, const Json::Value& root) {
+   
+    string symbol;
+    cout << "Enter stock symbol: ";
+    cin >> symbol;
+    float amount;
+    cout << "Enter the amount: ";
+    cin >> amount;
+    string side = (command == 3) ? "buy" : "sell";
+    cout << "Placing " << side << " order for " << symbol << "..." << endl;
+    Alpacha alpacha1(root.get("ALPACA_API_KEY", "").asString(), root.get("ALPACA_SECRET_KEY", "").asString());
+    alpacha1.BuyStock(symbol, amount);
+}
+
+

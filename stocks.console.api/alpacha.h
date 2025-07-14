@@ -57,7 +57,8 @@ protected:
     std::string secretKey = "";
     bool paper = false;
     const std::string paperApiUrl = "https://paper-api.alpaca.markets/v2";
-    const std::string liveApiUrl = "https://api.alpaca.markets/v2";   
+    const std::string liveApiUrl = "https://api.alpaca.markets/v2";
+    const std::string liveMarketDataApiUrl = "https://data.alpaca.markets/v2";
 
 public:
     Alpacha(const string& apiKey, const std::string& secretKey, bool paper = false);

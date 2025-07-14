@@ -4,18 +4,15 @@
 
 #include "date_validation.h"
 
-using namespace std;
-
-
 void GetValidDateOrEmpty(time_t& outTime) {
     
-    string date;
+    std::string date;
 
     while (true) {
-        cout << "Choose date today or in the past "
+        std::cout << "Choose date today or in the past "
             "(YYYY-MM-DD, YYYY-MM-DDTHH:MM:SSZ format), or leave blank : ";
         
-        std::getline(cin, date); // Use getline to capture empty input                
+        std::getline(std::cin, date); // Use getline to capture empty input                
 
         // If empty, return immediately
         if (date.empty()) {
@@ -28,7 +25,7 @@ void GetValidDateOrEmpty(time_t& outTime) {
         }
 
         // Invalid date, ask again
-        cout << "Please enter a valid date and try again." << endl;  
+        std::cout << "Please enter a valid date and try again." << std::endl;
     }
 }
 
@@ -55,7 +52,7 @@ bool ValidateDate(const std::string& date, time_t& outTime) {
             return false;
         }
     }
-    catch (const std::exception& e) {
+    catch (const std::exception) {
         std::cout << "Error: Invalid date format. Please use ISO 8601 format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SSZ, etc.)." << std::endl;
         return false;
     }

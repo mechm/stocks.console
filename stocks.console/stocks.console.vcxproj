@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="asset_validation.cpp" />
     <ClCompile Include="date_validation.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="string_utilities.cpp" />
@@ -157,6 +158,7 @@
     <Text Include="private_notes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="asset_validation.h" />
     <ClInclude Include="date_validation.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="string_utilities.h" />

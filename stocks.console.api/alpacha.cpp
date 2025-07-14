@@ -9,7 +9,6 @@
 
 #include "alpacha.h"
 
-
 using namespace std;
 
 Alpacha::Alpacha(const string& apiKey, const string& secretKey, bool paper)
@@ -70,7 +69,9 @@ RequestResponse Alpacha::SellStock(const string& symbol, const double quantity)
 
 #pragma region Market Data
 
-RequestResponse Alpacha::GetAssetBySymbol(const string& symbol)
+
+
+RequestResponse Alpacha::GetAssetBySymbol(const string& symbol) 
 {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/assets/" + symbol;
     return GetRequest(url);
@@ -182,57 +183,11 @@ RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std:
     strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%dT%H:%M:%SZ", &utc_tm);
     const string start_time(time_buffer);
 
-    const string url = "https://data.alpaca.markets/v2/stocks/bars?symbols=" + symbol + "&timeframe=" + timeframe + "&start=" + start_time + "&limit=1000&adjustment=raw&feed=sip&sort=asc";
+    const string url = liveMarketDataApiUrl+"/stocks/bars?symbols=" + symbol + "&timeframe=" + timeframe + "&start=" + start_time + "&limit=1000&adjustment=raw&feed=sip&sort=asc";
 
     return GetRequest(url);
 }
 
-//AssetsResult AlpachaMarketData::GetAssetsAsObjects() {
-//    AssetsResult result;
-//
-//    RequestResponse response = GetAssets();
-//
-//    if (!response.success) {
-//        result.success = false;
-//        result.error_message = "Failed to get assets from API";
-//        return result;
-//    }
-//
-//    try {
-//        Json::Value root;
-//        Json::Reader reader;
-//
-//        if (!reader.parse(response.response, root)) {
-//            result.success = false;
-//            result.error_message = "Failed to parse JSON response";
-//            return result;
-//        }
-//
-//        for (const auto& assetJson : root) {
-//            Asset asset;
-//            asset.id = assetJson.get("id", "").asString();
-//            asset.class_type = assetJson.get("class", "").asString();
-//            asset.exchange = assetJson.get("exchange", "").asString();
-//            asset.symbol = assetJson.get("symbol", "").asString();
-//            asset.name = assetJson.get("name", "").asString();
-//            asset.status = assetJson.get("status", "").asString();
-//            asset.tradable = assetJson.get("tradable", false).asBool();
-//            asset.marginable = assetJson.get("marginable", false).asBool();
-//            asset.shortable = assetJson.get("shortable", false).asBool();
-//            asset.easy_to_borrow = assetJson.get("easy_to_borrow", false).asBool();
-//            asset.fractionable = assetJson.get("fractionable", false).asBool();
-//
-//            result.assets.push_back(asset);
-//        }
-//
-//        result.success = true;
-//    }
-//    catch (const exception& e) {
-//        result.success = false;
-//        result.error_message = "Exception while parsing assets: " + string(e.what());
-//    }
-//
-//    return result;
-//}
+
 
 #pragma endregion Market Data

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 void GetValidDateOrEmpty(time_t& outTime);
