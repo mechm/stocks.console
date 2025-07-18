@@ -8,6 +8,7 @@
 #include <iomanip>
 
 #include "alpacha.h"
+#include "../stocks.console.utilities/string_utilities.h"
 
 using namespace std;
 
@@ -37,10 +38,56 @@ RequestResponse Alpacha::GetRequest(const string& url, const string& payload)
 
 #pragma region Account
 
-RequestResponse Alpacha::GetAccount()
-{
-    const string url = (paper ? paperApiUrl : liveApiUrl) + "/account";
-    return GetRequest(url);
+bool Alpacha::IsValidAccountResponse(const string& jsonResponse) {
+        Json::Value root;
+        Json::Reader reader;
+
+        if (!reader.parse(jsonResponse, root)) {
+            return false;
+        }
+
+        // Check for essential account fields
+        return root.isMember("id") &&
+            root.isMember("account_number") &&
+            root.isMember("status");
+    }
+
+RequestResponse Alpacha::GetAccount() {
+    try {
+        // Build the URL
+        const string baseUrl = paper ? paperApiUrl : liveApiUrl;
+        const string url = baseUrl + "/account";
+
+        // Log the request (optional)
+#ifdef DEBUG
+        cout << "Requesting account details from: " << (paper ? "paper" : "live") << " trading" << endl;
+#endif
+
+        // Make the request
+        RequestResponse response = GetRequest(url);
+
+        // Validate response
+        if (!response.success) {
+            cerr << "Failed to retrieve account information" << endl;
+            return response;
+        }
+
+        // Optional: Validate JSON structure
+        if (!IsValidAccountResponse(response.response)) {
+            response.success = false;
+            response.response = "Invalid account response format";
+            return response;
+        }
+
+        return response;
+
+    }
+    catch (const exception& e) {
+        RequestResponse errorResponse;
+        errorResponse.success = false;
+        errorResponse.response = "Exception in GetAccount: " + string(e.what());
+        return errorResponse;
+    }
 }
 
 RequestResponse Alpacha::GetAllOpenPositions()
@@ -67,9 +114,29 @@ RequestResponse Alpacha::SellStock(const string& symbol, const double quantity)
 
 #pragma endregion Account
 
+#pragma region Market Opening/Close
+
+#pragma endregion Market Opening/Close
+
+RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t& end)
+{
+    std::string url = (paper ? paperApiUrl : liveApiUrl) + "/calendar";
+    std::string query;
+
+    if (start != 0) {
+        query += "start=" + StringUtilities::TimeToUtcIso8601(start);
+    }
+    if (end != 0) {
+        if (!query.empty()) query += "&";
+        query += "end=" + StringUtilities::TimeToUtcIso8601(end);
+    }
+    if (!query.empty()) {
+        url += "?" + query;
+    }
+    return GetRequest(url);
+}
+
 #pragma region Market Data
-
-
 
 RequestResponse Alpacha::GetAssetBySymbol(const string& symbol) 
 {
@@ -163,7 +230,7 @@ HistoricalBarsResult Alpacha::GetHistoricalBarsAsObjects(const std::string& symb
         if (bar.isMember("h")) barData.high = bar["h"].asDouble();
         if (bar.isMember("l")) barData.low = bar["l"].asDouble();
         if (bar.isMember("c")) barData.close = bar["c"].asDouble();
-        if (bar.isMember("v")) barData.volume = bar["v"].asInt64();
+        if (bar.isMember("v")) barData.volume = static_cast<long>(bar["v"].asInt64());
         if (bar.isMember("vw")) barData.vwap = bar["vw"].asDouble();
         if (bar.isMember("n")) barData.trade_count = bar["n"].asInt();
 
@@ -176,12 +243,7 @@ HistoricalBarsResult Alpacha::GetHistoricalBarsAsObjects(const std::string& symb
 
 RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start)
 {
-    //Convert time_t to UTC ISO 8601 format string
-    struct tm utc_tm;
-    gmtime_s(&utc_tm, &start);
-    char time_buffer[32];
-    strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%dT%H:%M:%SZ", &utc_tm);
-    const string start_time(time_buffer);
+    string start_time = StringUtilities::TimeToUtcIso8601(start);
 
     const string url = liveMarketDataApiUrl+"/stocks/bars?symbols=" + symbol + "&timeframe=" + timeframe + "&start=" + start_time + "&limit=1000&adjustment=raw&feed=sip&sort=asc";
 
@@ -191,3 +253,4 @@ RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std:
 
 
 #pragma endregion Market Data
+

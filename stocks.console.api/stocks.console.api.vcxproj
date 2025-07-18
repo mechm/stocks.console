@@ -155,6 +155,11 @@
     </ClCompile>
     <ClCompile Include="alpacha.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\stocks.console.utilities\stocks.console.utilities.vcxproj">
+      <Project>{e53d28e9-2320-4e8a-87d2-5786defaf1de}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

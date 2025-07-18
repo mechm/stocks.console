@@ -5,38 +5,36 @@
 
 #include "http.h"
 
-using namespace std;
-
 struct BarData {
     std::string timestamp;
-    double open;
-    double high;
-    double low;
-    double close;
-    long volume;
-    double vwap;
-    int trade_count;
+    double open = 0.0;
+    double high = 0.0;
+    double low = 0.0;
+    double close = 0.0;
+    long volume = 0;
+    double vwap = 0.0;
+    int trade_count = 0;
 };
 
-struct HistoricalBarsResult {
-    bool success;
+struct HistoricalBarsResult {  
+    bool success = false;
     std::string symbol;
-    std::vector<BarData> bars;
+    std::vector<BarData> bars;  
     std::string error_message;
 };
 
-struct Asset {
-    std::string id;
-    std::string class_type;
-    std::string exchange;
-    std::string symbol;
-    std::string name;
-    std::string status;
-    bool tradable;
-    bool marginable;
-    bool shortable;
-    bool easy_to_borrow;
-    bool fractionable;
+struct Asset {  
+    std::string id;  
+    std::string class_type;  
+    std::string exchange;  
+    std::string symbol;  
+    std::string name;  
+    std::string status;  
+    bool tradable = false;  
+    bool marginable = false;  
+    bool shortable = false;  
+    bool easy_to_borrow = false;  
+    bool fractionable = false;  
 };
 
 struct AssetsResult {
@@ -48,10 +46,13 @@ struct AssetsResult {
 struct AssetResult {
     bool success = false;
     Asset asset;
-    string errorMessage;
+    std::string errorMessage;
 };
 
 class Alpacha : public Http {
+private:
+    bool IsValidAccountResponse(const std::string & jsonResponse);
+
 protected:
     std::string apiKey = "";
     std::string secretKey = "";
@@ -61,7 +62,7 @@ protected:
     const std::string liveMarketDataApiUrl = "https://data.alpaca.markets/v2";
 
 public:
-    Alpacha(const string& apiKey, const std::string& secretKey, bool paper = false);
+    Alpacha(const std::string& apiKey, const std::string& secretKey, bool paper = false);
     RequestResponse GetRequest(const std::string& url, const std::string& payload = "");
 
     RequestResponse GetAccount();
@@ -69,10 +70,11 @@ public:
     RequestResponse BuyStock(const std::string& symbol, double quantity);
     RequestResponse SellStock(const std::string& symbol, double quantity);
 
+    RequestResponse GetMarketCalendarInfo(const time_t& start, const time_t& end);
 
-    RequestResponse GetAssetBySymbol(const string& symbol);
-    AssetResult GetAssetBySymbolAsObject(const string& symbol);
-    RequestResponse GetAssetsByExchange(const string& exchange = "NASDAQ%2CNYSE");
+    RequestResponse GetAssetBySymbol(const std::string& symbol);
+    AssetResult GetAssetBySymbolAsObject(const std::string& symbol);
+    RequestResponse GetAssetsByExchange(const std::string& exchange = "NASDAQ%2CNYSE");
     HistoricalBarsResult GetHistoricalBarsAsObjects(const std::string& symbol, const std::string& timeframe, const time_t start);
     RequestResponse GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start);
 };

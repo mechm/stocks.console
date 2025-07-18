@@ -71,13 +71,50 @@ int main()
     return 0;
 }
 
-// Handle account details command
+// Add this helper function
+static void PrintFormattedJson(const string& jsonString, const string& title = "JSON Data") {
+    Json::Value root;
+    Json::Reader reader;
+
+    if (reader.parse(jsonString, root)) {
+        // Header
+        cout << "\n" << string(50, '=') << "\n";
+        cout << setw(25 + title.length() / 2) << title << "\n";
+        cout << string(50, '=') << "\n\n";
+
+        // Formatted JSON
+        Json::StreamWriterBuilder builder;
+        builder["indentation"] = "    ";  // 4 spaces
+        builder["precision"] = 2;
+
+        unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+        writer->write(root, &cout);
+
+        cout << string(50, '=') << "\n";
+    }
+    else {
+        cout << "Invalid JSON format:\n" << jsonString << "\n";
+    }
+}
+
+// Use it in your function
 static void HandleAccountDetails(Alpacha& alpacha) {
     RequestResponse account = alpacha.GetAccount();
     if (account.success) {
-        cout << "\nAccount details: " << account.response << "\n" << endl;
+        PrintFormattedJson(account.response, "Account Details");
+    }
+    else {
+        cout << "Error: " << account.response << "\n";
     }
 }
+
+// Handle account details command
+//static void HandleAccountDetails(Alpacha& alpacha) {
+//    RequestResponse account = alpacha.GetAccount();
+//    if (account.success) {
+//        cout << "\nAccount details: " << account.response << "\n" << endl;
+//    }
+//}
 
 // Handle indicator analysis command
 static void HandleIndicatorAnalysis(Alpacha& alpacha) {
@@ -99,6 +136,7 @@ static void HandleIndicatorAnalysis(Alpacha& alpacha) {
     if (indicator == 1) { // SMA
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+       
         time_t validatedTime = 0;
         GetValidDateOrEmpty(validatedTime);
         int period = GetValidPeriod();
@@ -106,8 +144,14 @@ static void HandleIndicatorAnalysis(Alpacha& alpacha) {
         if (validatedTime == 0) {
             // Set validatedTime to period number of days ago
             time_t currentTime = time(nullptr);
-            validatedTime = currentTime - (static_cast<long long>(period) * 24 * 60 * 60); // period days ago in seconds
-            cout << "No date entered, using date " << period << " days ago." << endl;
+            //validatedTime = currentTime - (static_cast<long long>(period) * 24 * 60 * 60); // period days ago in seconds
+           // cout << "No date entered, using date " << period << " days ago." << endl;
+
+           
+            // Calculate one year ago (365 days * 24 hours * 60 minutes * 60 seconds)
+            time_t oneYearAgo = currentTime - (static_cast<time_t>(365) * 24 * 60 * 60);
+			auto a = alpacha.GetMarketCalendarInfo(oneYearAgo, currentTime);
+
         }
         
         

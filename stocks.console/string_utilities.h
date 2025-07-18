@@ -5,6 +5,5 @@
 class StringUtilities {
 
 public:	
-	static time_t StringToTimeT(const std::string& timeString);
-	static bool ValidateDate(const std::string& date, time_t& outTime);
+	static std::string TimeToUtcIso8601(time_t t);
 };
