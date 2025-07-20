@@ -133,9 +133,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="account_details.cpp" />
     <ClCompile Include="asset_validation.cpp" />
     <ClCompile Include="date_validation.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="order.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\stocks.console.api\stocks.console.api.vcxproj">
@@ -157,9 +159,11 @@
     <Text Include="private_notes.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="account_details.h" />
     <ClInclude Include="asset_validation.h" />
     <ClInclude Include="date_validation.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="order.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

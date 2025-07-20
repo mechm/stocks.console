@@ -112,7 +112,7 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
     return rsi;
 }
 
-int getRSISignal(double rsi, double oversoldThreshold, double overboughtThreshold) {
+static int getRSISignal(double rsi, double oversoldThreshold, double overboughtThreshold) {
     if (rsi <= oversoldThreshold) {
         return 1;  // Buy signal (oversold)
     }
@@ -124,7 +124,7 @@ int getRSISignal(double rsi, double oversoldThreshold, double overboughtThreshol
     }
 }
 
-void printRSIAnalysis(double currentPrice, double rsi, int signal) {
+static void printRSIAnalysis(double currentPrice, double rsi, int signal) {
     std::cout << "\n=== RSI Analysis ===" << std::endl;
     std::cout << "Current Price: $" << std::fixed << std::setprecision(2) << currentPrice << std::endl;
     std::cout << "RSI: " << std::fixed << std::setprecision(2) << rsi << std::endl;

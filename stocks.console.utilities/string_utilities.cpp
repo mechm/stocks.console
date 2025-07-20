@@ -16,3 +16,4 @@ std::string StringUtilities::TimeToUtcIso8601(const time_t& start) {
 	const std::string start_time(time_buffer);
 	return start_time;
 }
+

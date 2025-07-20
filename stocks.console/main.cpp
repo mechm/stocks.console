@@ -5,6 +5,7 @@ using namespace std;
 #include <fstream>
 #include <json/json.h>
 #include <iomanip>
+#include <algorithm>
 
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/sma.h"
@@ -13,6 +14,9 @@ using namespace std;
 #include "date_validation.h"
 #include "asset_validation.h"
 #include "main.h"
+
+#include "account_details.h"
+#include "order.h"
 
 int main()
 {
@@ -71,54 +75,8 @@ int main()
     return 0;
 }
 
-// Add this helper function
-static void PrintFormattedJson(const string& jsonString, const string& title = "JSON Data") {
-    Json::Value root;
-    Json::Reader reader;
-
-    if (reader.parse(jsonString, root)) {
-        // Header
-        cout << "\n" << string(50, '=') << "\n";
-        cout << setw(25 + title.length() / 2) << title << "\n";
-        cout << string(50, '=') << "\n\n";
-
-        // Formatted JSON
-        Json::StreamWriterBuilder builder;
-        builder["indentation"] = "    ";  // 4 spaces
-        builder["precision"] = 2;
-
-        unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-        writer->write(root, &cout);
-
-        cout << string(50, '=') << "\n";
-    }
-    else {
-        cout << "Invalid JSON format:\n" << jsonString << "\n";
-    }
-}
-
-// Use it in your function
-static void HandleAccountDetails(Alpacha& alpacha) {
-    RequestResponse account = alpacha.GetAccount();
-    if (account.success) {
-        PrintFormattedJson(account.response, "Account Details");
-    }
-    else {
-        cout << "Error: " << account.response << "\n";
-    }
-}
-
-// Handle account details command
-//static void HandleAccountDetails(Alpacha& alpacha) {
-//    RequestResponse account = alpacha.GetAccount();
-//    if (account.success) {
-//        cout << "\nAccount details: " << account.response << "\n" << endl;
-//    }
-//}
-
-// Handle indicator analysis command
 static void HandleIndicatorAnalysis(Alpacha& alpacha) {
-    AssetResult assetResult = GetValidAssetWithCancel(const_cast<Alpacha&>(alpacha));
+    AssetResult assetResult = GetValidAssetWithCancel(alpacha);
     if (!assetResult.success) {
         cout << "Returning to main menu...\n" << endl;
         cin.clear();
@@ -141,16 +99,26 @@ static void HandleIndicatorAnalysis(Alpacha& alpacha) {
         GetValidDateOrEmpty(validatedTime);
         int period = GetValidPeriod();
        
+        // no date set so find x number of dates from period
         if (validatedTime == 0) {
-            // Set validatedTime to period number of days ago
-            time_t currentTime = time(nullptr);
-            //validatedTime = currentTime - (static_cast<long long>(period) * 24 * 60 * 60); // period days ago in seconds
-           // cout << "No date entered, using date " << period << " days ago." << endl;
 
-           
-            // Calculate one year ago (365 days * 24 hours * 60 minutes * 60 seconds)
-            time_t oneYearAgo = currentTime - (static_cast<time_t>(365) * 24 * 60 * 60);
-			auto a = alpacha.GetMarketCalendarInfo(oneYearAgo, currentTime);
+            // Set validatedTime to period number of days ago
+   //         time_t currentTime = time(nullptr);
+   //         //validatedTime = currentTime - (static_cast<long long>(period) * 24 * 60 * 60); // period days ago in seconds
+   //        // cout << "No date entered, using date " << period << " days ago." << endl;
+
+   //         //period
+
+
+
+   //        
+   //         // Calculate one year ago (365 days * 24 hours * 60 minutes * 60 seconds)
+   //         time_t oneYearAgo = currentTime - (static_cast<time_t>(365) * 24 * 60 * 60);
+			//auto a = alpacha.GetMarketCalendarInfoAsObject(oneYearAgo, currentTime);
+
+            //validatedTime
+
+            validatedTime = alpacha.GetTradingDateNDaysAgo(period);
 
         }
         
@@ -158,6 +126,22 @@ static void HandleIndicatorAnalysis(Alpacha& alpacha) {
         
         HistoricalBarsResult historicPrices = 
             alpacha.GetHistoricalBarsAsObjects(assetResult.asset.symbol, "1D", validatedTime);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        
         if (historicPrices.success && !historicPrices.bars.empty()) {
             vector<double> closingPrices;
@@ -243,19 +227,5 @@ static int GetValidIndicator() {
     }
 }
 
-// Handle buy/sell stock command
-static void HandleOrder(const Alpacha& alpacha, int command, const Json::Value& root) {
-   
-    string symbol;
-    cout << "Enter stock symbol: ";
-    cin >> symbol;
-    float amount;
-    cout << "Enter the amount: ";
-    cin >> amount;
-    string side = (command == 3) ? "buy" : "sell";
-    cout << "Placing " << side << " order for " << symbol << "..." << endl;
-    Alpacha alpacha1(root.get("ALPACA_API_KEY", "").asString(), root.get("ALPACA_SECRET_KEY", "").asString());
-    alpacha1.BuyStock(symbol, amount);
-}
 
 

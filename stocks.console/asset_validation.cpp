@@ -14,9 +14,9 @@ AssetResult GetValidAssetWithCancel(Alpacha& alpacha) {
         std::cin >> symbol;
 
         // Handle user cancellation
-     /*   if (isUserCancelling(symbol)) {
+        if (isUserCancelling(symbol)) {
             return AssetResult{ false, Asset{}, "User cancelled" };
-        }*/
+        }
 
         AssetResult assetResult = alpacha.GetAssetBySymbolAsObject(symbol);
 

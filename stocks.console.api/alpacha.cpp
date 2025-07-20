@@ -9,6 +9,8 @@
 
 #include "alpacha.h"
 #include "../stocks.console.utilities/string_utilities.h"
+#include <algorithm>
+#include "../stocks.console.utilities/date_utilities.h"
 
 using namespace std;
 
@@ -80,7 +82,6 @@ RequestResponse Alpacha::GetAccount() {
         }
 
         return response;
-
     }
     catch (const exception& e) {
         RequestResponse errorResponse;
@@ -118,6 +119,159 @@ RequestResponse Alpacha::SellStock(const string& symbol, const double quantity)
 
 #pragma endregion Market Opening/Close
 
+// Helper method to get trading date N days ago
+time_t Alpacha::GetTradingDateNDaysAgo(int daysAgo) {
+    try {
+        // Calculate start date (go back more days to account for weekends/holidays)
+        time_t now = time(nullptr);
+
+        // Calculate how far back to look based on trading days requested
+        int calendarDaysToLookBack;
+
+        if (daysAgo <= 5) {
+            calendarDaysToLookBack = daysAgo + 7;
+        }
+        else if (daysAgo <= 22) { // ~1 month
+            calendarDaysToLookBack = static_cast<int>(daysAgo * 1.4) + 5;
+        }
+        else if (daysAgo <= 65) { // ~3 months  
+            calendarDaysToLookBack = static_cast<int>(daysAgo * 1.45) + 10;
+        }
+        else if (daysAgo <= 130) { // ~6 months
+            calendarDaysToLookBack = static_cast<int>(daysAgo * 1.48) + 15;
+        }
+        else if (daysAgo <= 252) { // ~1 year
+            calendarDaysToLookBack = static_cast<int>(daysAgo * 1.52) + 20;
+        }
+        else { // > 1 year of trading days
+            // For periods longer than 1 trading year, use more conservative multiplier
+            // 365 trading days ? 1.45 calendar years ? 530 calendar days
+            calendarDaysToLookBack = static_cast<int>(daysAgo * 1.6) + 30;
+        }
+
+        // Additional safety check for very large requests
+        if (daysAgo >= 365) {
+            // Ensure we look back at least 1.5 years for 365+ trading days
+            int minimumDays = static_cast<int>(daysAgo * 1.55);
+            calendarDaysToLookBack = max(calendarDaysToLookBack, minimumDays);
+        }
+
+        time_t startDate = now - static_cast<long long>(calendarDaysToLookBack) * 24 * 60 * 60;
+        time_t endDate = now;
+
+        #ifdef DEBUG
+                cout << "Requesting " << daysAgo << " trading days ago" << endl;
+                cout << "Looking back " << calendarDaysToLookBack << " calendar days" << endl;
+                cout << "Start date: " << StringUtilities::TimeToUtcIso8601(startDate) << endl;
+        #endif
+
+        // Get market calendar
+        MarketCalendarResult calendarResult = GetMarketCalendarInfoAsObject(startDate, now);
+
+        if (!calendarResult.success) {
+            std::cerr << "Failed to get market calendar: " << calendarResult.errorMessage << std::endl;
+            return 0;
+        }
+
+        if (calendarResult.calendar_days.empty()) {
+            cerr << "No trading days found in the specified range" << endl;
+            return 0;
+        }
+
+        // Sort calendar days by date (most recent first)
+        std::vector<MarketDay> sortedDays = calendarResult.calendar_days;
+        std::sort(sortedDays.begin(), sortedDays.end(),
+            [](const MarketDay& a, const MarketDay& b) {
+                return a.date > b.date; // Descending order
+            });
+
+        #ifdef DEBUG
+                cout << "Found " << sortedDays.size() << " trading days in calendar" << endl;
+        #endif
+
+        // Check if we have enough trading days
+        if (sortedDays.size() <= static_cast<size_t>(daysAgo - 1)) {
+            cerr << "Insufficient trading days. Requested: " << daysAgo
+                << ", Available: " << sortedDays.size() << endl;
+            cerr << "Consider increasing the lookback period or checking API limits" << endl;
+            return 0;
+        }
+
+        if (daysAgo > 0) {
+            return DateUtilities::Iso8601ToTime(sortedDays[static_cast<std::vector<MarketDay, std::allocator<MarketDay>>::size_type>(daysAgo) - 1].date);
+        }
+
+        std::cerr << "Not enough trading days found in calendar" << std::endl;
+        return 0;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Exception in GetTradingDateNDaysAgo: " << e.what() << std::endl;
+        return 0;
+    }
+}
+
+
+MarketCalendarResult Alpacha::GetMarketCalendarInfoAsObject(const time_t& start, const time_t& end) {
+    MarketCalendarResult result;
+    result.success = false;
+
+    try {
+        // Get the raw JSON response
+        RequestResponse apiResult = GetMarketCalendarInfo(start, end);
+
+        if (!apiResult.success) {
+            result.errorMessage = "API request failed: " + apiResult.response;
+            return result;
+        }
+
+        // Parse JSON response
+        Json::Value root;
+        Json::Reader reader;
+
+        if (!reader.parse(apiResult.response, root)) {
+            result.errorMessage = "Failed to parse JSON response";
+            return result;
+        }
+
+        // Check if root is an array (market calendar returns an array of days)
+        if (!root.isArray()) {
+            result.errorMessage = "Expected array response for market calendar";
+            return result;
+        }
+
+        // Parse each market day
+        for (const auto& dayJson : root) {
+            MarketDay day;
+
+            if (dayJson.isMember("date")) {
+                day.date = dayJson["date"].asString();
+            }
+            if (dayJson.isMember("open")) {
+                day.open = dayJson["open"].asString();
+            }
+            if (dayJson.isMember("close")) {
+                day.close = dayJson["close"].asString();
+            }
+            if (dayJson.isMember("session_open")) {
+                day.session_open = dayJson["session_open"].asString();
+            }
+            if (dayJson.isMember("session_close")) {
+                day.session_close = dayJson["session_close"].asString();
+            }
+
+            result.calendar_days.push_back(day);
+        }
+
+        result.success = true;
+    }
+    catch (const std::exception& e) {
+        result.success = false;
+        result.errorMessage = "Exception occurred: " + std::string(e.what());
+    }
+
+    return result;
+}
+
 RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t& end)
 {
     std::string url = (paper ? paperApiUrl : liveApiUrl) + "/calendar";
@@ -135,6 +289,22 @@ RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t
     }
     return GetRequest(url);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #pragma region Market Data
 

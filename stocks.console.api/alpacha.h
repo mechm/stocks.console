@@ -49,6 +49,21 @@ struct AssetResult {
     std::string errorMessage;
 };
 
+struct MarketDay {
+    std::string date;
+    std::string open;
+    std::string close;
+    std::string session_open;
+    std::string session_close;
+};
+
+struct MarketCalendarResult {
+    bool success = false;
+    std::string errorMessage;
+    std::vector<MarketDay> calendar_days;
+};
+
+
 class Alpacha : public Http {
 private:
     bool IsValidAccountResponse(const std::string & jsonResponse);
@@ -70,6 +85,8 @@ public:
     RequestResponse BuyStock(const std::string& symbol, double quantity);
     RequestResponse SellStock(const std::string& symbol, double quantity);
 
+    time_t GetTradingDateNDaysAgo(int daysAgo);
+    MarketCalendarResult GetMarketCalendarInfoAsObject(const time_t& start, const time_t& end);
     RequestResponse GetMarketCalendarInfo(const time_t& start, const time_t& end);
 
     RequestResponse GetAssetBySymbol(const std::string& symbol);
