@@ -135,7 +135,9 @@
   <ItemGroup>
     <ClCompile Include="account_details.cpp" />
     <ClCompile Include="asset_validation.cpp" />
+    <ClCompile Include="currency_validation.cpp" />
     <ClCompile Include="date_validation.cpp" />
+    <ClCompile Include="indicator_analysis.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="order.cpp" />
   </ItemGroup>
@@ -161,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="account_details.h" />
     <ClInclude Include="asset_validation.h" />
+    <ClInclude Include="currency_validation.h" />
     <ClInclude Include="date_validation.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="order.h" />

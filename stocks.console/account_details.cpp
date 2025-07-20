@@ -10,11 +10,10 @@
 #include "account_details.h"
 
 void HandleAccountDetails(Alpacha& alpacha) {
-    RequestResponse account = alpacha.GetAccount();
-    if (account.success) {
-        PrintFormattedJson(account.response, "Account Details");
+    if (const auto [success, response] = alpacha.GetAccount(); success) {
+        PrintFormattedJson(response, "Account Details");
     }
     else {
-        std::cout << "Error: " << account.response << "\n";
+        std::cout << "Error: " << response << "\n";
     }
 }

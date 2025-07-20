@@ -33,6 +33,12 @@
     <ClCompile Include="order.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="indicator_analysis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="currency_validation.cpp">
+      <Filter>Source Files\Validation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)\libcurl.dll" />
@@ -56,6 +62,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="order.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="currency_validation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

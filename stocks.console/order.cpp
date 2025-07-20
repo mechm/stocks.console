@@ -24,6 +24,12 @@ void HandleOrder(Alpacha& alpacha, int command, const Json::Value& root)
     float amount = 0.0;
     std::cout << "Enter the amount: ";
     std::cin >> amount;
+
+
+
+
+
+
     std::string side = (command == 3) ? "buy" : "sell";
     std::cout << "Placing " << side << " order for " << assetResult.asset.symbol << "..." << std::endl;
   

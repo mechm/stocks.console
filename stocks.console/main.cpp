@@ -10,7 +10,6 @@ using namespace std;
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/sma.h"
 
-#include "string_utilities.h"
 #include "date_validation.h"
 #include "asset_validation.h"
 #include "main.h"
@@ -101,59 +100,34 @@ static void HandleIndicatorAnalysis(Alpacha& alpacha) {
        
         // no date set so find x number of dates from period
         if (validatedTime == 0) {
-
-            // Set validatedTime to period number of days ago
-   //         time_t currentTime = time(nullptr);
-   //         //validatedTime = currentTime - (static_cast<long long>(period) * 24 * 60 * 60); // period days ago in seconds
-   //        // cout << "No date entered, using date " << period << " days ago." << endl;
-
-   //         //period
-
-
-
-   //        
-   //         // Calculate one year ago (365 days * 24 hours * 60 minutes * 60 seconds)
-   //         time_t oneYearAgo = currentTime - (static_cast<time_t>(365) * 24 * 60 * 60);
-			//auto a = alpacha.GetMarketCalendarInfoAsObject(oneYearAgo, currentTime);
-
-            //validatedTime
-
             validatedTime = alpacha.GetTradingDateNDaysAgo(period);
-
         }
         
-        
-        
+      
+
+
+
         HistoricalBarsResult historicPrices = 
             alpacha.GetHistoricalBarsAsObjects(assetResult.asset.symbol, "1D", validatedTime);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
         if (historicPrices.success && !historicPrices.bars.empty()) {
+           
+            
             vector<double> closingPrices;
             for (const auto& bar : historicPrices.bars) {
                 closingPrices.push_back(bar.close);
             }
+
+
+
+
+
             
             if (closingPrices.size() >= period) {
                 double threshold = 1.0;
                 double sma = calculateSMA(closingPrices, period);
                 cout << "\nSMA (" << period << "-period) for " << assetResult.asset.symbol << ": " << fixed << setprecision(2) << sma << "\n" << endl;
-                double currentPrice = closingPrices[0];
+                double currentPrice = closingPrices.back();
                 int signal = getSMASignal(currentPrice, sma, threshold);
                 printSMAAnalysis(currentPrice, sma, signal);
             }
@@ -162,14 +136,13 @@ static void HandleIndicatorAnalysis(Alpacha& alpacha) {
             }
         }
 
+
+
+
+
         else {
             cout << "Failed to retrieve historical data for " << assetResult.asset.symbol << endl;
         }
-
-
-
-
-
     }
     else if (indicator == 2) {
         // RSI logic placeholder
@@ -226,6 +199,3 @@ static int GetValidIndicator() {
         cout << "Please enter a number between 0-3." << endl;
     }
 }
-
-
-
