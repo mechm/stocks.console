@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\solutions\Stocks\stocks.console\stocks.console.api\alpacha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\solutions\Stocks\stocks.console\stocks.console.api\http.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\solutions\Stocks\stocks.console\stocks.console.api\alpacha.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\solutions\Stocks\stocks.console\stocks.console.api\http.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\solutions\Stocks\stocks.console\stocks.console.api\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{01099436-5ACE-3F90-85BB-E0563017E49E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{788C7BB0-CEDD-328D-9AD8-ABEC80F3D808}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

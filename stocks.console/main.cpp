@@ -26,7 +26,7 @@ int main()
     Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
         root.get("ALPACA_SECRET_KEY", "").asString());
    
-    bool running = true;
+    bool running = true;    
 
     while (running) {
       
@@ -144,7 +144,7 @@ static void HandleIndicatorAnalysis(Alpacha& alpacha) {
             cout << "Failed to retrieve historical data for " << assetResult.asset.symbol << endl;
         }
     }
-    else if (indicator == 2) {
+    else if (indicator == 2){
         // RSI logic placeholder
     }
     else if (indicator == 3) {

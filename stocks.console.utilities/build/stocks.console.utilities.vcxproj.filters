@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\solutions\Stocks\stocks.console\stocks.console.utilities\date_utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\solutions\Stocks\stocks.console\stocks.console.utilities\formatter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\solutions\Stocks\stocks.console\stocks.console.utilities\string_utilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\solutions\Stocks\stocks.console\stocks.console.utilities\date_utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\solutions\Stocks\stocks.console\stocks.console.utilities\formatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\solutions\Stocks\stocks.console\stocks.console.utilities\string_utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\solutions\Stocks\stocks.console\stocks.console.utilities\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4A7B54CF-F7B7-3E10-8EBD-A78FA02D4456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0558594B-CE6B-3B1F-B0F4-658A224B5EB5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

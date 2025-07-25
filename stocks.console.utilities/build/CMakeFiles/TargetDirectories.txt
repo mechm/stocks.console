@@ -1,0 +1,3 @@
+D:/solutions/Stocks/stocks.console/stocks.console.utilities/build/CMakeFiles/stocks.console.utilities.dir
+D:/solutions/Stocks/stocks.console/stocks.console.utilities/build/CMakeFiles/ALL_BUILD.dir
+D:/solutions/Stocks/stocks.console/stocks.console.utilities/build/CMakeFiles/ZERO_CHECK.dir

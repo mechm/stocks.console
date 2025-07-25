@@ -131,10 +131,10 @@ static void printRSIAnalysis(double currentPrice, double rsi, int signal) {
 
     std::cout << "Market Condition: ";
     if (rsi <= 30) {
-        std::cout << "OVERSOLD (RSI ≤ 30)" << std::endl;
+        std::cout << "OVERSOLD (RSI <= 30)" << std::endl;
     }
     else if (rsi >= 70) {
-        std::cout << "OVERBOUGHT (RSI ≥ 70)" << std::endl;
+        std::cout << "OVERBOUGHT (RSI >= 70)" << std::endl;
     }
     else {
         std::cout << "NEUTRAL (30 < RSI < 70)" << std::endl;
