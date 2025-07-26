@@ -55,3 +55,4 @@ config_doc.json
 *packages
 
 /vcpkg_installed*/
+build

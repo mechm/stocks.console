@@ -1,6 +1,0 @@
-# CMake generation dependency list for this directory.
-D:/solutions/Stocks/stocks.console/build/vcpkg_installed/x64-windows/share/jsoncpp/jsoncpp-namespaced-targets.cmake
-D:/solutions/Stocks/stocks.console/build/vcpkg_installed/x64-windows/share/jsoncpp/jsoncpp-targets.cmake
-D:/solutions/Stocks/stocks.console/build/vcpkg_installed/x64-windows/share/jsoncpp/jsoncppConfig.cmake
-D:/solutions/Stocks/stocks.console/build/vcpkg_installed/x64-windows/share/jsoncpp/jsoncppConfigVersion.cmake
-D:/solutions/Stocks/stocks.console/stocks.console.utilities/CMakeLists.txt
