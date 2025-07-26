@@ -124,11 +124,11 @@ static void HandleIndicatorAnalysis(Alpacha& alpacha) {
 
             
             if (closingPrices.size() >= period) {
-                double threshold = 1.0;
-                double sma = calculateSMA(closingPrices, period);
+                const double threshold = 1.0;
+                const double sma = calculateSMA(closingPrices, period);
                 cout << "\nSMA (" << period << "-period) for " << assetResult.asset.symbol << ": " << fixed << setprecision(2) << sma << "\n" << endl;
-                double currentPrice = closingPrices.back();
-                int signal = getSMASignal(currentPrice, sma, threshold);
+                const double currentPrice = closingPrices.back();
+                const int signal = getSMASignal(currentPrice, sma, threshold);
                 printSMAAnalysis(currentPrice, sma, signal);
             }
             else {

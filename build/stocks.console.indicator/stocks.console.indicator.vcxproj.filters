@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\solutions\Stocks\stocks.console\stocks.console.indicator\macd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\solutions\Stocks\stocks.console\stocks.console.indicator\rsi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\solutions\Stocks\stocks.console\stocks.console.indicator\sma.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\solutions\Stocks\stocks.console\stocks.console.indicator\macd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\solutions\Stocks\stocks.console\stocks.console.indicator\rsi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\solutions\Stocks\stocks.console\stocks.console.indicator\sma.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\solutions\Stocks\stocks.console\stocks.console.indicator\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{6134C734-7F5C-3835-A2A6-AC2BA80DBC9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{10AD7271-41A4-3EF3-A1F1-236BE6C88A7A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

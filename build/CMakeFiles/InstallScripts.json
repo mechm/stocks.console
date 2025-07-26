@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/solutions/Stocks/stocks.console/build/cmake_install.cmake",
+		"D:/solutions/Stocks/stocks.console/build/stocks.console.api/cmake_install.cmake",
+		"D:/solutions/Stocks/stocks.console/build/stocks.console.indicator/cmake_install.cmake",
+		"D:/solutions/Stocks/stocks.console/build/stocks.console.utilities/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

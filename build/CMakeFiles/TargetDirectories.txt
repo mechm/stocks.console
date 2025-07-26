@@ -1,0 +1,10 @@
+D:/solutions/Stocks/stocks.console/build/CMakeFiles/CopyConfigJson.dir
+D:/solutions/Stocks/stocks.console/build/CMakeFiles/stocks.console.dir
+D:/solutions/Stocks/stocks.console/build/CMakeFiles/ALL_BUILD.dir
+D:/solutions/Stocks/stocks.console/build/CMakeFiles/ZERO_CHECK.dir
+D:/solutions/Stocks/stocks.console/build/stocks.console.api/CMakeFiles/stocks.console.api.dir
+D:/solutions/Stocks/stocks.console/build/stocks.console.api/CMakeFiles/ALL_BUILD.dir
+D:/solutions/Stocks/stocks.console/build/stocks.console.indicator/CMakeFiles/stocks.console.indicator.dir
+D:/solutions/Stocks/stocks.console/build/stocks.console.indicator/CMakeFiles/ALL_BUILD.dir
+D:/solutions/Stocks/stocks.console/build/stocks.console.utilities/CMakeFiles/stocks.console.utilities.dir
+D:/solutions/Stocks/stocks.console/build/stocks.console.utilities/CMakeFiles/ALL_BUILD.dir
