@@ -13,7 +13,7 @@
 
 void HandleOrder(Alpacha& alpacha, int command, const Json::Value& root) 
 {
-    AssetResult assetResult = GetValidAssetWithCancel(alpacha);
+    const AssetResult assetResult = GetValidAssetWithCancel(alpacha);
     if (!assetResult.success) {
         std::cout << "Returning to main menu...\n" << std::endl;
         std::cin.clear();
@@ -30,14 +30,14 @@ void HandleOrder(Alpacha& alpacha, int command, const Json::Value& root)
 
 
 
-    std::string side = (command == 3) ? "buy" : "sell";
+    const std::string side = (command == 3) ? "buy" : "sell";
     std::cout << "Placing " << side << " order for " << assetResult.asset.symbol << "..." << std::endl;
-  
-    RequestResponse result = alpacha.BuyStock(assetResult.asset.symbol, amount);
-    if (!result.success) {
-        std::cout << "Error placing order: " << result.response << std::endl;
+
+    const auto [success, response] = alpacha.BuyStock(assetResult.asset.symbol, amount);
+    if (!success) {
+        std::cout << "Error placing order: " << response << std::endl;
         return;
 	}
 
-	PrintFormattedJson(result.response, "Order Details - " + assetResult.asset.symbol);
+	PrintFormattedJson(response, "Order Details - " + assetResult.asset.symbol);
 }

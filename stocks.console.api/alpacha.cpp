@@ -28,7 +28,7 @@ Alpacha::Alpacha(const string& apiKey, const string& secretKey, bool paper)
 
 RequestResponse Alpacha::GetRequest(const string& url, const string& payload)
 {
-    vector<string> headers = {
+    const vector<string> headers = {
         "accept: application/json",
         "content-type: application/json",
         "APCA-API-KEY-ID: " + apiKey,
@@ -42,9 +42,8 @@ RequestResponse Alpacha::GetRequest(const string& url, const string& payload)
 
 bool Alpacha::IsValidAccountResponse(const string& jsonResponse) {
         Json::Value root;
-        Json::Reader reader;
 
-        if (!reader.parse(jsonResponse, root)) {
+        if (Json::Reader reader; !reader.parse(jsonResponse, root)) {
             return false;
         }
 
@@ -100,8 +99,8 @@ RequestResponse Alpacha::GetAllOpenPositions()
 RequestResponse Alpacha::BuyStock(const string& symbol, const double quantity)
 {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/orders";
-    const string payload = "{\"symbol\":\"" + symbol + "\",\"qty\":" + to_string(quantity) + ", \"side\":\""
-        + "buy" + "\",\"type\":\"market\",\"time_in_force\":\"day\"}";
+    const string payload = R"({"symbol":")" + symbol + R"(","qty":)" + to_string(quantity) + R"(, "side":")"
+        + "buy" + R"(","type":"market","time_in_force":"day"})";
     return GetRequest(url, payload);
 }
 

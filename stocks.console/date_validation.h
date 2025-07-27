@@ -1,7 +1,7 @@
-#pragma once
+#pragma once  
 
-#include <string>
+#include <string>  
 
-void GetValidDateOrEmpty(time_t& outTime);
-bool ValidateDate(const std::string& date, time_t& outTime);
+time_t GetValidDateOrEmpty();  
+bool ValidateDate(const std::string& date, time_t& outTime);  
 time_t StringToTimeT(const std::string& timeString);

@@ -14,12 +14,12 @@ set(CONFIG_JSON_DESTINATION "${EXECUTABLE_OUTPUT_DIR}/config_doc.json")
 
 # Copy the file to the build directory.
 add_custom_command(
-    OUTPUT "${CONFIG_JSON_DESTINATION}"
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${CONFIG_JSON_SOURCE}"
-            "${CONFIG_JSON_DESTINATION}"
-    DEPENDS "${CONFIG_JSON_SOURCE}"
-    COMMENT "Copying config_doc.json to executable output directory"
+        OUTPUT "${CONFIG_JSON_DESTINATION}"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CONFIG_JSON_SOURCE}"
+        "${CONFIG_JSON_DESTINATION}"
+        DEPENDS "${CONFIG_JSON_SOURCE}"
+        COMMENT "Copying config_doc.json to executable output directory"
 )
 
 add_custom_target(CopyConfigJson ALL DEPENDS "${CONFIG_JSON_DESTINATION}")
@@ -28,22 +28,17 @@ find_package(jsoncpp CONFIG REQUIRED)
 
 # Build your executable
 add_executable(stocks.console
-    stocks.console/main.cpp
-    stocks.console/account_details.cpp
-    stocks.console/indicator_analysis.cpp
-    stocks.console/order.cpp
-    stocks.console/asset_validation.cpp
-    stocks.console/currency_validation.cpp
-    stocks.console/date_validation.cpp
+        stocks.console/main.cpp
+        stocks.console/account_details.cpp
+        stocks.console/indicator_analysis.cpp
+        stocks.console/order.cpp
+        stocks.console/asset_validation.cpp
+        stocks.console/currency_validation.cpp
+        stocks.console/date_validation.cpp
+  	stocks.console/sma.cpp
 )
 
 add_dependencies(stocks.console CopyConfigJson)
-
-# Specify include directories for MyStaticLibrary
-# target_include_directories(stocks.console
-    # PUBLIC
-        # ${CMAKE_CURRENT_SOURCE_DIR}/include
-# )
 
 # Add the subdirectory. This will process third_party/my_dependency/CMakeLists.txt
 add_subdirectory(stocks.console.api)

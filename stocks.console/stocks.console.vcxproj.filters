@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Validation">
       <UniqueIdentifier>{4cf97582-02c0-4e09-909e-795fdc4e9db9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Indicator">
+      <UniqueIdentifier>{c3085132-59b9-4faa-b8e3-628a6cba590e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,10 +42,14 @@
     <ClCompile Include="currency_validation.cpp">
       <Filter>Source Files\Validation</Filter>
     </ClCompile>
+    <ClCompile Include="sma.cpp">
+      <Filter>Source Files\Indicator</Filter>
+    </ClCompile>
+    <ClCompile Include="rsi.cpp">
+      <Filter>Source Files\Indicator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)\libcurl.dll" />
-    <None Include="$(MSBuildThisFileDirectory)\LibCurlShim.dll" />
     <None Include="config_doc.json" />
   </ItemGroup>
   <ItemGroup>
@@ -55,7 +62,7 @@
     <ClInclude Include="asset_validation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
+    <ClInclude Include="indicator_analysis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="account_details.h">
@@ -65,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="currency_validation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sma.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

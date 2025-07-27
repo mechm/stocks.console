@@ -13,11 +13,11 @@ RequestResponse Http::GetRequest(const string& url, const vector<string>& header
     result.success = false;
 
     CURL* curl = nullptr;
-    CURLcode res{};
     std::string readBuffer;
 
     curl = curl_easy_init();
     if (curl) {
+        CURLcode res{};
         // Create a list of headers
         struct curl_slist* curl_headers = nullptr;
 

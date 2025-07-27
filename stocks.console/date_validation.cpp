@@ -4,7 +4,7 @@
 
 #include "date_validation.h"
 
-void GetValidDateOrEmpty(time_t& outTime) {
+time_t GetValidDateOrEmpty() {
     
     std::string date;
 
@@ -16,12 +16,14 @@ void GetValidDateOrEmpty(time_t& outTime) {
 
         // If empty, return immediately
         if (date.empty()) {
-            return;
+            return 0;
         }
+
+        time_t outTime;
 
         // Validate the date
         if (ValidateDate(date, outTime)) {
-            return;
+            return outTime;
         }
 
         // Invalid date, ask again

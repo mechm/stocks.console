@@ -4,8 +4,6 @@
 #include <string>
 #include "date_utilities.h"
 
-
-
 time_t DateUtilities::Iso8601ToTime(const std::string& iso8601) {
     struct tm tm = {};
 

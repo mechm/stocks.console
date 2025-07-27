@@ -6,16 +6,14 @@
 #include <iomanip>
 #include <string>
 
-void PrintFormattedJson(const std::string& jsonString, const std::string& title) 
+void PrintFormattedJson(const std::string& jsonString, const std::string& title)
 {
     Json::Value root;
     Json::Reader reader;
 
     if (reader.parse(jsonString, root)) {
         // Header
-        std::cout << "\n" << std::string(50, '=') << "\n";
-        std::cout << std::setw(25 + title.length() / 2) << title << "\n";
-        std::cout << std::string(50, '=') << "\n\n";
+        std::cout << "\n====================[ " << title << " ]====================\n";
 
         // Formatted JSON
         Json::StreamWriterBuilder builder;
@@ -25,7 +23,7 @@ void PrintFormattedJson(const std::string& jsonString, const std::string& title)
         std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
         writer->write(root, &std::cout);
 
-        std::cout << std::string(50, '=') << "\n";
+        std::cout << "\n========================================================\n";
     }
     else {
         std::cout << "Invalid JSON format:\n" << jsonString << "\n";

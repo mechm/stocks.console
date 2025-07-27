@@ -66,7 +66,7 @@ struct MarketCalendarResult {
 
 class Alpacha : public Http {
 private:
-    bool IsValidAccountResponse(const std::string & jsonResponse);
+    static bool IsValidAccountResponse(const std::string & jsonResponse);
 
 protected:
     std::string apiKey = "";
