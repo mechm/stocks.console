@@ -77,5 +77,8 @@
     <ClInclude Include="sma.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rsi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

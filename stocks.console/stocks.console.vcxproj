@@ -169,6 +169,7 @@
     <ClInclude Include="date_validation.h" />
     <ClInclude Include="indicator_analysis.h" />
     <ClInclude Include="order.h" />
+    <ClInclude Include="rsi.h" />
     <ClInclude Include="sma.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

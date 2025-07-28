@@ -19,17 +19,6 @@ int main()
     bool running = true;    
 
     while (running) {
-      
-        // std::cout << R"(
-        //     ====================[ Command Menu ]====================
-        //       1: Get Account Details
-        //       2: Get Account Positions
-        //       3: Check stock against indicator
-        //       4: Buy Stock
-        //       5: Sell Stock
-        //       0: Exit
-        //     --------------------------------------------------------
-        //     Enter command: )";
 
         std::cout << "\n====================[ Command Menu ]====================\n"
         << "  1: Get Account Details\n"

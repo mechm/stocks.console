@@ -1,9 +1,10 @@
 #include <string>
 #include <iostream>
-#include "date_validation.h"
+#include <iomanip>
+
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/sma.h"
-#include <iomanip>
+#include "date_validation.h"
 #include "sma.h"
 
 void ShowSMA(Alpacha& alpacha, std::string symbol) 
@@ -17,35 +18,36 @@ void ShowSMA(Alpacha& alpacha, std::string symbol)
         validatedTime = alpacha.GetTradingDateNDaysAgo(period);
     }
 
-    // Retrieve historical prices
-    const HistoricalBarsResult historicPrices =
-        alpacha.GetHistoricalBarsAsObjects(symbol, "1D", validatedTime);
+  // Retrieve historical prices
+    const HistoricalClosedPrices closingPrices =
+        alpacha.GetHistoricalClosedPrices(symbol, "1D", validatedTime);
 
-    if (!historicPrices.success || historicPrices.bars.empty()) {
-        std::cout << "Failed to retrieve historical data for " << symbol << std::endl;
+    // Error handling for data retrieval
+    if (!closingPrices.success) {
+        std::cout << "Failed to retrieve historical data for " << symbol;
+        if (!closingPrices.error_message.empty()) {
+            std::cout << ": " << closingPrices.error_message;
+        }
+        std::cout << std::endl;
         return;
     }
-
-    if (historicPrices.bars.size() < period) {
+    if (closingPrices.prices.empty()) {
+        std::cout << "No bar data found for " << symbol << std::endl;
+        return;
+    }
+    if (closingPrices.prices.size() < period) {
         std::cout << "Not enough historical data for SMA calculation. Need at least "
             << period << " data points." << std::endl;
         return;
     }
 
-    // Extract closing prices
-    std::vector<double> closingPrices;
-    closingPrices.reserve(historicPrices.bars.size());
-    for (const auto& bar : historicPrices.bars) {
-        closingPrices.push_back(bar.close);
-    }
-
     // Calculate SMA
-    const double sma = calculateSMA(closingPrices, period);
+    const double sma = calculateSMA(closingPrices.prices, period);
     std::cout << "\nSMA (" << period << "-period) for " << symbol << ": "
         << std::fixed << std::setprecision(2) << sma << "\n" << std::endl;
 
     // Analyze SMA and get signal
-    const double currentPrice = closingPrices.back();
+    const double currentPrice = closingPrices.prices.back();
     constexpr double threshold = 1.0;
     const int signal = getSMASignal(currentPrice, sma, threshold);
 

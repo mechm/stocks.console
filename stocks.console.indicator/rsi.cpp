@@ -5,6 +5,29 @@
 #include "pch.h"
 #include <iomanip>
 
+double oversoldThreshold = 30;
+double overboughtThreshold = 70;
+
+/// @brief Prints help information about the Relative Strength Index (RSI) indicator.
+void printRSIHelp()
+{
+    std::cout << R"(
+====================[ RSI Help ]====================
+RSI (Relative Strength Index) is a momentum oscillator that measures the speed
+and change of price movements. It ranges from 0 to 100.
+
+- Values above 70 typically indicate overbought conditions and may signal a potential pullback.
+- Values below 30 indicate oversold conditions and may signal a potential price rebound.
+- RSI is commonly calculated over a 14-day period.
+
+Usage:
+- Use RSI to identify possible buy (oversold) or sell (overbought) signals.
+- Combine RSI with other indicators for more robust analysis.
+
+====================================================
+)" << std::endl;
+}
+
 /// @brief Calculate RSI (Relative Strength Index) for a given period
 /// Basic RSI calculation using simple moving averages
 /// Overbought / Oversold : Values above 70 typically indicate overbought conditions with potential pullback.
@@ -15,7 +38,7 @@
 /// @return RSI value between 0 and 100
 double calculateRSI(const std::vector<double>& prices, const int period)
 {
-    if (prices.size() < static_cast<unsigned long long>(period) + 1) {
+    if (prices.size() < static_cast<unsigned long long>(period + 1)) {
         return 0.0; // Not enough data
     }
 
@@ -24,7 +47,7 @@ double calculateRSI(const std::vector<double>& prices, const int period)
 
     // Calculate price changes (gains and losses)
     for (int i = 1; i <= period; i++) {
-        double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i) - 1];
+        double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i - 1)];
         if (change > 0) {
             gains.push_back(change);
             losses.push_back(0.0);
@@ -112,7 +135,7 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
     return rsi;
 }
 
-static int getRSISignal(double rsi, double oversoldThreshold, double overboughtThreshold) {
+int getRSISignal(double rsi) {
     if (rsi <= oversoldThreshold) {
         return 1;  // Buy signal (oversold)
     }
@@ -124,20 +147,20 @@ static int getRSISignal(double rsi, double oversoldThreshold, double overboughtT
     }
 }
 
-static void printRSIAnalysis(double currentPrice, double rsi, int signal) {
+void printRSIAnalysis(double currentPrice, double rsi, int signal) {
     std::cout << "\n=== RSI Analysis ===" << std::endl;
     std::cout << "Current Price: $" << std::fixed << std::setprecision(2) << currentPrice << std::endl;
     std::cout << "RSI: " << std::fixed << std::setprecision(2) << rsi << std::endl;
 
     std::cout << "Market Condition: ";
-    if (rsi <= 30) {
-        std::cout << "OVERSOLD (RSI <= 30)" << std::endl;
+    if (rsi <= oversoldThreshold) {
+        std::cout << "OVERSOLD (RSI <= " << oversoldThreshold << ")" << std::endl;
     }
-    else if (rsi >= 70) {
-        std::cout << "OVERBOUGHT (RSI >= 70)" << std::endl;
+    else if (rsi >= overboughtThreshold) {
+        std::cout << "OVERBOUGHT (RSI >= " << overboughtThreshold <<")" << std::endl;
     }
     else {
-        std::cout << "NEUTRAL (30 < RSI < 70)" << std::endl;
+        std::cout << "NEUTRAL (" << oversoldThreshold << "< RSI <" << overboughtThreshold <<")" << std::endl;
     }
 
     std::cout << "Signal: ";

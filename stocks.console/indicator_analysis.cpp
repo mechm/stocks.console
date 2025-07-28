@@ -8,8 +8,12 @@
 #include "asset_validation.h"
 #include "indicator_analysis.h"
 #include "sma.h"
+#include "rsi.h"
+#include "../stocks.console.indicator/rsi.h"
+#include "../stocks.console.indicator/sma.h"
 
-void HandleIndicatorAnalysis(Alpacha& alpacha) 
+
+void HandleIndicatorAnalysis(Alpacha& alpacha)
 {
     const AssetResult assetResult = GetValidAssetWithCancel(alpacha);
     if (!assetResult.success) {
@@ -19,48 +23,89 @@ void HandleIndicatorAnalysis(Alpacha& alpacha)
         return;
     }
 
-    const int indicator = GetValidIndicator();
-    if (indicator == 0) {
+    bool tryAnother = true;
+    while (tryAnother) {
+        const int indicator = GetValidIndicator();
+        switch (indicator) {
+        case 0:
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            return;
+        case 1: // Indicator help
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            showIndicatorHelpMenu();
+            break;
+        case 2: // SMA
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            ShowSMA(alpacha, assetResult.asset.symbol);
+            break;
+        case 3: // RSI
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            ShowRSI(alpacha, assetResult.asset.symbol);
+            break;
+        case 4: // MACD
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            // MACD logic placeholder
+            break;
+        default:
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Unknown indicator selection." << std::endl;
+            break;
+        }
+
+
+        // Ask if user wants to try another indicator
+        std::cout << "Would you like to try another indicator for this asset? (y/n): ";
+        char response;
+        std::cin >> response;
+        if (std::cin.fail() || (response != 'y' && response != 'Y')) {
+            tryAnother = false;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        else {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+}
+
+static void showIndicatorHelpMenu()
+{
+    std::cout << "Available indicators:\n"
+        << "1) Indicator Help: Displays this help message.\n"
+        << "2) SMA: Simple Moving Average, a trend-following indicator that smooths price data.\n"
+        << "3) RSI: Relative Strength Index, a momentum oscillator that measures the speed and change of price movements.\n"
+        << "4) MACD: Moving Average Convergence Divergence, a trend-following momentum indicator that shows the relationship between two moving averages of a security's price.\n";
+
+    // Ask which help to show more information for
+    std::cout << "Show help for: 1) SMA  2) RSI  (Enter number, other to skip): ";
+    int helpChoice = 0;
+    std::cin >> helpChoice;
+    if (std::cin.fail()) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        return;
     }
-
-    if (indicator == 1) { // SMA
-        std::cin.clear();
+    else {
+        if (helpChoice == 1) {
+            printSMAHelp();
+        }
+        else if (helpChoice == 2) {
+            printRSIHelp();
+        }
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        
-        ShowSMA(alpacha, assetResult.asset.symbol);
-    }
-    else if (indicator == 2) {
-        
-
-
-
-
-
-
-
-    }
-    else if (indicator == 3) {
-        
-
-
-
-
-
-
-
-
-
-
     }
 }
 
 static int GetValidIndicator() {
     int indicator = 0;
     while (true) {
-        std::cout << "Choose indicator, 1) SMA, 2) RSI, 3) MACD, 0) Main menu: ";
+        std::cout << "Choose indicator, 1) Indicator Help, 2) SMA, 3) RSI, 4) MACD, 0) Main menu: ";
         std::cin >> indicator;
         if (std::cin.fail()) {
             std::cout << "Enter a valid selection..." << std::endl;

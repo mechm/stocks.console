@@ -16,6 +16,13 @@ struct BarData {
     int trade_count = 0;
 };
 
+struct HistoricalClosedPrices {
+    bool success = false;
+    std::string symbol;
+    std::vector<double> prices;
+    std::string error_message;
+};
+
 struct HistoricalBarsResult {  
     bool success = false;
     std::string symbol;
@@ -92,6 +99,7 @@ public:
     RequestResponse GetAssetBySymbol(const std::string& symbol);
     AssetResult GetAssetBySymbolAsObject(const std::string& symbol);
     RequestResponse GetAssetsByExchange(const std::string& exchange = "NASDAQ%2CNYSE");
+    HistoricalClosedPrices GetHistoricalClosedPrices(const std::string& symbol, const std::string& timeframe, const time_t start);
     HistoricalBarsResult GetHistoricalBarsAsObjects(const std::string& symbol, const std::string& timeframe, const time_t start);
     RequestResponse GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start);
 };

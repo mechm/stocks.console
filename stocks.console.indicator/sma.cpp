@@ -3,6 +3,26 @@
 
 #include "pch.h"
 
+/// @brief Prints help information about the Simple Moving Average (SMA) indicator.
+void printSMAHelp()
+{
+    std::cout << R"(
+====================[ SMA Help ]====================
+SMA (Simple Moving Average) is a technical indicator that calculates the
+average price of a security over a specified number of periods.
+
+- It smooths out price data to identify trends over time.
+- Common periods are 10, 20, 50, 100, or 200 days.
+- SMA is used to determine support and resistance levels and generate buy/sell signals.
+
+Usage:
+- When the price crosses above the SMA, it may indicate a BUY signal.
+- When the price crosses below the SMA, it may indicate a SELL signal.
+
+====================================================
+)" << std::endl;
+}
+
 /// @brief Calculate Simple Moving Average
 /// @param prices for a given period
 /// @param period the period for the prices
@@ -68,5 +88,5 @@ void printSMAAnalysis(const double currentPrice, const double smaValue, const in
         std::cout << "Signal: HOLD (Price near SMA)" << std::endl;
         break;
     }
-    std::cout << "===================" << std::endl;
+    std::cout << "==================\n" << std::endl;
 }

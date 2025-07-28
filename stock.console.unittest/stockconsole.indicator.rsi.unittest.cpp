@@ -39,5 +39,27 @@ namespace stockindicatorunittest
 			// Assert
 			Assert::AreEqual(expected, result);
 		}
+
+		TEST_METHOD(TestCalculateRSI_Neutral)
+		{
+			// Arrange // Apple stock - 25 July 2025 to 07 July 2025
+			// for 14 day rsi needs comparison of 15 days
+			// earliest to latest
+			std::vector<double> prices = { 		
+				209.95, 210.01, 211.14, 212.41, 211.16, 208.62,
+				209.11, 210.16, 210.02, 211.18, 212.48, 214.40,
+				214.15, 213.76, 213.88
+			};
+
+			int period = 14;
+			//63.13.
+			double expected = 65.034429992348919;
+
+			// Act
+			double result = calculateRSI(prices, period);
+
+			// Assert
+			Assert::AreEqual(expected, result);
+		}
 	};
 };

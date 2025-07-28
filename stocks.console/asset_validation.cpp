@@ -39,5 +39,5 @@ AssetResult GetValidAssetWithCancel(Alpacha& alpacha) {
 static bool isUserCancelling(const std::string& input) {
     if (input.size() != 6) return false;
     return std::equal(input.begin(), input.end(), "cancel",
-        [](char a, char b) { return std::tolower(a) == std::tolower(b); });
+        [](const char a, const char b) { return std::tolower(a) == std::tolower(b); });
 }

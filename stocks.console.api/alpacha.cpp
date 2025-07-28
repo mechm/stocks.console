@@ -410,6 +410,46 @@ HistoricalBarsResult Alpacha::GetHistoricalBarsAsObjects(const std::string& symb
     return result;
 }
 
+HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& symbol, const std::string& timeframe, const time_t start)
+{
+    HistoricalClosedPrices result;
+    result.success = false;
+    result.symbol = symbol;
+
+    // Get the raw JSON response
+    RequestResponse apiResult = GetHistoricalBars(symbol, timeframe, start);
+
+    if (!apiResult.success) {
+        result.error_message = "API request failed";
+        return result;
+    }
+
+    // Parse JSON response
+    Json::Value root;
+    Json::Reader reader;
+
+    if (!reader.parse(apiResult.response, root)) {
+        result.error_message = "Failed to parse JSON response";
+        return result;
+    }
+
+    // Check if the response contains bars for the symbol
+    if (!root.isMember("bars") || !root["bars"].isMember(symbol)) {
+        result.error_message = "No bar data found for symbol: " + symbol;
+        return result;
+    }
+
+    const Json::Value& bars = root["bars"][symbol];
+
+    // Parse each bar
+    for (const auto& bar : bars) {      
+        result.prices.push_back(bar["c"].asDouble());
+    }
+
+    result.success = true;
+    return result;
+}
+
 RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start)
 {
     string start_time = StringUtilities::TimeToUtcIso8601(start);

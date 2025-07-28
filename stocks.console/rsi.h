@@ -1,5 +1,4 @@
 #pragma once
 #include "../stocks.console.api/alpacha.h"
-
-void ShowSMA(Alpacha& alpacha, std::string symbol);
+void ShowRSI(Alpacha& alpacha, std::string symbol);
 static int GetValidPeriod();
