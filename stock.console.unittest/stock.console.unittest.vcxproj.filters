@@ -16,15 +16,12 @@
     <Filter Include="Source Files\Indicators">
       <UniqueIdentifier>{cb7a07d8-b663-4cc6-9142-cddc0f22c065}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Indicators\Input">
+      <UniqueIdentifier>{cf3e2141-4482-4127-8a89-a79a2887e7bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stockconsole.indicator.sma.unittest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stockconsole.indicator.rsi.unittest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stock.console.api.alpacha.unittest.cpp">
@@ -32,6 +29,18 @@
     </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rsi_unittest.cpp">
+      <Filter>Source Files\Indicators\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="rsi.unittest.cpp">
+      <Filter>Source Files\Indicators</Filter>
+    </ClCompile>
+    <ClCompile Include="sma.unittest.cpp">
+      <Filter>Source Files\Indicators</Filter>
+    </ClCompile>
+    <ClCompile Include="macd.unittest.cpp">
+      <Filter>Source Files\Indicators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

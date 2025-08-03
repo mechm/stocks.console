@@ -4,7 +4,7 @@
 
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/rsi.h"
-#include "rsi.h"
+#include "rsi2.h"
 #include "date_validation.h"
 
 void ShowRSI(Alpacha& alpacha, std::string symbol)
@@ -42,9 +42,9 @@ void ShowRSI(Alpacha& alpacha, std::string symbol)
     }
 
     // Calculate RSI
-    double rsiValue = calculateRSI(closingPrices.prices, period);
-    int signal = getRSISignal(rsiValue);
-    double currentPrice = closingPrices.prices.back();
+    const double rsiValue = calculateRSI(closingPrices.prices, period);
+    const int signal = getRSISignal(rsiValue);
+    const double currentPrice = closingPrices.prices.back();
 
     printRSIAnalysis(currentPrice, rsiValue, signal);
 }

@@ -45,7 +45,7 @@
     <ClCompile Include="sma.cpp">
       <Filter>Source Files\Indicator</Filter>
     </ClCompile>
-    <ClCompile Include="rsi.cpp">
+    <ClCompile Include="rsi2.cpp">
       <Filter>Source Files\Indicator</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,7 +77,7 @@
     <ClInclude Include="sma.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rsi.h">
+    <ClInclude Include="rsi2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

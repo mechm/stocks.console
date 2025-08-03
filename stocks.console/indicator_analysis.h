@@ -5,4 +5,4 @@
 void HandleIndicatorAnalysis(Alpacha& alpacha);
 static void showIndicatorHelpMenu();
 static int GetValidPeriod();
-static int GetValidIndicator();
+static std::string GetValidIndicator();

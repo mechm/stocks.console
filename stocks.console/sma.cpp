@@ -18,7 +18,7 @@ void ShowSMA(Alpacha& alpacha, std::string symbol)
         validatedTime = alpacha.GetTradingDateNDaysAgo(period);
     }
 
-  // Retrieve historical prices
+    // Retrieve historical prices
     const HistoricalClosedPrices closingPrices =
         alpacha.GetHistoricalClosedPrices(symbol, "1D", validatedTime);
 

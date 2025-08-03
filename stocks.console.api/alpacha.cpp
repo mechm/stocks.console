@@ -289,22 +289,6 @@ RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t
     return GetRequest(url);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #pragma region Market Data
 
 RequestResponse Alpacha::GetAssetBySymbol(const string& symbol) 
@@ -459,7 +443,4 @@ RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std:
     return GetRequest(url);
 }
 
-
-
 #pragma endregion Market Data
-

@@ -160,15 +160,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="macd.unittest.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="rsi.unittest.cpp" />
+    <ClCompile Include="rsi_unittest.cpp" />
+    <ClCompile Include="sma.unittest.cpp" />
     <ClCompile Include="stock.console.api.alpacha.unittest.cpp" />
-    <ClCompile Include="stockconsole.indicator.rsi.unittest.cpp" />
-    <ClCompile Include="stockconsole.indicator.sma.unittest.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -49,6 +49,7 @@ namespace stockconsole_api_unit_test
 
 		TEST_METHOD(TestGetAccount)
 		{
+			
 			// Arrange
 			bool expected = true;
 
