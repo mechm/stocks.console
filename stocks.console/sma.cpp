@@ -7,7 +7,7 @@
 #include "date_validation.h"
 #include "sma.h"
 
-void ShowSMA(Alpacha& alpacha, std::string symbol) 
+void ShowSMA(Alpacha& alpacha, const std::string& symbol)
 {
     // Validate date and period
     time_t validatedTime = GetValidDateOrEmpty();

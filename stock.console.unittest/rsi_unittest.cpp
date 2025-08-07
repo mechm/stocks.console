@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-#include "../stocks.console/rsi2.cpp"
+#include "../stocks.console/rsi.cpp"
 #include "../stocks.console/date_validation.cpp"
 
 

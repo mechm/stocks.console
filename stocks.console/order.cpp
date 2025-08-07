@@ -11,7 +11,7 @@
 #include "account_details.h"
 #include "../stocks.console.utilities/formatter.h"
 
-void HandleOrder(Alpacha& alpacha, int command, const Json::Value& root) 
+void HandleOrder(Alpacha& alpacha, const int command, const Json::Value& root)
 {
     const AssetResult assetResult = GetValidAssetWithCancel(alpacha);
     if (!assetResult.success) {

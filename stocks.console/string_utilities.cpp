@@ -4,7 +4,7 @@
 
 #include "string_utilities.h"
 
-std::string StringUtilities::TimeToUtcIso8601(time_t t)  
+std::string StringUtilities::TimeToUtcIso8601(const time_t t)
 {  
     struct tm utc_tm;  
     gmtime_s(&utc_tm, &t);  

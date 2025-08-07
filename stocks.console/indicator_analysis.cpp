@@ -8,7 +8,7 @@
 #include "asset_validation.h"
 #include "indicator_analysis.h"
 #include "sma.h"
-#include "rsi2.h"
+#include "rsi.h"
 #include "../stocks.console.indicator/rsi.h"
 #include "../stocks.console.indicator/sma.h"
 
@@ -25,29 +25,28 @@ void HandleIndicatorAnalysis(Alpacha& alpacha)
 
     bool tryAnother = true;
     while (tryAnother) {
-        const std::string indicator = GetValidIndicator();
-        
-            switch (std::stoi(indicator)) { // Convert string to integer for switch
+        if (const std::string indicator = GetValidIndicator(); indicator == "h" || indicator == "H") {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            showIndicatorHelpMenu();
+        }
+        else {
+            switch (std::stoi(indicator)) {
             case 0: // Main menu
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                return;
-            case 1: // Indicator help
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                showIndicatorHelpMenu();
-                break;
-            case 2: // SMA
+                return;          
+            case 1: // SMA
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 ShowSMA(alpacha, assetResult.asset.symbol);
                 break;
-            case 3: // RSI
+            case 2: // RSI
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 ShowRSI(alpacha, assetResult.asset.symbol);
                 break;
-            case 4: // MACD
+            case 3: // MACD
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 // MACD logic placeholder
@@ -58,6 +57,7 @@ void HandleIndicatorAnalysis(Alpacha& alpacha)
                 std::cout << "Unknown indicator selection." << std::endl;
                 break;
             }
+        }
 
         // Ask if user wants to try another indicator
         std::cout << "Would you like to try another indicator for this asset? (y/n): ";
@@ -102,7 +102,6 @@ static void showIndicatorHelpMenu()
     }
 }
 
-// Rename the function to avoid overloading conflicts
 static std::string GetValidIndicator() {
     std::string indicator;
     while (true) {

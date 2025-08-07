@@ -23,9 +23,7 @@ double CurrencyInput::GetCurrencyAmount(const string& prompt) {
         }
 
         // Clean and validate the input
-        string cleanInput = CleanCurrencyInput(input);
-
-        if (ValidateCurrencyFormat(cleanInput)) {
+        if (string cleanInput = CleanCurrencyInput(input); ValidateCurrencyFormat(cleanInput)) {
             try {
                 amount = ParseCurrencyString(cleanInput);
 
@@ -61,7 +59,7 @@ double CurrencyInput::GetCurrencyAmount(const string& prompt) {
     return amount;
 }
 
-double CurrencyInput::GetCurrencyAmountWithRange(const string& prompt, double minAmount, double maxAmount) {
+double CurrencyInput::GetCurrencyAmountWithRange(const string& prompt, const double minAmount, const double maxAmount) {
     double amount = 0.0;
     string input;
     bool validInput = false;
@@ -77,9 +75,7 @@ double CurrencyInput::GetCurrencyAmountWithRange(const string& prompt, double mi
             continue;
         }
 
-        string cleanInput = CleanCurrencyInput(input);
-
-        if (ValidateCurrencyFormat(cleanInput)) {
+        if (string cleanInput = CleanCurrencyInput(input); ValidateCurrencyFormat(cleanInput)) {
             try {
                 amount = ParseCurrencyString(cleanInput);
                 amount = round(amount * 100.0) / 100.0; // Round to 2 decimal places
@@ -116,12 +112,12 @@ bool CurrencyInput::ValidateCurrencyFormat(const string& input) {
 
     // Regex pattern for currency validation
     // Matches: 123, 123.45, 1,234.56, etc.
-    regex currencyPattern(R"(^\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?$|^\d+(?:\.\d{1,2})?$)");
+    const regex currencyPattern(R"(^\d{1,3}(?:,\d{3})*(?:\.\d{1,2})?$|^\d+(?:\.\d{1,2})?$)");
 
     return regex_match(input, currencyPattern);
 }
 
-string CurrencyInput::FormatCurrency(double amount) {
+string CurrencyInput::FormatCurrency(const double amount) {
     stringstream ss;
     ss << "$" << fixed << setprecision(2) << amount;
 
@@ -142,7 +138,7 @@ double CurrencyInput::ParseCurrencyString(const string& input) {
     string cleanInput = input;
 
     // Remove commas
-    cleanInput.erase(remove(cleanInput.begin(), cleanInput.end(), ','), cleanInput.end());
+    erase(cleanInput, ',');
 
     // Convert to double
     return stod(cleanInput);
@@ -163,6 +159,6 @@ string CurrencyInput::CleanCurrencyInput(const string& input) {
     return cleaned;
 }
 
-bool CurrencyInput::IsValidCurrencyCharacter(char c) {
+bool CurrencyInput::IsValidCurrencyCharacter(const char c) {
     return isdigit(c) || c == '.' || c == ',' || c == '$';
 }

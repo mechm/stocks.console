@@ -140,7 +140,7 @@
     <ClCompile Include="indicator_analysis.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="order.cpp" />
-    <ClCompile Include="rsi2.cpp" />
+    <ClCompile Include="rsi.cpp" />
     <ClCompile Include="sma.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,7 +169,7 @@
     <ClInclude Include="date_validation.h" />
     <ClInclude Include="indicator_analysis.h" />
     <ClInclude Include="order.h" />
-    <ClInclude Include="rsi2.h" />
+    <ClInclude Include="rsi.h" />
     <ClInclude Include="sma.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

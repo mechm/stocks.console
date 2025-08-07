@@ -4,10 +4,10 @@
 
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/rsi.h"
-#include "rsi2.h"
+#include "rsi.h"
 #include "date_validation.h"
 
-void ShowRSI(Alpacha& alpacha, std::string symbol)
+void ShowRSI(Alpacha& alpacha, const std::string& symbol)
 {
     // Validate date and period
     time_t validatedTime = GetValidDateOrEmpty();

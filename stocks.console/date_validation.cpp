@@ -12,17 +12,15 @@ time_t GetValidDateOrEmpty() {
         std::cout << "Choose date today or in the past "
             "(YYYY-MM-DD, YYYY-MM-DDTHH:MM:SSZ format), or leave blank : ";
         
-        std::getline(std::cin, date); // Use getline to capture empty input                
+        std::getline(std::cin, date); // Use get line to capture empty input
 
         // If empty, return immediately
         if (date.empty()) {
             return 0;
         }
 
-        time_t outTime;
-
         // Validate the date
-        if (ValidateDate(date, outTime)) {
+        if (time_t outTime; ValidateDate(date, outTime)) {
             return outTime;
         }
 
@@ -40,8 +38,7 @@ bool ValidateDate(const std::string& date, time_t& outTime) {
         // Additional validation: check if the converted time is reasonable
         if (outTime > 0) {
             // Check if date is not in the future (markets don't have future data)
-            time_t currentTime = std::time(nullptr);
-            if (outTime <= currentTime) {
+            if (const time_t currentTime = std::time(nullptr); outTime <= currentTime) {
                 return true;
             }
             else {

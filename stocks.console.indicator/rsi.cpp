@@ -47,8 +47,7 @@ double calculateRSI(const std::vector<double>& prices, const int period)
 
     // Calculate price changes (gains and losses)
     for (int i = 1; i <= period; i++) {
-        double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i - 1)];
-        if (change > 0) {
+        if (double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i - 1)]; change > 0) {
             gains.push_back(change);
             losses.push_back(0.0);
         }
@@ -101,8 +100,7 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
 
     // Calculate initial average gain and loss for the first period
     for (int i = 1; i <= period; i++) {
-        const double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i) - 1];
-        if (change > 0) {
+        if (const double change = prices[i] - prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(i) - 1]; change > 0) {
             avgGain += change;
         }
         else {
@@ -147,7 +145,7 @@ int getRSISignal(double rsi) {
     }
 }
 
-void printRSIAnalysis(double currentPrice, double rsi, int signal) {
+void printRSIAnalysis(const double currentPrice, const double rsi, const int signal) {
     std::cout << "\n=== RSI Analysis ===" << std::endl;
     std::cout << "Current Price: $" << std::fixed << std::setprecision(2) << currentPrice << std::endl;
     std::cout << "RSI: " << std::fixed << std::setprecision(2) << rsi << std::endl;
@@ -174,6 +172,7 @@ void printRSIAnalysis(double currentPrice, double rsi, int signal) {
     case 0:
         std::cout << "HOLD - No clear signal, monitor for changes" << std::endl;
         break;
+    default: ;
     }
     std::cout << "==================\n" << std::endl;
 }

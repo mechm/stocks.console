@@ -107,8 +107,8 @@ RequestResponse Alpacha::BuyStock(const string& symbol, const double quantity)
 RequestResponse Alpacha::SellStock(const string& symbol, const double quantity)
 {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/orders";
-    const string payload = "{\"symbol\":\"" + symbol + "\",\"qty\":" + to_string(quantity) + ", \"side\":\""
-        + "sell" + "\",\"type\":\"market\",\"time_in_force\":\"day\"}";
+    const string payload = R"({"symbol":")" + symbol + R"(","qty":)" + to_string(quantity) + ", \"side\":\""
+        + "sell" + R"(","type":"market","time_in_force":"day"})";
     return GetRequest(url, payload);
 }
 
@@ -116,13 +116,13 @@ RequestResponse Alpacha::SellStock(const string& symbol, const double quantity)
 
 #pragma region Market Opening/Close
 
-#pragma endregion Market Opening/Close
+
 
 // Helper method to get trading date N days ago
 time_t Alpacha::GetTradingDateNDaysAgo(int daysAgo) {
     try {
         // Calculate start date (go back more days to account for weekends/holidays)
-        time_t now = time(nullptr);
+        const time_t now = time(nullptr);
 
         // Calculate how far back to look based on trading days requested
         int calendarDaysToLookBack;
@@ -151,7 +151,7 @@ time_t Alpacha::GetTradingDateNDaysAgo(int daysAgo) {
         // Additional safety check for very large requests
         if (daysAgo >= 365) {
             // Ensure we look back at least 1.5 years for 365+ trading days
-            int minimumDays = static_cast<int>(daysAgo * 1.55);
+            const int minimumDays = static_cast<int>(daysAgo * 1.55);
             calendarDaysToLookBack = max(calendarDaysToLookBack, minimumDays);
         }
 
@@ -165,24 +165,24 @@ time_t Alpacha::GetTradingDateNDaysAgo(int daysAgo) {
         #endif
 
         // Get market calendar
-        MarketCalendarResult calendarResult = GetMarketCalendarInfoAsObject(startDate, now);
+        auto [success, errorMessage, calendar_days] = GetMarketCalendarInfoAsObject(startDate, now);
 
-        if (!calendarResult.success) {
-            std::cerr << "Failed to get market calendar: " << calendarResult.errorMessage << std::endl;
+        if (!success) {
+            std::cerr << "Failed to get market calendar: " << errorMessage << std::endl;
             return 0;
         }
 
-        if (calendarResult.calendar_days.empty()) {
+        if (calendar_days.empty()) {
             cerr << "No trading days found in the specified range" << endl;
             return 0;
         }
 
         // Sort calendar days by date (most recent first)
-        std::vector<MarketDay> sortedDays = calendarResult.calendar_days;
-        std::sort(sortedDays.begin(), sortedDays.end(),
-            [](const MarketDay& a, const MarketDay& b) {
-                return a.date > b.date; // Descending order
-            });
+        std::vector<MarketDay> sortedDays = calendar_days;
+        ranges::sort(sortedDays,
+                     [](const MarketDay& a, const MarketDay& b) {
+                         return a.date > b.date; // Descending order
+                     });
 
         #ifdef DEBUG
                 cout << "Found " << sortedDays.size() << " trading days in calendar" << endl;
@@ -216,18 +216,17 @@ MarketCalendarResult Alpacha::GetMarketCalendarInfoAsObject(const time_t& start,
 
     try {
         // Get the raw JSON response
-        RequestResponse apiResult = GetMarketCalendarInfo(start, end);
+        auto [success, response] = GetMarketCalendarInfo(start, end);
 
-        if (!apiResult.success) {
-            result.errorMessage = "API request failed: " + apiResult.response;
+        if (!success) {
+            result.errorMessage = "API request failed: " + response;
             return result;
         }
 
         // Parse JSON response
         Json::Value root;
-        Json::Reader reader;
 
-        if (!reader.parse(apiResult.response, root)) {
+        if (Json::Reader reader; !reader.parse(response, root)) {
             result.errorMessage = "Failed to parse JSON response";
             return result;
         }
@@ -288,6 +287,8 @@ RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t
     }
     return GetRequest(url);
 }
+
+#pragma endregion Market Opening/Close
 
 #pragma region Market Data
 
@@ -410,9 +411,8 @@ HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& sym
 
     // Parse JSON response
     Json::Value root;
-    Json::Reader reader;
 
-    if (!reader.parse(apiResult.response, root)) {
+    if (Json::Reader reader; !reader.parse(apiResult.response, root)) {
         result.error_message = "Failed to parse JSON response";
         return result;
     }
@@ -423,10 +423,8 @@ HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& sym
         return result;
     }
 
-    const Json::Value& bars = root["bars"][symbol];
-
     // Parse each bar
-    for (const auto& bar : bars) {      
+    for (const Json::Value& bars = root["bars"][symbol]; const auto& bar : bars) {
         result.prices.push_back(bar["c"].asDouble());
     }
 
@@ -436,7 +434,7 @@ HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& sym
 
 RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start)
 {
-    string start_time = StringUtilities::TimeToUtcIso8601(start);
+    const string start_time = StringUtilities::TimeToUtcIso8601(start);
 
     const string url = liveMarketDataApiUrl+"/stocks/bars?symbols=" + symbol + "&timeframe=" + timeframe + "&start=" + start_time + "&limit=1000&adjustment=raw&feed=sip&sort=asc";
 
