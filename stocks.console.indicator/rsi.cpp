@@ -133,7 +133,7 @@ double calculateRSIWilder(const std::vector<double>& prices, const int period)
     return rsi;
 }
 
-int getRSISignal(double rsi) {
+int getRSISignal(const double rsi) {
     if (rsi <= oversoldThreshold) {
         return 1;  // Buy signal (oversold)
     }

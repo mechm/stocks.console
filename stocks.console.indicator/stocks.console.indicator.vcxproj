@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="macd.h" />
+    <ClInclude Include="obv.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="rsi.h" />
     <ClInclude Include="sma.h" />
