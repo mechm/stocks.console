@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Indicators">
       <UniqueIdentifier>{cb7a07d8-b663-4cc6-9142-cddc0f22c065}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Apis">
+      <UniqueIdentifier>{a388a424-df5d-42c7-8e01-1a8131f2cdac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="obv.unittest.cpp">
       <Filter>Source Files\Indicators</Filter>
+    </ClCompile>
+    <ClCompile Include="finn_hub.unittest.cpp">
+      <Filter>Source Files\Apis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -70,7 +70,6 @@ struct MarketCalendarResult {
     std::vector<MarketDay> calendar_days;
 };
 
-
 class Alpacha : public Http {
 private:
     static bool IsValidAccountResponse(const std::string & jsonResponse);
@@ -85,21 +84,22 @@ protected:
 
 public:
     Alpacha(const std::string& apiKey, const std::string& secretKey, bool paper = false);
-    RequestResponse GetRequest(const std::string& url, const std::string& payload = "");
+    RequestResponse GetRequest(const std::string& url, const std::string& payload = "") const;
 
-    RequestResponse GetAccount();
-    RequestResponse GetAllOpenPositions();
-    RequestResponse BuyStock(const std::string& symbol, double quantity);
-    RequestResponse SellStock(const std::string& symbol, double quantity);
+    RequestResponse GetAccount() const;
+    RequestResponse GetAllOpenPositions() const;
+    RequestResponse BuyStock(const std::string& symbol, double quantity) const;
+    RequestResponse SellStock(const std::string& symbol, double quantity) const;
 
     time_t GetTradingDateNDaysAgo(int daysAgo);
     MarketCalendarResult GetMarketCalendarInfoAsObject(const time_t& start, const time_t& end);
     RequestResponse GetMarketCalendarInfo(const time_t& start, const time_t& end);
 
-    RequestResponse GetAssetBySymbol(const std::string& symbol);
-    AssetResult GetAssetBySymbolAsObject(const std::string& symbol);
-    RequestResponse GetAssetsByExchange(const std::string& exchange = "NASDAQ%2CNYSE");
-    HistoricalClosedPrices GetHistoricalClosedPrices(const std::string& symbol, const std::string& timeframe, const time_t start);
-    HistoricalBarsResult GetHistoricalBarsAsObjects(const std::string& symbol, const std::string& timeframe, const time_t start);
-    RequestResponse GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start);
+    RequestResponse GetAssetBySymbol(const std::string& symbol) const;
+    RequestResponse GetAssetByExchange(const std::string& exchange) const;
+    AssetResult GetAssetBySymbolAsObject(const std::string& symbol) const;
+    RequestResponse GetAssetsByExchange(const std::string& exchange = "NASDAQ%2CNYSE") const;
+    HistoricalClosedPrices GetHistoricalClosedPrices(const std::string& symbol, const std::string& timeframe, const time_t start) const;
+    HistoricalBarsResult GetHistoricalBarsAsObjects(const std::string& symbol, const std::string& timeframe, const time_t start) const;
+    RequestResponse GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start) const;
 };

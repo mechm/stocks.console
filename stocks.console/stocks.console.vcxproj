@@ -138,10 +138,12 @@
     <ClCompile Include="currency_validation.cpp" />
     <ClCompile Include="date_validation.cpp" />
     <ClCompile Include="indicator_analysis.cpp" />
+    <ClCompile Include="macd.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="rsi.cpp" />
     <ClCompile Include="sma.cpp" />
+    <ClCompile Include="stock_detail.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\stocks.console.api\stocks.console.api.vcxproj">
@@ -171,6 +173,7 @@
     <ClInclude Include="order.h" />
     <ClInclude Include="rsi.h" />
     <ClInclude Include="sma.h" />
+    <ClInclude Include="stock_detail.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

@@ -70,10 +70,10 @@ std::vector<int> getOBVSignals(const std::vector<double>& prices, const std::vec
     signals.push_back(0); // No signal for the first data point
 
     for (size_t i = 1; i < prices.size(); ++i) {
-        bool price_up = prices[i] > prices[i - 1];
-        bool price_down = prices[i] < prices[i - 1];
-        bool obv_up = obv_values[i] > obv_values[i - 1];
-        bool obv_down = obv_values[i] < obv_values[i - 1];
+        const bool price_up = prices[i] > prices[i - 1];
+        const bool price_down = prices[i] < prices[i - 1];
+        const bool obv_up = obv_values[i] > obv_values[i - 1];
+        const bool obv_down = obv_values[i] < obv_values[i - 1];
 
         if (price_up && obv_up) {
             signals.push_back(1);

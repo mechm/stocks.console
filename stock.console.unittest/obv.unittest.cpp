@@ -1,8 +1,9 @@
 ﻿#include "pch.h"
 #include "CppUnitTest.h"
 #include <vector>
-#include "../stocks.console.indicator/obv.h"
 #include <iostream>
+
+#include "../stocks.console.indicator/obv.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

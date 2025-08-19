@@ -11,7 +11,8 @@
 #include "rsi.h"
 #include "../stocks.console.indicator/rsi.h"
 #include "../stocks.console.indicator/sma.h"
-
+#include "../stocks.console.indicator/macd.cpp"
+#include "../stocks.console.indicator/obv.cpp"
 
 void HandleIndicatorAnalysis(Alpacha& alpacha)
 {
@@ -23,83 +24,98 @@ void HandleIndicatorAnalysis(Alpacha& alpacha)
         return;
     }
 
-    bool tryAnother = true;
-    while (tryAnother) {
-        if (const std::string indicator = GetValidIndicator(); indicator == "h" || indicator == "H") {
+    while(true) {
+        std::string indicator = GetValidIndicator();
+
+        // Handle help request
+        if (indicator == "h" || indicator == "H") {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             showIndicatorHelpMenu();
-        }
-        else {
-            switch (std::stoi(indicator)) {
-            case 0: // Main menu
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                return;          
-            case 1: // SMA
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                ShowSMA(alpacha, assetResult.asset.symbol);
-                break;
-            case 2: // RSI
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                ShowRSI(alpacha, assetResult.asset.symbol);
-                break;
-            case 3: // MACD
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                // MACD logic placeholder
-                break;
-            default:
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Unknown indicator selection." << std::endl;
-                break;
-            }
+            continue;
         }
 
-        // Ask if user wants to try another indicator
-        std::cout << "Would you like to try another indicator for this asset? (y/n): ";
-        char response;
-        std::cin >> response;
-        if (std::cin.fail() || (response != 'y' && response != 'Y')) {
-            tryAnother = false;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        // Try to convert indicator to int, handle invalid input
+        int indicatorValue = -1;
+        try {
+            indicatorValue = std::stoi(indicator);
         }
-        else {
+        catch (const std::exception&) {
+            std::cout << "Unknown indicator selection." << std::endl;
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
+       
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        switch (indicatorValue) {
+        case 0: // Main menu
+            return;
+        case 1: // SMA
+            ShowSMA(alpacha, assetResult.asset.symbol);
+            break;
+        case 2: // RSI
+            ShowRSI(alpacha, assetResult.asset.symbol);
+            break;
+        case 3: // MACD
+            // Future: ShowMACD(alpacha, assetResult.asset.symbol);
+
+            break;
+        case 4: // OBV
+            // Future: ShowOBV(alpacha, assetResult.asset.symbol);
+            break;
+        default:
+            std::cout << "Unknown indicator selection." << std::endl;
+            break;
         }
     }
 }
 
 static void showIndicatorHelpMenu()
 {
-    std::cout << "Available indicators:\n"
-        << "1) Indicator Help: Displays this help message.\n"
-        << "2) SMA: Simple Moving Average, a trend-following indicator that smooths price data.\n"
-        << "3) RSI: Relative Strength Index, a momentum oscillator that measures the speed and change of price movements.\n"
-        << "4) MACD: Moving Average Convergence Divergence, a trend-following momentum indicator that shows the relationship between two moving averages of a security's price.\n";
+    struct IndicatorHelp {
+        int id;
+        const char* name;
+        const char* description;
+        void (*printHelp)();
+    };
 
-    // Ask which help to show more information for
-    std::cout << "Show help for: 1) SMA  2) RSI  (Enter number, other to skip): ";
+    // Array of available indicators and their help functions
+    constexpr IndicatorHelp indicators[] = {
+         {1, "SMA",  "Simple Moving Average, a trend-following indicator that smooths price data.", printSMAHelp},
+         {2, "RSI",  "Relative Strength Index, a momentum oscillator that measures the speed and change of price movements.", printRSIHelp},
+         {3, "MACD", "Moving Average Convergence Divergence, a trend-following momentum indicator that shows the relationship between two moving averages of a security's price.", printMACDHelp },
+         {4, "OBV",  "On-Balance Volume, a volume-based indicator that adds volume on up days and subtracts volume on down days to confirm price trends and spot potential reversals.", printOBVHelp }
+    };
+
+    std::cout << "Available indicators:\n";
+    for (const auto& ind : indicators) {
+        std::cout << ind.id << ") " << ind.name << ": " << ind.description << "\n";
+    }
+
+    std::cout << "Show help for: ";
+    for (const auto& ind : indicators) {
+        std::cout << ind.id << ") " << ind.name << "  ";
+    }
+    std::cout << "(Enter number, other to skip): ";
+
     int helpChoice = 0;
     std::cin >> helpChoice;
     if (std::cin.fail()) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return;
     }
-    else {
-        if (helpChoice == 1) {
-            printSMAHelp();
+
+    for (const auto& ind : indicators) {
+        if (helpChoice == ind.id) {
+            ind.printHelp();
+            break;
         }
-        else if (helpChoice == 2) {
-            printRSIHelp();
-        }
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 static std::string GetValidIndicator() {

@@ -1,14 +1,12 @@
 #include <json/value.h>
 #include <iostream>
 #include <vector>
-#include <fstream>
 #include <json/json.h>
-#include <iomanip>
+
 
 #include "../stocks.console.api/alpacha.h"
 #include "asset_validation.h"
 #include "order.h"
-#include "account_details.h"
 #include "../stocks.console.utilities/formatter.h"
 
 void HandleOrder(Alpacha& alpacha, const int command, const Json::Value& root)

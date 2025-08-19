@@ -26,8 +26,7 @@ Alpacha::Alpacha(const string& apiKey, const string& secretKey, bool paper)
     this->paper = paper;
 }
 
-RequestResponse Alpacha::GetRequest(const string& url, const string& payload)
-{
+RequestResponse Alpacha::GetRequest(const string& url, const string& payload) const {
     const vector<string> headers = {
         "accept: application/json",
         "content-type: application/json",
@@ -53,7 +52,7 @@ bool Alpacha::IsValidAccountResponse(const string& jsonResponse) {
             root.isMember("status");
     }
 
-RequestResponse Alpacha::GetAccount() {
+RequestResponse Alpacha::GetAccount() const {
     try {
         // Build the URL
         const string baseUrl = paper ? paperApiUrl : liveApiUrl;
@@ -90,24 +89,21 @@ RequestResponse Alpacha::GetAccount() {
     }
 }
 
-RequestResponse Alpacha::GetAllOpenPositions()
-{
+RequestResponse Alpacha::GetAllOpenPositions() const {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/positions";
     return GetRequest(url);
 }
 
-RequestResponse Alpacha::BuyStock(const string& symbol, const double quantity)
-{
+RequestResponse Alpacha::BuyStock(const string& symbol, const double quantity) const {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/orders";
     const string payload = R"({"symbol":")" + symbol + R"(","qty":)" + to_string(quantity) + R"(, "side":")"
         + "buy" + R"(","type":"market","time_in_force":"day"})";
     return GetRequest(url, payload);
 }
 
-RequestResponse Alpacha::SellStock(const string& symbol, const double quantity)
-{
+RequestResponse Alpacha::SellStock(const string& symbol, const double quantity) const {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/orders";
-    const string payload = R"({"symbol":")" + symbol + R"(","qty":)" + to_string(quantity) + ", \"side\":\""
+    const string payload = R"({"symbol":")" + symbol + R"(","qty":)" + to_string(quantity) + R"(, "side":")"
         + "sell" + R"(","type":"market","time_in_force":"day"})";
     return GetRequest(url, payload);
 }
@@ -156,9 +152,8 @@ time_t Alpacha::GetTradingDateNDaysAgo(int daysAgo) {
         }
 
         time_t startDate = now - static_cast<long long>(calendarDaysToLookBack) * 24 * 60 * 60;
-        time_t endDate = now;
 
-        #ifdef DEBUG
+#ifdef DEBUG
                 cout << "Requesting " << daysAgo << " trading days ago" << endl;
                 cout << "Looking back " << calendarDaysToLookBack << " calendar days" << endl;
                 cout << "Start date: " << StringUtilities::TimeToUtcIso8601(startDate) << endl;
@@ -292,27 +287,27 @@ RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t
 
 #pragma region Market Data
 
-RequestResponse Alpacha::GetAssetBySymbol(const string& symbol) 
-{
+RequestResponse Alpacha::GetAssetBySymbol(const string& symbol) const {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/assets/" + symbol;
     return GetRequest(url);
 }
 
-AssetResult Alpacha::GetAssetBySymbolAsObject(const string& symbol) {
+RequestResponse Alpacha::GetAssetByExchange(const string& exchange) const {
+    const string url = (paper ? paperApiUrl : liveApiUrl) + "/assets?status=active&exchange=" + exchange;
+    return GetRequest(url);
+}
+
+AssetResult Alpacha::GetAssetBySymbolAsObject(const string& symbol) const {
     AssetResult result;
 
     try {
-        RequestResponse response = GetAssetBySymbol(symbol);
-
-        if (response.success) {
+        if (auto [success, response] = GetAssetBySymbol(symbol); success) {
             Json::Value assetJson;
-            Json::Reader reader;
 
-            if (reader.parse(response.response, assetJson)) {
+            if (Json::Reader reader; reader.parse(response, assetJson)) {
                 // Parse JSON into Asset object
                 result.asset.symbol = assetJson.get("symbol", "").asString();
-                result.asset.name = assetJson.get("name", "").asString();
-               // result.asset.assetClass = assetJson.get("class", "").asString();
+                result.asset.name = assetJson.get("name", "").asString();                
                 result.asset.exchange = assetJson.get("exchange", "").asString();
                 result.asset.tradable = assetJson.get("tradable", false).asBool();
                 result.asset.status = assetJson.get("status", "").asString();
@@ -321,12 +316,12 @@ AssetResult Alpacha::GetAssetBySymbolAsObject(const string& symbol) {
             }
             else {
                 result.success = false;
-                result.errorMessage = "Failed to parse JSON response: " + response.response;
+                result.errorMessage = "Failed to parse JSON response: " + response;
             }
         }
         else {
             result.success = false;
-            result.errorMessage = "API call failed: " + response.response;
+            result.errorMessage = "API call failed: " + response;
         }
     }
     catch (const exception& e) {
@@ -338,31 +333,29 @@ AssetResult Alpacha::GetAssetBySymbolAsObject(const string& symbol) {
 }
 
 
-RequestResponse Alpacha::GetAssetsByExchange(const string& exchange)
-{
+RequestResponse Alpacha::GetAssetsByExchange(const string& exchange) const {
     const string url = (paper ? paperApiUrl : liveApiUrl) + "/assets?exchange=" + exchange;
     return GetRequest(url);
 }
 
-HistoricalBarsResult Alpacha::GetHistoricalBarsAsObjects(const std::string& symbol, const std::string& timeframe, const time_t start)
+HistoricalBarsResult Alpacha::GetHistoricalBarsAsObjects(const std::string& symbol, const std::string& timeframe, const time_t start) const
 {
     HistoricalBarsResult result;
     result.success = false;
     result.symbol = symbol;
 
     // Get the raw JSON response
-    RequestResponse apiResult = GetHistoricalBars(symbol, timeframe, start);
+    auto [success, response] = GetHistoricalBars(symbol, timeframe, start);
 
-    if (!apiResult.success) {
+    if (!success) {
         result.error_message = "API request failed";
         return result;
     }
 
     // Parse JSON response
     Json::Value root;
-    Json::Reader reader;
 
-    if (!reader.parse(apiResult.response, root)) {
+    if (Json::Reader reader; !reader.parse(response, root)) {
         result.error_message = "Failed to parse JSON response";
         return result;
     }
@@ -373,10 +366,8 @@ HistoricalBarsResult Alpacha::GetHistoricalBarsAsObjects(const std::string& symb
         return result;
     }
 
-    const Json::Value& bars = root["bars"][symbol];
-
     // Parse each bar
-    for (const auto& bar : bars) {
+    for (const Json::Value& bars = root["bars"][symbol]; const auto& bar : bars) {
         BarData barData;
 
         if (bar.isMember("t")) barData.timestamp = bar["t"].asString();
@@ -395,16 +386,16 @@ HistoricalBarsResult Alpacha::GetHistoricalBarsAsObjects(const std::string& symb
     return result;
 }
 
-HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& symbol, const std::string& timeframe, const time_t start)
+HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& symbol, const std::string& timeframe, const time_t start) const
 {
     HistoricalClosedPrices result;
     result.success = false;
     result.symbol = symbol;
 
     // Get the raw JSON response
-    RequestResponse apiResult = GetHistoricalBars(symbol, timeframe, start);
+    auto [success, response] = GetHistoricalBars(symbol, timeframe, start);
 
-    if (!apiResult.success) {
+    if (!success) {
         result.error_message = "API request failed";
         return result;
     }
@@ -412,7 +403,7 @@ HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& sym
     // Parse JSON response
     Json::Value root;
 
-    if (Json::Reader reader; !reader.parse(apiResult.response, root)) {
+    if (Json::Reader reader; !reader.parse(response, root)) {
         result.error_message = "Failed to parse JSON response";
         return result;
     }
@@ -432,8 +423,7 @@ HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& sym
     return result;
 }
 
-RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start)
-{
+RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start) const {
     const string start_time = StringUtilities::TimeToUtcIso8601(start);
 
     const string url = liveMarketDataApiUrl+"/stocks/bars?symbols=" + symbol + "&timeframe=" + timeframe + "&start=" + start_time + "&limit=1000&adjustment=raw&feed=sip&sort=asc";

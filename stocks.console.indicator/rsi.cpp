@@ -12,20 +12,20 @@ double overboughtThreshold = 70;
 void printRSIHelp()
 {
     std::cout << R"(
-====================[ RSI Help ]====================
-RSI (Relative Strength Index) is a momentum oscillator that measures the speed
-and change of price movements. It ranges from 0 to 100.
+    ====================[ RSI Help ]====================
+    RSI (Relative Strength Index) is a momentum oscillator that measures the speed
+    and change of price movements. It ranges from 0 to 100.
 
-- Values above 70 typically indicate overbought conditions and may signal a potential pullback.
-- Values below 30 indicate oversold conditions and may signal a potential price rebound.
-- RSI is commonly calculated over a 14-day period.
+    - Values above 70 typically indicate overbought conditions and may signal a potential pullback.
+    - Values below 30 indicate oversold conditions and may signal a potential price rebound.
+    - RSI is commonly calculated over a 14-day period.
 
-Usage:
-- Use RSI to identify possible buy (oversold) or sell (overbought) signals.
-- Combine RSI with other indicators for more robust analysis.
+    Usage:
+    - Use RSI to identify possible buy (oversold) or sell (overbought) signals.
+    - Combine RSI with other indicators for more robust analysis.
 
-====================================================
-)" << std::endl;
+    ====================================================
+    )" << std::endl;
 }
 
 /// @brief Calculate RSI (Relative Strength Index) for a given period

@@ -6,6 +6,7 @@
 #include "indicator_analysis.h"
 #include "account_details.h"
 #include "order.h"
+#include "stock_detail.h"
 
 int main()
 {
@@ -26,6 +27,7 @@ int main()
         << "  3: Check stock against indicator\n"
         << "  4: Buy Stock\n"
         << "  5: Sell Stock\n"
+        << "  6: Get Stock Details\n"
         << "  0: Exit\n"
         << "--------------------------------------------------------\n"
         << "Enter command: ";
@@ -57,6 +59,9 @@ int main()
         case 4:
         case 5:
             HandleOrder(alpacha, command, root);
+            break;
+        case 6:
+            HandleStockDetail();
             break;
         default:
             std::cout << "Unknown command: " << command << std::endl;

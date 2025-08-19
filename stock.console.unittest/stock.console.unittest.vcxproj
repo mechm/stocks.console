@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="finn_hub.unittest.cpp" />
     <ClCompile Include="macd.unittest.cpp" />
     <ClCompile Include="obv.unittest.cpp" />
     <ClCompile Include="pch.cpp">

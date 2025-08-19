@@ -87,6 +87,7 @@ void printSMAAnalysis(const double currentPrice, const double smaValue, const in
     case 0:
         std::cout << "Signal: HOLD (Price near SMA)" << std::endl;
         break;
+    default: ;
     }
     std::cout << "==================\n" << std::endl;
 }

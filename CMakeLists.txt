@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 project(stocks.console)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -45,6 +45,7 @@ add_dependencies(stocks.console CopyConfigJson)
 add_subdirectory(stocks.console.api)
 add_subdirectory(stocks.console.indicator)
 add_subdirectory(stocks.console.utilities)
+add_subdirectory(tests/stocks.test)
 
 target_link_libraries(stocks.console PRIVATE JsonCpp::JsonCpp)
 target_link_libraries(stocks.console PRIVATE stocks.console.indicator)

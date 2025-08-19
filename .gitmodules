@@ -1,3 +1,6 @@
 [submodule "external/cpp-dotenv"]
 	path = external/cpp-dotenv
 	url = https://github.com/adeharo9/cpp-dotenv.git
+[submodule "tests/stocks.test/lib/googletest"]
+	path = tests/stocks.test/lib/googletest
+	url = https://github.com/google/googletest.git
