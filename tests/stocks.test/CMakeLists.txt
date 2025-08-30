@@ -13,7 +13,18 @@ add_subdirectory(lib/googletest)
 
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
+# Find Google Test's main library target
+#find_package(GTest REQUIRED)
+
 add_executable(Google_Tests_run RSITest.cpp)
 
 target_link_libraries(Google_Tests_run PRIVATE stocks.console.indicator)
 target_link_libraries(Google_Tests_run PRIVATE gtest gtest_main)
+
+# Enable testing for the project
+enable_testing() 
+
+# Add the tests to be run by CTest
+# This command tells CMake to find tests and add them to the CTest suite
+#include(GoogleTest)
+#gtest_discover_tests(MyTests)

@@ -3,6 +3,8 @@
 #include <json/json.h>
 
 #include "../stocks.console.api/alpacha.h"
+#include "../stocks.console.api/finn_hub.h"
+
 #include "indicator_analysis.h"
 #include "account_details.h"
 #include "order.h"
@@ -16,7 +18,9 @@ int main()
 
     Alpacha alpacha(root.get("ALPACA_API_KEY", "").asString(),
         root.get("ALPACA_SECRET_KEY", "").asString());
-   
+
+    FinnHub finnhub(root.get("FINN_HUBB_KEY", "").asString());
+
     bool running = true;    
 
     while (running) {
@@ -61,7 +65,7 @@ int main()
             HandleOrder(alpacha, command, root);
             break;
         case 6:
-            HandleStockDetail();
+            HandleStockDetail(finnhub);
             break;
         default:
             std::cout << "Unknown command: " << command << std::endl;
@@ -70,5 +74,4 @@ int main()
 
         std::cout << std::endl; // Add a blank line between commands for better readability
     }
-    return 0;
 }

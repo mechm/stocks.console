@@ -7,11 +7,13 @@ find_package(CURL CONFIG REQUIRED)
 
 set(MY_LIBRARY_SOURCES
    alpacha.cpp
+   finn_hub.cpp
    http.cpp
 )
 
 set(MY_LIBRARY_HEADERS
    alpacha.h
+   finn_hub.h
    http.h
 )
 

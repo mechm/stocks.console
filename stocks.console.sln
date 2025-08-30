@@ -17,7 +17,17 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stocks.console.utilities", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stocks.test", "tests\stocks.test\stocks.test.vcxproj", "{B547E71F-31B9-462B-8352-838D64E860DD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test2", "test2\test2.vcxproj", "{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "google_tests", "google_tests", "{07F8EAF2-4377-4B1C-A904-06A6B4416C47}"
+	ProjectSection(SolutionItems) = preProject
+		test22.cpp = test22.cpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "stocks.test", "stocks.test", "{436F9CD9-2078-493E-81D5-C149E1005581}"
+	ProjectSection(SolutionItems) = preProject
+		RSITest.cpp = RSITest.cpp
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,17 +93,13 @@ Global
 		{B547E71F-31B9-462B-8352-838D64E860DD}.Release|x64.Build.0 = Release|x64
 		{B547E71F-31B9-462B-8352-838D64E860DD}.Release|x86.ActiveCfg = Release|Win32
 		{B547E71F-31B9-462B-8352-838D64E860DD}.Release|x86.Build.0 = Release|Win32
-		{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}.Debug|x64.ActiveCfg = Debug|x64
-		{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}.Debug|x64.Build.0 = Debug|x64
-		{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}.Debug|x86.ActiveCfg = Debug|Win32
-		{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}.Debug|x86.Build.0 = Debug|Win32
-		{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}.Release|x64.ActiveCfg = Release|x64
-		{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}.Release|x64.Build.0 = Release|x64
-		{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}.Release|x86.ActiveCfg = Release|Win32
-		{4A1C1282-D46C-44E5-A482-C8DC66C9B0DB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{07F8EAF2-4377-4B1C-A904-06A6B4416C47} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{436F9CD9-2078-493E-81D5-C149E1005581} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1120BB6-1838-466D-AF8D-836F2E233214}

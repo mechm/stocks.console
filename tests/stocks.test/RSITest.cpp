@@ -8,7 +8,7 @@ TEST(AbsoluteDateTestSuite, ExampleDate){ // 12/2/2020 -> 737761
 //
 //    // Arrange
     const std::vector<double> prices = { 10.0, 11.0, 12.0, 13.0, 14.0 };
-    const int period = 4;
+    constexpr int period = 4;
     double expected = 100.0;
 //
 //    // Act

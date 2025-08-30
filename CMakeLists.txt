@@ -37,6 +37,9 @@ add_executable(stocks.console
         stocks.console/date_validation.cpp
   	    stocks.console/sma.cpp
 		stocks.console/rsi.cpp
+		stocks.console/macd.cpp
+		stocks.console/stock_detail.h
+		stocks.console/stock_detail.cpp
 )
 
 add_dependencies(stocks.console CopyConfigJson)

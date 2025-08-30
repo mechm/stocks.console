@@ -53,7 +53,7 @@ Usage:
 /// @param prices vector of price data
 /// @param period the period for EMA calculation
 /// @return exponential moving average
-double calculateEMA(const std::vector<double>& prices, int period) {
+double calculateEMA(const std::vector<double>& prices, const int period) {
     if (prices.empty() || prices.size() < period || period <= 0) {
         return 0.0;
     }
@@ -78,7 +78,7 @@ double calculateEMA(const std::vector<double>& prices, int period) {
 /// @param slowPeriod slow EMA period (typically 26)
 /// @param signalPeriod signal line EMA period (typically 9)
 /// @return MACD line value
-double calculateMACD(const std::vector<double>& prices, const int fastPeriod = 12, const int slowPeriod = 26, int signalPeriod = 9) {
+double calculateMACD(const std::vector<double>& prices, const int fastPeriod, const int slowPeriod, int signalPeriod) {
     if (prices.size() < slowPeriod) {
         return 0.0;
     }
@@ -99,7 +99,7 @@ double calculateMACD(const std::vector<double>& prices, const int fastPeriod = 1
 /// @param macdValues vector of MACD line values
 /// @param signalPeriod signal line EMA period (typically 9)
 /// @return signal line value
-double calculateMACDSignal(const std::vector<double>& macdValues, const int signalPeriod = 9) {
+double calculateMACDSignal(const std::vector<double>& macdValues, const int signalPeriod) {
     return calculateEMA(macdValues, signalPeriod);
 }
 

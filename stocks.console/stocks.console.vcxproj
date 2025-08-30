@@ -170,6 +170,7 @@
     <ClInclude Include="currency_validation.h" />
     <ClInclude Include="date_validation.h" />
     <ClInclude Include="indicator_analysis.h" />
+    <ClInclude Include="macd.h" />
     <ClInclude Include="order.h" />
     <ClInclude Include="rsi.h" />
     <ClInclude Include="sma.h" />
