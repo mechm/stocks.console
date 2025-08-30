@@ -75,8 +75,8 @@ private:
     static bool IsValidAccountResponse(const std::string & jsonResponse);
 
 protected:
-    std::string apiKey = "";
-    std::string secretKey = "";
+    std::string apiKey;
+    std::string secretKey;
     bool paper = false;
     const std::string paperApiUrl = "https://paper-api.alpaca.markets/v2";
     const std::string liveApiUrl = "https://api.alpaca.markets/v2";

@@ -28,7 +28,7 @@ find_package(jsoncpp CONFIG REQUIRED)
 
 # Build your executable
 add_executable(stocks.console
-        stocks.console/main.cpp
+        "stocks.console/stocks.console.cpp"
         stocks.console/account_details.cpp
         stocks.console/indicator_analysis.cpp
         stocks.console/order.cpp

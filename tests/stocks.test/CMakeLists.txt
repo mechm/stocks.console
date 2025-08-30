@@ -16,7 +16,9 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 # Find Google Test's main library target
 #find_package(GTest REQUIRED)
 
-add_executable(Google_Tests_run RSITest.cpp)
+add_executable(Google_Tests_run RSITest.cpp
+        indicator/rsi_test.cpp
+        indicator/rsi_test.h)
 
 target_link_libraries(Google_Tests_run PRIVATE stocks.console.indicator)
 target_link_libraries(Google_Tests_run PRIVATE gtest gtest_main)
