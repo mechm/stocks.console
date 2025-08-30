@@ -1,9 +1,7 @@
 #include "currency_validation.h"
 #include <regex>
 #include <sstream>
-#include <limits>
-#include <cmath>
-
+#include <iostream>
 
 using namespace std;
 

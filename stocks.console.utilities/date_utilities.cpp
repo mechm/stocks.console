@@ -1,5 +1,3 @@
-#include "pch.h"
-#include "framework.h"
 #include <ctime>
 #include <string>
 #include "date_utilities.h"

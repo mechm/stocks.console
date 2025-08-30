@@ -8,7 +8,7 @@
 #include "order.h"
 #include "../stocks.console.utilities/formatter.h"
 
-void HandleOrder(Alpacha& alpacha, const int command, const Json::Value& root)
+void HandleOrder(const Alpacha& alpacha, const int command, const Json::Value& root)
 {
     const AssetResult assetResult = GetValidAssetWithCancel(alpacha);
     if (!assetResult.success) {

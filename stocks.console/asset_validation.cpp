@@ -6,7 +6,7 @@
 #include "../stocks.console.api/alpacha.h"
 #include "asset_validation.h"
 
-AssetResult GetValidAssetWithCancel(Alpacha& alpacha) {
+AssetResult GetValidAssetWithCancel(const Alpacha& alpacha) {
     std::string symbol;
 
     while (true) {

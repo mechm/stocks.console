@@ -1,5 +1,4 @@
 #include <string>
-#include <iostream>
 #include <iomanip>
 
 #include "../stocks.console.api/alpacha.h"

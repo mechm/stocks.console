@@ -265,8 +265,7 @@ MarketCalendarResult Alpacha::GetMarketCalendarInfoAsObject(const time_t& start,
     return result;
 }
 
-RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t& end)
-{
+RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t& end) const {
     std::string url = (paper ? paperApiUrl : liveApiUrl) + "/calendar";
     std::string query;
 

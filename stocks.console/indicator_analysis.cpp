@@ -35,7 +35,7 @@ void HandleIndicatorAnalysis(Alpacha& alpacha)
         }
 
         // Try to convert indicator to int, handle invalid input
-        int indicatorValue = -1;
+        int indicatorValue;
         try {
             indicatorValue = std::stoi(indicator);
         }

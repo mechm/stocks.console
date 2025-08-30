@@ -93,7 +93,7 @@ public:
 
     time_t GetTradingDateNDaysAgo(int daysAgo);
     MarketCalendarResult GetMarketCalendarInfoAsObject(const time_t& start, const time_t& end);
-    RequestResponse GetMarketCalendarInfo(const time_t& start, const time_t& end);
+    RequestResponse GetMarketCalendarInfo(const time_t& start, const time_t& end) const;
 
     RequestResponse GetAssetBySymbol(const std::string& symbol) const;
     RequestResponse GetAssetByExchange(const std::string& exchange) const;

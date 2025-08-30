@@ -28,9 +28,3 @@ target_include_directories(stocks.console.utilities
 )
 
 target_link_libraries(stocks.console.utilities PRIVATE JsonCpp::JsonCpp)
-
-# Link to other libraries if MyStaticLibrary depends on them
-# target_link_libraries(MyStaticLibrary PUBLIC AnotherLibrary)
-
-# Set compile definitions
-# target_compile_definitions(MyStaticLibrary PUBLIC MY_DEFINE=1)

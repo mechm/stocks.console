@@ -3,7 +3,6 @@ project(stocks.console)
 
 set(CMAKE_CXX_STANDARD 20)
 
-#find_package(fmt CONFIG REQUIRED)
 find_package(jsoncpp CONFIG REQUIRED)
 
 add_executable(stocks.console main.cpp)
