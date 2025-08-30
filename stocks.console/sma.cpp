@@ -5,7 +5,7 @@
 #include "../stocks.console.api/alpacha.h"
 #include "../stocks.console.indicator/sma.h"
 #include "date_validation.h"
-#include "sma.h"
+#include "include/sma.h"
 
 void ShowSMA(Alpacha& alpacha, const std::string& symbol)
 {

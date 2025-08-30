@@ -7,7 +7,7 @@
 #include "../stocks.console.api/alpacha.h"
 #include "asset_validation.h"
 #include "indicator_analysis.h"
-#include "sma.h"
+#include "include/sma.h"
 #include "rsi.h"
 
 #include "../stocks.console.indicator/rsi.h"

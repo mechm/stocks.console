@@ -6,8 +6,8 @@
 #include "../stocks.console.api/finn_hub.h"
 
 #include "indicator_analysis.h"
-#include "account_details.h"
-#include "order.h"
+#include "include/account_details.h"
+#include "include/order.h"
 #include "stock_detail.h"
 
 int main()
