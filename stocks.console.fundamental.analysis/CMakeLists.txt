@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_CXX_STANDARD 20)
 
-project(stocks.console.fundamental.analysis.proj)
+project(stocks.console.fundamental.analysis)
 
 set(MY_LIBRARY_SOURCES
         src/quantative/eps.cpp

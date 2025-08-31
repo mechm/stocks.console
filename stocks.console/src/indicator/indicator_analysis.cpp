@@ -1,17 +1,19 @@
+#include "../../include/asset_validation.h"
+#include "../../include/indicator/indicator_analysis.h"
+#include "../../include/indicator/sma.h"
+#include "../../include/indicator/rsi.h"
+#include "../../include/indicator/macd.h"
+
+#include "../../../stocks.console.api/alpacha.h"
+#include "../../../stocks.console.indicator/rsi.h"
+#include "../../../stocks.console.indicator/sma.h"
+#include "../../../stocks.console.indicator/macd.h"
+
+#include <json/json.h>
+
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <json/json.h>
-#include <iomanip>
-
-#include "../../stocks.console.api/alpacha.h"
-#include "../include/asset_validation.h"
-#include "../include/indicator_analysis.h"
-#include "../include/indicator/sma.h"
-#include "../include/indicator/rsi.h"
-
-#include "../../stocks.console.indicator/rsi.h"
-#include "../../stocks.console.indicator/sma.h"
 
 void HandleIndicatorAnalysis(Alpacha& alpacha)
 {
@@ -45,7 +47,7 @@ void HandleIndicatorAnalysis(Alpacha& alpacha)
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             continue;
         }
-       
+
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -59,7 +61,7 @@ void HandleIndicatorAnalysis(Alpacha& alpacha)
             ShowRSI(alpacha, assetResult.asset.symbol);
             break;
         case 3: // MACD
-            //ShowMACD(alpacha, assetResult.asset.symbol);
+            ShowMACD(alpacha, assetResult.asset.symbol);
             break;
         case 4: // OBV
             // Future: ShowOBV(alpacha, assetResult.asset.symbol);
@@ -84,7 +86,7 @@ static void showIndicatorHelpMenu()
     constexpr IndicatorHelp indicators[] = {
          {1, "SMA",  "Simple Moving Average, a trend-following indicator that smooths price data.", printSMAHelp},
          {2, "RSI",  "Relative Strength Index, a momentum oscillator that measures the speed and change of price movements.", printRSIHelp},
-        // {3, "MACD", "Moving Average Convergence Divergence, a trend-following momentum indicator that shows the relationship between two moving averages of a security's price.", printMACDHelp },
+         {3, "MACD", "Moving Average Convergence Divergence, a trend-following momentum indicator that shows the relationship between two moving averages of a security's price.", printMACDHelp },
          //{4, "OBV",  "On-Balance Volume, a volume-based indicator that adds volume on up days and subtracts volume on down days to confirm price trends and spot potential reversals.", printOBVHelp }
     };
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(stocks.console)
-
 set(CMAKE_CXX_STANDARD 20)
+
+project(stocks.console)
 
 # config.json doesn't need CMake variable substitution
 set(CONFIG_JSON_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/stocks.console/config_doc.json")
@@ -26,23 +26,15 @@ add_custom_target(CopyConfigJson ALL DEPENDS "${CONFIG_JSON_DESTINATION}")
 
 find_package(jsoncpp CONFIG REQUIRED)
 
-# Build your executable
-add_executable(stocks.console
-        "stocks.console/src/stocks.console.cpp"
-		stocks.console/src/account_details.cpp
-		stocks.console/src/indicator_analysis.cpp
-		stocks.console/src/order.cpp
-		stocks.console/src/asset_validation.cpp
-		stocks.console/src/currency_validation.cpp
-		stocks.console/src/date_validation.cpp
-		stocks.console/src/indicator/sma.cpp
-		stocks.console/src/indicator/rsi.cpp
-		stocks.console/src/indicator/macd.cpp
-		stocks.console/include/stock_detail.h
-		stocks.console/src/stock_detail.cpp
-		stocks.console.fundamental.analysis/src/quantative/eps.cpp
-		stocks.console.fundamental.analysis/include/quantative/eps.h
+# Automatically collect all source and header files
+file(GLOB_RECURSE STOCKS_CONSOLE_SOURCES
+    "stocks.console/src/*.cpp"
+    "stocks.console/include/*.h"
 )
+
+# Build your executable
+add_executable(stocks.console ${STOCKS_CONSOLE_SOURCES}
+        stocks.console/include/indicator/macd.h)
 
 add_dependencies(stocks.console CopyConfigJson)
 

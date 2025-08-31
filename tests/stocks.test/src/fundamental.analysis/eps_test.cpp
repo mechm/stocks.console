@@ -73,6 +73,3 @@ TEST(EPS, CalculateEPS_Apple_Signals){
         assert(false);
     }
 }
-
-
-

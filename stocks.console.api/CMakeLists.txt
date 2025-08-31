@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_CXX_STANDARD 20)
 
-project(stocks.console.api.proj)
+project(stocks.console.api)
 
 find_package(CURL CONFIG REQUIRED)
 

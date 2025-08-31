@@ -1,6 +1,6 @@
 #include "../include/stock_detail.h"
 
-#include "../include/indicator_analysis.h"
+#include "../include/indicator/indicator_analysis.h"
 #include "../include/account_details.h"
 #include "../include/order.h"
 

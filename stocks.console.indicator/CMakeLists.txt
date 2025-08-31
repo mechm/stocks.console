@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 set(CMAKE_CXX_STANDARD 20)
 
-project(stocks.console.indicator.proj)
+project(stocks.console.indicator)
 
 set(MY_LIBRARY_SOURCES
    macd.cpp
