@@ -16,5 +16,4 @@ void HandleStockDetail(const FinnHub& finnHub)
     else {
         std::cout << "Error: " << response << "\n";
     }
-
 }

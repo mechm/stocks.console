@@ -4,13 +4,13 @@ set(CMAKE_CXX_STANDARD 20)
 project(stocks.console.indicator)
 
 set(MY_LIBRARY_SOURCES
-   macd.cpp
+        src/macd.cpp
    rsi.cpp
    sma.cpp
 )
 
 set(MY_LIBRARY_HEADERS
-   macd.h
+        include/macd.h
    rsi.h
    sma.h
 )

@@ -4,7 +4,7 @@
 #include <json/json.h>
 
 #include "../../stocks.console.api/alpacha.h"
-#include "../include/asset_validation.h"
+#include "../include/validation/asset_validation.h"
 #include "../include/order.h"
 #include "../../stocks.console.utilities/formatter.h"
 

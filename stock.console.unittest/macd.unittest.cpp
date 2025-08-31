@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../stocks.console.indicator/macd.h"
+#include "../stocks.console.indicator/include/macd.h"
 #include <vector>
 #include <iostream>
 

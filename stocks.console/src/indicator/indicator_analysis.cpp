@@ -1,4 +1,4 @@
-#include "../../include/asset_validation.h"
+#include "../../include/validation/asset_validation.h"
 #include "../../include/indicator/indicator_analysis.h"
 #include "../../include/indicator/sma.h"
 #include "../../include/indicator/rsi.h"
@@ -7,7 +7,7 @@
 #include "../../../stocks.console.api/alpacha.h"
 #include "../../../stocks.console.indicator/rsi.h"
 #include "../../../stocks.console.indicator/sma.h"
-#include "../../../stocks.console.indicator/macd.h"
+#include "../../../stocks.console.indicator/include/macd.h"
 
 #include <json/json.h>
 

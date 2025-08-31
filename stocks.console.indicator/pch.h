@@ -11,6 +11,6 @@
 #include "framework.h"
 #include "sma.h"
 #include "rsi.h"
-#include "macd.h"
+#include "include/macd.h"
 
 #endif //PCH_H

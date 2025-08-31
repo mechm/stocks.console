@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <cctype>
 
-#include "../../stocks.console.api/alpacha.h"
-#include "../include/asset_validation.h"
+#include "../../../stocks.console.api/alpacha.h"
+#include "../../include/validation/asset_validation.h"
 
 AssetResult GetValidAssetWithCancel(const Alpacha& alpacha) {
     std::string symbol;

@@ -2,7 +2,7 @@
 #include <vector>
 #include <algorithm>
 
-#include "pch.h"
+#include "../pch.h"
 
 /// @brief Prints help information about the Exponential Moving Average (EMA) indicator.
 void printEMAHelp()

@@ -1,23 +1,23 @@
 #include "pch.h"
 
+#include "alpacha.h"
+
+#include "../stocks.console.utilities/string_utilities.h"
+#include "../stocks.console.utilities/date_utilities.h"
+
 #include <curl/curl.h>
+#include <json/json.h>
+
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <json/json.h>
 #include <iomanip>
-
-#include "alpacha.h"
-#include "../stocks.console.utilities/string_utilities.h"
 #include <algorithm>
-#include "../stocks.console.utilities/date_utilities.h"
 
-using namespace std;
-
-Alpacha::Alpacha(const string& apiKey, const string& secretKey, bool paper)
+Alpacha::Alpacha(const std::string& apiKey, const std::string& secretKey, bool paper)
 {    
     if (apiKey.empty() || secretKey.empty()) {
-        cout << "Error: API credentials not set." << endl;
+        std::cout << "Error: API credentials not set." << std::endl;
         exit(1);
     }
 
@@ -26,8 +26,8 @@ Alpacha::Alpacha(const string& apiKey, const string& secretKey, bool paper)
     this->paper = paper;
 }
 
-RequestResponse Alpacha::GetRequest(const string& url, const string& payload) const {
-    const vector<string> headers = {
+RequestResponse Alpacha::GetRequest(const std::string& url, const std::string& payload) const {
+    const std::vector<std::string> headers = {
         "accept: application/json",
         "content-type: application/json",
         "APCA-API-KEY-ID: " + apiKey,
@@ -39,7 +39,7 @@ RequestResponse Alpacha::GetRequest(const string& url, const string& payload) co
 
 #pragma region Account
 
-bool Alpacha::IsValidAccountResponse(const string& jsonResponse) {
+bool Alpacha::IsValidAccountResponse(const std::string& jsonResponse) {
         Json::Value root;
 
         if (Json::Reader reader; !reader.parse(jsonResponse, root)) {
@@ -55,8 +55,8 @@ bool Alpacha::IsValidAccountResponse(const string& jsonResponse) {
 RequestResponse Alpacha::GetAccount() const {
     try {
         // Build the URL
-        const string baseUrl = paper ? paperApiUrl : liveApiUrl;
-        const string url = baseUrl + "/account";
+        const std::string baseUrl = paper ? paperApiUrl : liveApiUrl;
+        const std::string url = baseUrl + "/account";
 
         // Log the request (optional)
 #ifdef DEBUG
@@ -68,7 +68,7 @@ RequestResponse Alpacha::GetAccount() const {
 
         // Validate response
         if (!response.success) {
-            cerr << "Failed to retrieve account information" << endl;
+            std::cerr << "Failed to retrieve account information" << std::endl;
             return response;
         }
 
@@ -81,29 +81,29 @@ RequestResponse Alpacha::GetAccount() const {
 
         return response;
     }
-    catch (const exception& e) {
+    catch (const std::exception& e) {
         RequestResponse errorResponse;
         errorResponse.success = false;
-        errorResponse.response = "Exception in GetAccount: " + string(e.what());
+        errorResponse.response = "Exception in GetAccount: " + std::string(e.what());
         return errorResponse;
     }
 }
 
 RequestResponse Alpacha::GetAllOpenPositions() const {
-    const string url = (paper ? paperApiUrl : liveApiUrl) + "/positions";
+    const std::string url = (paper ? paperApiUrl : liveApiUrl) + "/positions";
     return GetRequest(url);
 }
 
-RequestResponse Alpacha::BuyStock(const string& symbol, const double quantity) const {
-    const string url = (paper ? paperApiUrl : liveApiUrl) + "/orders";
-    const string payload = R"({"symbol":")" + symbol + R"(","qty":)" + to_string(quantity) + R"(, "side":")"
+RequestResponse Alpacha::BuyStock(const std::string& symbol, const double quantity) const {
+    const std::string url = (paper ? paperApiUrl : liveApiUrl) + "/orders";
+    const std::string payload = R"({"symbol":")" + symbol + R"(","qty":)" + std::to_string(quantity) + R"(, "side":")"
         + "buy" + R"(","type":"market","time_in_force":"day"})";
     return GetRequest(url, payload);
 }
 
-RequestResponse Alpacha::SellStock(const string& symbol, const double quantity) const {
-    const string url = (paper ? paperApiUrl : liveApiUrl) + "/orders";
-    const string payload = R"({"symbol":")" + symbol + R"(","qty":)" + to_string(quantity) + R"(, "side":")"
+RequestResponse Alpacha::SellStock(const std::string& symbol, const double quantity) const {
+    const std::string url = (paper ? paperApiUrl : liveApiUrl) + "/orders";
+    const std::string payload = R"({"symbol":")" + symbol + R"(","qty":)" + std::to_string(quantity) + R"(, "side":")"
         + "sell" + R"(","type":"market","time_in_force":"day"})";
     return GetRequest(url, payload);
 }
@@ -168,13 +168,13 @@ time_t Alpacha::GetTradingDateNDaysAgo(int daysAgo) {
         }
 
         if (calendar_days.empty()) {
-            cerr << "No trading days found in the specified range" << endl;
+            std::cerr << "No trading days found in the specified range" << std::endl;
             return 0;
         }
 
         // Sort calendar days by date (most recent first)
         std::vector<MarketDay> sortedDays = calendar_days;
-        ranges::sort(sortedDays,
+        std::ranges::sort(sortedDays,
                      [](const MarketDay& a, const MarketDay& b) {
                          return a.date > b.date; // Descending order
                      });
@@ -185,9 +185,9 @@ time_t Alpacha::GetTradingDateNDaysAgo(int daysAgo) {
 
         // Check if we have enough trading days
         if (sortedDays.size() <= static_cast<size_t>(daysAgo - 1)) {
-            cerr << "Insufficient trading days. Requested: " << daysAgo
-                << ", Available: " << sortedDays.size() << endl;
-            cerr << "Consider increasing the lookback period or checking API limits" << endl;
+            std::cerr << "Insufficient trading days. Requested: " << daysAgo
+                << ", Available: " << sortedDays.size() << std::endl;
+            std::cerr << "Consider increasing the lookback period or checking API limits" << std::endl;
             return 0;
         }
 
@@ -286,17 +286,17 @@ RequestResponse Alpacha::GetMarketCalendarInfo(const time_t& start, const time_t
 
 #pragma region Market Data
 
-RequestResponse Alpacha::GetAssetBySymbol(const string& symbol) const {
-    const string url = (paper ? paperApiUrl : liveApiUrl) + "/assets/" + symbol;
+RequestResponse Alpacha::GetAssetBySymbol(const std::string& symbol) const {
+    const std::string url = (paper ? paperApiUrl : liveApiUrl) + "/assets/" + symbol;
     return GetRequest(url);
 }
 
-RequestResponse Alpacha::GetAssetByExchange(const string& exchange) const {
-    const string url = (paper ? paperApiUrl : liveApiUrl) + "/assets?status=active&exchange=" + exchange;
+RequestResponse Alpacha::GetAssetByExchange(const std::string& exchange) const {
+    const std::string url = (paper ? paperApiUrl : liveApiUrl) + "/assets?status=active&exchange=" + exchange;
     return GetRequest(url);
 }
 
-AssetResult Alpacha::GetAssetBySymbolAsObject(const string& symbol) const {
+AssetResult Alpacha::GetAssetBySymbolAsObject(const std::string& symbol) const {
     AssetResult result;
 
     try {
@@ -323,17 +323,17 @@ AssetResult Alpacha::GetAssetBySymbolAsObject(const string& symbol) const {
             result.errorMessage = "API call failed: " + response;
         }
     }
-    catch (const exception& e) {
+    catch (const std::exception& e) {
         result.success = false;
-        result.errorMessage = "Exception occurred: " + string(e.what());
+        result.errorMessage = "Exception occurred: " + std::string(e.what());
     }
 
     return result;
 }
 
 
-RequestResponse Alpacha::GetAssetsByExchange(const string& exchange) const {
-    const string url = (paper ? paperApiUrl : liveApiUrl) + "/assets?exchange=" + exchange;
+RequestResponse Alpacha::GetAssetsByExchange(const std::string& exchange) const {
+    const std::string url = (paper ? paperApiUrl : liveApiUrl) + "/assets?exchange=" + exchange;
     return GetRequest(url);
 }
 
@@ -423,9 +423,9 @@ HistoricalClosedPrices Alpacha::GetHistoricalClosedPrices(const std::string& sym
 }
 
 RequestResponse Alpacha::GetHistoricalBars(const std::string& symbol, const std::string& timeframe, const time_t start) const {
-    const string start_time = StringUtilities::TimeToUtcIso8601(start);
+    const std::string start_time = StringUtilities::TimeToUtcIso8601(start);
 
-    const string url = liveMarketDataApiUrl+"/stocks/bars?symbols=" + symbol + "&timeframe=" + timeframe + "&start=" + start_time + "&limit=1000&adjustment=raw&feed=sip&sort=asc";
+    const std::string url = liveMarketDataApiUrl+"/stocks/bars?symbols=" + symbol + "&timeframe=" + timeframe + "&start=" + start_time + "&limit=1000&adjustment=raw&feed=sip&sort=asc";
 
     return GetRequest(url);
 }

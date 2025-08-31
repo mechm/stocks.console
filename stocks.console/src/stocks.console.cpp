@@ -28,15 +28,15 @@ int main()
     while (running) {
 
         std::cout << "\n====================[ Command Menu ]====================\n"
-        << "  1: Get Account Details\n"
-        << "  2: Get Account Positions\n"
-        << "  3: Check stock against indicator\n"
-        << "  4: Buy Stock\n"
-        << "  5: Sell Stock\n"
-        << "  6: Get Stock Details\n"
-        << "  0: Exit\n"
-        << "--------------------------------------------------------\n"
-        << "Enter command: ";
+                << "  1: Get Account Details\n"
+                << "  2: Get Account Positions\n"
+                << "  3: Check stock against indicator\n"
+                << "  4: Buy Stock\n"
+                << "  5: Sell Stock\n"
+                << "  6: Get Stock Details\n"
+                << "  0: Exit\n"
+                << "--------------------------------------------------------\n"
+                << "Enter command: ";
 
         int command;
         std::cin >> command;

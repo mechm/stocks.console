@@ -1,11 +1,12 @@
-#include <string>
-#include <iostream>
-#include <iomanip>
+#include "../../include/indicator/sma.h"
+#include "../../include/validation/date_validation.h"
 
 #include "../../../stocks.console.api/alpacha.h"
 #include "../../../stocks.console.indicator/sma.h"
-#include "../../include/date_validation.h"
-#include "../../include/indicator/sma.h"
+
+#include <string>
+#include <iostream>
+#include <iomanip>
 
 void ShowSMA(Alpacha& alpacha, const std::string& symbol)
 {
@@ -53,6 +54,37 @@ void ShowSMA(Alpacha& alpacha, const std::string& symbol)
 
     printSMAAnalysis(currentPrice, sma, signal);
 }
+
+// void ContinueToObtainSMAEveryXSeconds(Alpacha& alpacha, const std::string& symbol)
+// {
+//
+//     // Validate date and period
+//     time_t validatedTime = GetValidDateOrEmpty();
+//     const int period = GetValidPeriod();
+//
+//     // If no date is set, get the trading date N days ago
+//     if (validatedTime == 0) {
+//         validatedTime = alpacha.GetTradingDateNDaysAgo(period);
+//     }
+//
+//     // Retrieve historical prices
+//     const HistoricalClosedPrices closingPrices =
+//         alpacha.GetHistoricalClosedPrices(symbol, "1D", validatedTime);
+//
+//     // loop every x seconds based on api policy also
+//
+//
+//     // Calculate SMA
+//     const double sma = calculateSMA(closingPrices.prices, period);
+//
+//     // Analyze SMA and get signal
+//     const double currentPrice = closingPrices.prices.back();
+//     constexpr double threshold = 1.0;
+//     const int signal = getSMASignal(currentPrice, sma, threshold);
+//
+//     printSMAAnalysis(currentPrice, sma, signal);
+//
+// }
 
 static int GetValidPeriod() {
     int period;

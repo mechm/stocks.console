@@ -7,7 +7,7 @@ add_subdirectory(lib/googletest)
 
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-add_executable(Google_Tests_run RSITest.cpp
+add_executable(Google_Tests_run
         src/indicator/rsi_test.cpp
         src/fundamental.analysis/eps_test.cpp
         src/indicator/sma_test.cpp
