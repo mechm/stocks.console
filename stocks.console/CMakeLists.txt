@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
-project(stocks.console)
-
 set(CMAKE_CXX_STANDARD 20)
+
+project(stocks.console)
 
 find_package(jsoncpp CONFIG REQUIRED)
 
