@@ -1,4 +1,4 @@
-#include "currency_validation.h"
+#include "../include/currency_validation.h"
 #include <regex>
 #include <sstream>
 #include <iostream>
@@ -44,7 +44,7 @@ double CurrencyInput::GetCurrencyAmount(const string& prompt) {
                 validInput = true;
 
             }
-            catch (const exception& e) {
+            catch ([[maybe_unused]] const exception& e) {
                 cout << "Error: Invalid amount format. Please try again." << endl;
             }
         }
@@ -92,7 +92,7 @@ double CurrencyInput::GetCurrencyAmountWithRange(const string& prompt, const dou
                 validInput = true;
 
             }
-            catch (const exception& e) {
+            catch ([[maybe_unused]] const exception& e) {
                 cout << "Error: Invalid amount format. Please try again." << endl;
             }
         }

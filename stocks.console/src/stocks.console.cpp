@@ -1,14 +1,16 @@
-#include <iostream>
-#include <fstream>
+#include "../include/stock_detail.h"
+
+#include "../include/indicator_analysis.h"
+#include "../include/account_details.h"
+#include "../include/order.h"
+
+#include "../../stocks.console.api/alpacha.h"
+#include "../../stocks.console.api/finn_hub.h"
+
 #include <json/json.h>
 
-#include "../stocks.console.api/alpacha.h"
-#include "../stocks.console.api/finn_hub.h"
-
-#include "indicator_analysis.h"
-#include "include/account_details.h"
-#include "include/order.h"
-#include "stock_detail.h"
+#include <fstream>
+#include <iostream>
 
 int main()
 {

@@ -47,21 +47,19 @@ double calculateSMA(const std::vector<double>& prices, const int period)
 /// @param smaValue the calculated SMA value
 /// @param threshold percentage threshold for signal generation (default 0.0 for any crossover)
 /// @return 1 for BUY, -1 for SELL, 0 for HOLD
-int getSMASignal(double currentPrice, double smaValue, double threshold)
+int getSMASignal(const double currentPrice, const double smaValue, const double threshold)
 {
     if (smaValue == 0.0) {
         return 0; // Invalid SMA, hold
     }
 
-    double percentageDiff = ((currentPrice - smaValue) / smaValue) * 100.0;
-
-    if (percentageDiff > threshold) {
+    if (const double percentageDiff = (currentPrice - smaValue) / smaValue * 100.0; percentageDiff > threshold) {
         return 1; // BUY signal - price above SMA
     }
-    else if (percentageDiff < -threshold) {
-        return -1; // SELL signal - price below SMA
-    }
     else {
+        if (percentageDiff < -threshold) {
+            return -1; // SELL signal - price below SMA
+        }
         return 0; // HOLD - price near SMA within threshold
     }
 }

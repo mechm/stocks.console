@@ -2,10 +2,10 @@
 #include <iostream>
 #include <iomanip>
 
-#include "../stocks.console.api/alpacha.h"
-#include "../stocks.console.indicator/sma.h"
-#include "date_validation.h"
-#include "include/sma.h"
+#include "../../../stocks.console.api/alpacha.h"
+#include "../../../stocks.console.indicator/sma.h"
+#include "../../include/date_validation.h"
+#include "../../include/indicator/sma.h"
 
 void ShowSMA(Alpacha& alpacha, const std::string& symbol)
 {

@@ -2,10 +2,10 @@
 #include <iostream>
 #include <iomanip>
 
-#include "../stocks.console.api/alpacha.h"
-#include "../stocks.console.indicator/rsi.h"
-#include "rsi.h"
-#include "date_validation.h"
+#include "../../../stocks.console.api/alpacha.h"
+#include "../../../stocks.console.indicator/rsi.h"
+#include "../../include/indicator/rsi.h"
+#include "../../include/date_validation.h"
 
 void ShowRSI(Alpacha& alpacha, const std::string& symbol)
 {

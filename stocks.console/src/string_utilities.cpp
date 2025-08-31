@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-#include "string_utilities.h"
+#include "../string_utilities.h"
 
 std::string StringUtilities::TimeToUtcIso8601(const time_t t)
 {  

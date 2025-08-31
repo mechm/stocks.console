@@ -17,10 +17,12 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 #find_package(GTest REQUIRED)
 
 add_executable(Google_Tests_run RSITest.cpp
-        indicator/rsi_test.cpp
+        src/indicator/rsi_test.cpp
+        src/fundamental.analysis/eps_test.cpp
 )
 
 target_link_libraries(Google_Tests_run PRIVATE stocks.console.indicator)
+target_link_libraries(Google_Tests_run PRIVATE stocks.console.fundamental.analysis)
 target_link_libraries(Google_Tests_run PRIVATE gtest gtest_main)
 
 # Enable testing for the project

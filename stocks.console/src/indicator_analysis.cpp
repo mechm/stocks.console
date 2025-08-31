@@ -4,14 +4,14 @@
 #include <json/json.h>
 #include <iomanip>
 
-#include "../stocks.console.api/alpacha.h"
-#include "asset_validation.h"
-#include "indicator_analysis.h"
-#include "include/sma.h"
-#include "rsi.h"
+#include "../../stocks.console.api/alpacha.h"
+#include "../include/asset_validation.h"
+#include "../include/indicator_analysis.h"
+#include "../include/indicator/sma.h"
+#include "../include/indicator/rsi.h"
 
-#include "../stocks.console.indicator/rsi.h"
-#include "../stocks.console.indicator/sma.h"
+#include "../../stocks.console.indicator/rsi.h"
+#include "../../stocks.console.indicator/sma.h"
 
 void HandleIndicatorAnalysis(Alpacha& alpacha)
 {

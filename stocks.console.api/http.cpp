@@ -1,5 +1,3 @@
-#include "pch.h"
-
 #include "http.h"
 
 #include <curl/curl.h>

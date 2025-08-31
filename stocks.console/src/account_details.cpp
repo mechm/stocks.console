@@ -1,10 +1,10 @@
 #include <iostream>
 #include <json/json.h>
 
-#include "../stocks.console.api/alpacha.h"
-#include "../stocks.console.utilities/formatter.h"
+#include "../../stocks.console.api/alpacha.h"
+#include "../../stocks.console.utilities/formatter.h"
 
-#include "include/account_details.h"
+#include "../include/account_details.h"
 
 void HandleAccountDetails(const Alpacha& alpacha) {
     if (const auto [success, response] = alpacha.GetAccount(); success) {

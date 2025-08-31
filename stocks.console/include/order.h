@@ -1,4 +1,5 @@
 #pragma once
+
 #include <json/value.h>
 #include "../../stocks.console.api/alpacha.h"
 

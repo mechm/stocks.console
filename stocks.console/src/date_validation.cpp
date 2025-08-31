@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 
-#include "date_validation.h"
+#include "../include/date_validation.h"
 
 time_t GetValidDateOrEmpty() {
     
@@ -51,7 +51,7 @@ bool ValidateDate(const std::string& date, time_t& outTime) {
             return false;
         }
     }
-    catch (const std::exception) {
+    catch (const std::exception e) {
         std::cout << "Error: Invalid date format. Please use ISO 8601 format (YYYY-MM-DD, YYYY-MM-DDTHH:MM:SSZ, etc.)." << std::endl;
         return false;
     }

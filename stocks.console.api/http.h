@@ -5,7 +5,7 @@
 
 struct RequestResponse {
     bool success = false;
-    std::string response = "";
+    std::string response;
 };
 
 class Http {
