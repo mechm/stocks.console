@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 void printEMAHelp();
 void printMACDHelp();
 

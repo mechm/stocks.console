@@ -2,7 +2,7 @@
 #include <vector>
 #include <cmath>
 
-#include "pch.h"
+#include "../pch.h"
 #include <iomanip>
 
 double oversoldThreshold = 30;

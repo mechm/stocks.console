@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 
-#include "pch.h"
+#include "../pch.h"
 
 /// @brief Prints help information about the Simple Moving Average (SMA) indicator.
 void printSMAHelp()

@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 
-#include "../stocks.console.indicator/obv.h"
+#include "../stocks.console.indicator/include/obv.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

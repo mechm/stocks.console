@@ -5,14 +5,14 @@ project(stocks.console.indicator)
 
 set(MY_LIBRARY_SOURCES
         src/macd.cpp
-   rsi.cpp
-   sma.cpp
+        src/rsi.cpp
+        src/sma.cpp
 )
 
 set(MY_LIBRARY_HEADERS
         include/macd.h
-   rsi.h
-   sma.h
+        include/rsi.h
+        include/sma.h
 )
 
 add_library(stocks.console.indicator

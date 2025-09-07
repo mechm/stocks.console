@@ -1,7 +1,8 @@
+#include "../../../../stocks.console.indicator/include/rsi.h"
+
 #include "gtest/gtest.h"
 
 #include <vector>
-#include "../../stocks.console.indicator/rsi.h"
 
 TEST(RSI, CalculateRSI_OverBought){
 

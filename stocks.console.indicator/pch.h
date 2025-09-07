@@ -9,8 +9,8 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
-#include "sma.h"
-#include "rsi.h"
+#include "include/sma.h"
+#include "include/rsi.h"
 #include "include/macd.h"
 
 #endif //PCH_H

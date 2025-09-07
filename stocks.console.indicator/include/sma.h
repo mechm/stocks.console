@@ -1,5 +1,4 @@
-#ifndef SMA_H
-#define SMA_H
+#pragma once
 
 #include <vector>
 
@@ -11,6 +10,4 @@ double calculateSMA(const std::vector<double>& prices, int period);
 int getSMASignal(double currentPrice, double smaValue, double threshold);
 
 /// @brief Print SMA analysis
-void printSMAAnalysis(const double currentPrice, const double smaValue, const int signal);
-
-#endif // SMA_H
+void printSMAAnalysis(double currentPrice, double smaValue, int signal);

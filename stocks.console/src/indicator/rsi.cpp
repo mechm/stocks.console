@@ -3,7 +3,7 @@
 #include <iomanip>
 
 #include "../../../stocks.console.api/alpacha.h"
-#include "../../../stocks.console.indicator/rsi.h"
+#include "../../../stocks.console.indicator/include/rsi.h"
 #include "../../include/indicator/rsi.h"
 #include "../../include/validation/date_validation.h"
 

@@ -1,4 +1,4 @@
-#include "../../stocks.console.indicator/sma.h"
+#include "../../stocks.console.indicator/include/sma.h"
 
 #include "gtest/gtest.h"
 
