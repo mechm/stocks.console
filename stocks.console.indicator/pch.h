@@ -12,5 +12,6 @@
 #include "include/sma.h"
 #include "include/rsi.h"
 #include "include/macd.h"
+#include "include/obv.h"
 
 #endif //PCH_H

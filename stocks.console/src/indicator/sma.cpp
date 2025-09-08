@@ -2,7 +2,7 @@
 #include "../../include/validation/date_validation.h"
 
 #include "../../../stocks.console.api/alpacha.h"
-#include "../../../stocks.console.indicator/sma.h"
+#include "../../../stocks.console.indicator/include/sma.h"
 
 #include <string>
 #include <iostream>

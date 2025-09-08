@@ -6,7 +6,7 @@
 
 #include "../../../stocks.console.api/alpacha.h"
 #include "../../../stocks.console.indicator/include/rsi.h"
-#include "../../../stocks.console.indicator/sma.h"
+#include "../../../stocks.console.indicator/include/sma.h"
 #include "../../../stocks.console.indicator/include/macd.h"
 
 #include <json/json.h>

@@ -3,17 +3,16 @@ set(CMAKE_CXX_STANDARD 20)
 
 project(stocks.console.indicator)
 
-set(MY_LIBRARY_SOURCES
-        src/macd.cpp
-        src/rsi.cpp
-        src/sma.cpp
+# Dynamically collect all .cpp source files in src/
+file(GLOB MY_LIBRARY_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
-set(MY_LIBRARY_HEADERS
-        include/macd.h
-        include/rsi.h
-        include/sma.h
+# Dynamically collect all .h header files in include/
+file(GLOB MY_LIBRARY_HEADERS
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
 )
+
 
 add_library(stocks.console.indicator
     ${MY_LIBRARY_SOURCES}

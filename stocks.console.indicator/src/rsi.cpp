@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <vector>
-#include <cmath>
 
 #include "../pch.h"
 #include <iomanip>
