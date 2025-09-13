@@ -4,7 +4,7 @@
 #include "../../include/indicator/rsi.h"
 #include "../../include/indicator/macd.h"
 
-#include "../../../stocks.console.api/alpacha.h"
+#include "../../../stocks.console.api/include/alpacha.h"
 #include "../../../stocks.console.indicator/include/rsi.h"
 #include "../../../stocks.console.indicator/include/sma.h"
 #include "../../../stocks.console.indicator/include/macd.h"

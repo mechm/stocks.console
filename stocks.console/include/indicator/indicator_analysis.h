@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../stocks.console.api/alpacha.h"
+#include "../../../stocks.console.api/include/alpacha.h"
 
 void HandleIndicatorAnalysis(Alpacha& alpacha);
 static void showIndicatorHelpMenu();

@@ -3,7 +3,7 @@
 #include <vector>
 #include <json/json.h>
 
-#include "../../stocks.console.api/alpacha.h"
+#include "../../stocks.console.api/include/alpacha.h"
 #include "../include/validation/asset_validation.h"
 #include "../include/order.h"
 #include "../../stocks.console.utilities/formatter.h"

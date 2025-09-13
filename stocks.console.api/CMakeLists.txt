@@ -6,15 +6,15 @@ project(stocks.console.api)
 find_package(CURL CONFIG REQUIRED)
 
 set(MY_LIBRARY_SOURCES
-   alpacha.cpp
-   finn_hub.cpp
-   http.cpp
+        src/alpacha.cpp
+        src/finn_hub.cpp
+        src/http.cpp
 )
 
 set(MY_LIBRARY_HEADERS
-   alpacha.h
-   finn_hub.h
-   http.h
+        include/alpacha.h
+        include/finn_hub.h
+        include/http.h
 )
 
 add_library(stocks.console.api

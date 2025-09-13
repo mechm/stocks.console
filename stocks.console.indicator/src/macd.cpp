@@ -1,8 +1,7 @@
+#include "macd.h"
+
 #include <iostream>
 #include <vector>
-#include <algorithm>
-
-#include "../pch.h"
 
 /// @brief Prints help information about the Exponential Moving Average (EMA) indicator.
 void printEMAHelp()

@@ -13,7 +13,6 @@ file(GLOB MY_LIBRARY_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
 )
 
-
 add_library(stocks.console.indicator
     ${MY_LIBRARY_SOURCES}
     ${MY_LIBRARY_HEADERS} # Listing headers here can help IDEs with indexing

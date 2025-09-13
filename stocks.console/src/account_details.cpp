@@ -1,7 +1,7 @@
 #include <iostream>
 #include <json/json.h>
 
-#include "../../stocks.console.api/alpacha.h"
+#include "../../stocks.console.api/include/alpacha.h"
 #include "../../stocks.console.utilities/formatter.h"
 
 #include "../include/account_details.h"

@@ -41,3 +41,18 @@ TEST(OBV, CalculateOBV_EmptyInput){
     ASSERT_TRUE(result.empty());
 }
 
+TEST(OBV, CalculateOBV_SizeMismatch){
+
+    // Arrange
+    const std::vector<double> prices = { 100.0, 101.0 };
+    const std::vector<long long> volumes = { 1000 };
+
+    // Act
+    const std::vector<long long> result = calculateOBV(prices, volumes);
+
+    // Assert
+    ASSERT_TRUE(result.empty());
+}
+
+
+

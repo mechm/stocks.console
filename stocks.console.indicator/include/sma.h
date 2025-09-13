@@ -3,6 +3,7 @@
 #include <vector>
 
 void printSMAHelp();
+
 /// @brief Calculate Simple Moving Average
 double calculateSMA(const std::vector<double>& prices, int period);
 

@@ -1,9 +1,9 @@
-#include "pch.h"
+#include "../pch.h"
 
-#include "alpacha.h"
+#include "../include/alpacha.h"
 
-#include "../stocks.console.utilities/string_utilities.h"
-#include "../stocks.console.utilities/date_utilities.h"
+#include "../../stocks.console.utilities/string_utilities.h"
+#include "../../stocks.console.utilities/date_utilities.h"
 
 #include <curl/curl.h>
 #include <json/json.h>

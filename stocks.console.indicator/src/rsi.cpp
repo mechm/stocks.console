@@ -1,7 +1,7 @@
-﻿#include <iostream>
-#include <vector>
+﻿#include "rsi.h"
 
-#include "../pch.h"
+#include <iostream>
+#include <vector>
 #include <iomanip>
 
 double oversoldThreshold = 30;

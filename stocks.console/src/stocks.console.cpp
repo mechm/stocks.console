@@ -4,8 +4,8 @@
 #include "../include/account_details.h"
 #include "../include/order.h"
 
-#include "../../stocks.console.api/alpacha.h"
-#include "../../stocks.console.api/finn_hub.h"
+#include "../../stocks.console.api/include/alpacha.h"
+#include "../../stocks.console.api/include/finn_hub.h"
 
 #include <json/json.h>
 

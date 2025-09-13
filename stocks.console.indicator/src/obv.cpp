@@ -1,6 +1,7 @@
+#include "obv.h"
+
 #include <iostream>
 #include <vector>
-#include "../pch.h"
 
 /// @brief Prints help information about the On-Balance Volume (OBV) indicator.
 void printOBVHelp()

@@ -1,9 +1,9 @@
-#include "pch.h"
+#include "../pch.h"
 
 #include <string>
 #include <iostream>
 
-#include "finn_hub.h"
+#include "../include/finn_hub.h"
 
 FinnHub::FinnHub(const std::string& apiKey)
 {

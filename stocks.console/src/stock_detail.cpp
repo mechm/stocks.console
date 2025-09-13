@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "../../stocks.console.utilities/formatter.h"
-#include "../../stocks.console.api/finn_hub.h"
+#include "../../stocks.console.api/include/finn_hub.h"
 
 void HandleStockDetail(const FinnHub& finnHub)
 {

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cctype>
 
-#include "../../../stocks.console.api/alpacha.h"
+#include "../../../stocks.console.api/include/alpacha.h"
 #include "../../include/validation/asset_validation.h"
 
 AssetResult GetValidAssetWithCancel(const Alpacha& alpacha) {
