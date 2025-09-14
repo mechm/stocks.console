@@ -48,7 +48,7 @@ std::vector<double> calculateStochasticK(const std::vector<PriceData>& data, int
         if (highest_high == lowest_low) {
             k_values.push_back(0.0);
         } else {
-            double k = ((data[i].close - lowest_low) / (highest_high - lowest_low)) * 100.0;
+            double k = (data[i].close - lowest_low) / (highest_high - lowest_low) * 100.0;
             k_values.push_back(k);
         }
     }
@@ -93,12 +93,12 @@ std::vector<Signal> getStochasticSignals(const std::vector<double>& k_values, co
     }
     return signals;
 }
-
-std::string signalToString(const Signal signal) {
-    static const std::map<Signal, std::string> signal_map = {
-        {Signal::Buy, "Buy"},
-        {Signal::Sell, "Sell"},
-        {Signal::Hold, "Hold"}
-    };
-    return signal_map.at(signal);
-}
+//
+// std::string signalToString(const Signal signal) {
+//     static const std::map<Signal, std::string> signal_map = {
+//         {Signal::Buy, "Buy"},
+//         {Signal::Sell, "Sell"},
+//         {Signal::Hold, "Hold"}
+//     };
+//     return signal_map.at(signal);
+// }

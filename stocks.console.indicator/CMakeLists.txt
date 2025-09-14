@@ -6,11 +6,13 @@ project(stocks.console.indicator)
 # Dynamically collect all .cpp source files in src/
 file(GLOB MY_LIBRARY_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/*/*.cpp"
 )
 
 # Dynamically collect all .h header files in include/
 file(GLOB MY_LIBRARY_HEADERS
     "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h"
+     "${CMAKE_CURRENT_SOURCE_DIR}/include/*/*.h"
 )
 
 add_library(stocks.console.indicator
