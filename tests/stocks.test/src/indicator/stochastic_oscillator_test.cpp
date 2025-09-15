@@ -1,22 +1,9 @@
 #include "../../stocks.console.indicator/include/stochastic_oscillator.h"
+#include "../../include/base_test.h"
 
 #include "gtest/gtest.h"
 
 #include <vector>
-
-static std::string signalToString(const Signal signal) {
-    static const std::map<Signal, std::string> signal_map = {
-        {Signal::Buy, "Buy"},
-        {Signal::Sell, "Sell"},
-        {Signal::Hold, "Hold"}
-    };
-    return signal_map.at(signal);
-}
-
-// Helper function to compare floating-point numbers
-bool areAlmostEqual(const double a, const double b, const double epsilon = 0.01) {
-    return std::abs(a - b) < epsilon;
-}
 
 TEST(Stochastic, AppleStochastic_Hold_Signals){
 

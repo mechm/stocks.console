@@ -7,14 +7,19 @@ add_subdirectory(lib/googletest)
 
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-# Automatically collect all source and header files
+file(GLOB MY_LIBRARY_HEADERS
+        "include/*.h"
+)
+
 file(GLOB_RECURSE STOCKS_CONSOLE_SOURCES
         "src/indicator/*.cpp"
+        "src/*.cpp"
         "src/fundamental.analysis/*.cpp"
 )
 
 add_executable(Google_Tests_run
         ${STOCKS_CONSOLE_SOURCES}
+        ${MY_LIBRARY_HEADERS}
 )
 
 target_link_libraries(Google_Tests_run PRIVATE stocks.console.indicator)

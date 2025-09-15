@@ -1,4 +1,5 @@
 #include "../../stocks.console.indicator/include/momentum/roc.h"
+#include "../../include/base_test.h"
 
 #include "gtest/gtest.h"
 
@@ -9,22 +10,7 @@
 #include <cassert>
 #include <string>
 
-// Helper function to compare floating-point numbers
-bool areAlmostEqual2(double a, double b, double epsilon = 0.01) {
-    return std::abs(a - b) < epsilon;
-}
-
-std::string signalToString2(const Signal signal) {
-    static const std::map<Signal, std::string> signal_map = {
-        {Signal::Buy, "Buy"},
-        {Signal::Sell, "Sell"},
-        {Signal::Hold, "Hold"}
-    };
-    return signal_map.at(signal);
-}
-
-
-TEST(ROC, CalculateApple){
+TEST(ROC, Calculate_Apple){
 
    std::cout << "--- Running test for ROC with Apple stock prices ---" << std::endl;
 
@@ -77,7 +63,7 @@ TEST(ROC, CalculateApple){
 
     // Verify each ROC value
     for (size_t i = 0; i < roc_results.size(); ++i) {
-        if (!areAlmostEqual2(roc_results[i], expected_roc[i])) {
+        if (!areAlmostEqual(roc_results[i], expected_roc[i])) {
             std::cerr << "Test failed for ROC at index " << i << ". Expected: "
                       << expected_roc[i] << ", but got: "
                       << roc_results[i] << std::endl;
@@ -89,8 +75,8 @@ TEST(ROC, CalculateApple){
     for (size_t i = 0; i < signals.size(); ++i) {
         if (signals[i] != expected_signals[i]) {
             std::cerr << "Test failed for Signal at index " << i << ". Expected: "
-                      << signalToString2(expected_signals[i]) << ", but got: "
-                      << signalToString2(signals[i]) << std::endl;
+                      << signalToString(expected_signals[i]) << ", but got: "
+                      << signalToString(signals[i]) << std::endl;
             assert(false);
         }
     }

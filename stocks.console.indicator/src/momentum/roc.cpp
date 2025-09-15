@@ -2,8 +2,7 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
-#include <string>
+
 
 void printROCHelp() {
     std::cout << "-----------------------------------" << std::endl;
@@ -77,13 +76,4 @@ std::vector<Signal> getROCSignals(const std::vector<double>& roc_values) {
         }
     }
     return signals;
-}
-
-std::string signalToString(const Signal signal) {
-    static const std::map<Signal, std::string> signal_map = {
-        {Signal::Buy, "Buy"},
-        {Signal::Sell, "Sell"},
-        {Signal::Hold, "Hold"}
-    };
-    return signal_map.at(signal);
 }
