@@ -3,7 +3,6 @@
 #include <iostream>
 #include <vector>
 
-
 void printROCHelp() {
     std::cout << "-----------------------------------" << std::endl;
     std::cout << "Rate of Change (ROC): The Momentum Indicator" << std::endl;

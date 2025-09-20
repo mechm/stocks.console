@@ -12,8 +12,46 @@
 #include <fstream>
 #include <iostream>
 
+
+#include <pqxx/pqxx>
+
+
 int main()
 {
+
+    try {
+        // // // Create a connection string
+        //std::string conn_string = "dbname=stocks user=sa password=lymm host=localhost port=5432";
+        //std::string conn_string = "dbname=mytestdb user=postgres password=mysecretpassword host=localhost port=5432";
+        std::string conn_string = "dbname=stocks user=sa password=lymm host=localhost port=5432";
+        // // //
+        // // // Establish a connection
+        pqxx::connection conn(conn_string);
+        //std::cout << "Connected to the database." << std::endl;
+        // Use a transaction object to execute a query
+        pqxx::work txn(conn);
+
+        // Execute a query
+        pqxx::result r = txn.exec("SELECT id, name FROM products ORDER BY id;");
+
+        // Iterate over the results
+        for (pqxx::row row : r) {
+            std::cout << "ID: " << row[0].as<int>() << ", Name: " << row[1].as<std::string>() << std::endl;
+        }
+
+        // Commit the transaction
+        txn.commit();
+
+    } catch (const pqxx::sql_error& e) {
+        std::cerr << "SQL error: " << e.what() << std::endl;
+        return 1;
+    } catch (const std::exception& e) {
+        std::cerr << "An error occurred: " << e.what() << std::endl;
+        return 1;
+    }
+
+
+
     Json::Value root;
     std::ifstream config_doc("config_doc.json", std::ifstream::binary);
     config_doc >> root; 

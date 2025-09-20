@@ -1,6 +1,7 @@
 #pragma once
 
 #include "indicator.h"
+
 #include <vector>
 
 std::vector<double> calculateStochasticK(const std::vector<PriceData>& data, int period);

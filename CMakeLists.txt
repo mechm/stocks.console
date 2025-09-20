@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(stocks.console)
 
@@ -25,6 +26,21 @@ add_custom_command(
 add_custom_target(CopyConfigJson ALL DEPENDS "${CONFIG_JSON_DESTINATION}")
 
 find_package(jsoncpp CONFIG REQUIRED)
+#find_package(libpq CONFIG REQUIRED)
+#find_package(pqxx CONFIG REQUIRED)
+#find_package(libpqxx CONFIG REQUIRED)
+#find_package(libpqxx CONFIG REQUIRED)
+#find_package(pqxx CONFIG REQUIRED)
+#find_package(pqxx CONFIG REQUIRED)
+#find_package(libpqxx CONFIG REQUIRED)
+#find_package(pqxx CONFIG REQUIRED)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lpqxx -lpq")
+
+set(PQXX /usr/local/include/pqxx)
+
+find_library(PQXX_LIB pqxx)
+find_library(PQ_LIB pq)
 
 # Automatically collect all source and header files
 file(GLOB_RECURSE STOCKS_CONSOLE_SOURCES
@@ -45,7 +61,11 @@ add_subdirectory(stocks.console.utilities)
 add_subdirectory(stocks.console.fundamental.analysis)
 add_subdirectory(tests/stocks.test)
 
-target_link_libraries(stocks.console PRIVATE JsonCpp::JsonCpp)
-target_link_libraries(stocks.console PRIVATE stocks.console.indicator)
-target_link_libraries(stocks.console PRIVATE stocks.console.api)
-target_link_libraries(stocks.console PRIVATE stocks.console.utilities)
+target_link_libraries(stocks.console PRIVATE
+        JsonCpp::JsonCpp
+        ${PQXX_LIB} ${PQ_LIB}
+        stocks.console.api
+        stocks.console.indicator
+        stocks.console.utilities
+        stocks.console.fundamental.analysis
+)

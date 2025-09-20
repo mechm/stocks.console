@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  db:
+    # Use the official pre-built image from Docker Hub
+    build: ./db
+    restart: always
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: lymm
+      POSTGRES_DB: stocks
+    ports:
+      - "5432:5432"
+    volumes:
+      # Persist the data on the host machine
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -4,6 +4,8 @@ set(CMAKE_CXX_STANDARD 20)
 project(stocks.console)
 
 find_package(jsoncpp CONFIG REQUIRED)
+find_package(pqxx CONFIG REQUIRED)
+#find_package(libpqxx CONFIG REQUIRED)
 
 add_executable(stocks.console main.cpp)
 
@@ -13,3 +15,6 @@ target_include_directories(stocks.console
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 target_link_libraries(stocks.console PRIVATE JsonCpp::JsonCpp)
+target_link_libraries(stocks.console PRIVATE
+        pqxx::pqxx
+)

@@ -1,5 +1,5 @@
 {
   "dependencies": [
-    "jsoncpp", "curl"
+    "jsoncpp", "curl", "libpqxx"
   ]
 }
